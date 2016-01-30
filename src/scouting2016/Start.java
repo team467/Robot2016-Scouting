@@ -1,4 +1,4 @@
-package scouting2015;
+package scouting2016;
 
 import java.io.FileNotFoundException;
 

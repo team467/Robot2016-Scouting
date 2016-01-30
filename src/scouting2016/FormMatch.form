@@ -349,6 +349,7 @@
                         <StringItem index="3" value="Red Card"/>
                       </StringArray>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[71, 21]"/>
                     </Property>
@@ -541,8 +542,8 @@
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="3" rowCount="0">
                         <Column editable="false" title="Defense" type="java.lang.String"/>
-                        <Column editable="false" title="Crosses" type="java.lang.Boolean"/>
-                        <Column editable="false" title="Helps Another" type="java.lang.Boolean"/>
+                        <Column editable="true" title="Crosses" type="java.lang.Boolean"/>
+                        <Column editable="true" title="Helps Another" type="java.lang.Boolean"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

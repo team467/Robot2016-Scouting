@@ -6,7 +6,7 @@
 
 // pending: remove individual scoring code 
 
-package scouting2015;
+package scouting2016;
 
 import java.awt.Dimension;
 import java.awt.List;
@@ -100,7 +100,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(832, 652));
-        setPreferredSize(new java.awt.Dimension(800, 600));
 
         mainPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         mainPanel.setPreferredSize(new java.awt.Dimension(800, 600));

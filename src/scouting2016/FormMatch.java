@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scouting2015;
+package scouting2016;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -285,6 +285,7 @@ public class FormMatch extends javax.swing.JFrame {
         wellFoulLabel.setEnabled(false);
 
         wellFoulResult.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Point Deduction", "Yellow Card", "Red Card" }));
+        wellFoulResult.setEnabled(false);
         wellFoulResult.setMinimumSize(new java.awt.Dimension(71, 21));
         wellFoulResult.setPreferredSize(new java.awt.Dimension(71, 21));
         wellFoulResult.addActionListener(new java.awt.event.ActionListener() {
@@ -435,7 +436,7 @@ public class FormMatch extends javax.swing.JFrame {
                 java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -796,8 +797,7 @@ public class FormMatch extends javax.swing.JFrame {
                             .addGroup(optionsPanelLayout.createSequentialGroup()
                                 .addComponent(optionsMatchLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(optionsMatch, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
+                                .addComponent(optionsMatch, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(optionsPanelLayout.createSequentialGroup()
                         .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(optionsPanelLayout.createSequentialGroup()
@@ -808,8 +808,8 @@ public class FormMatch extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(optionsScoreLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(optionsScore, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(optionsScore, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         optionsPanelLayout.setVerticalGroup(
             optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1108,7 +1108,7 @@ dialog.dispose();
     }//GEN-LAST:event_optionsTeamActionPerformed
 
     private void wellFoulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wellFoulActionPerformed
-        
+        wellChanged();
     }//GEN-LAST:event_wellFoulActionPerformed
 
     private void wellDriveFunctionalityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wellDriveFunctionalityActionPerformed
