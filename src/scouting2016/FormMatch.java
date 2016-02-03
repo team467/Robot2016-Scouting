@@ -12,6 +12,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import javax.swing.JDialog;
@@ -41,17 +42,12 @@ public class FormMatch extends javax.swing.JFrame {
     private boolean endClimbedCheck;
     
     // teleop
-    private int teleopPointsInt;
-    private int teleopRowAddInt;
-    private int teleopRowDeleteInt;
-    private int teleopSemiTotalPointsInt; 
-    private int teleopTotalPointsInt;
-    private int teleopGreyTotesInt;
-    private boolean teleopLitterCheck;
-    private boolean teleopRecyclingContainerCheck;
     private String teleopDefenseString;
     private boolean teleopCrossCheck;
     private boolean teleopAnotherCheck;
+    private int teleopRowCount;
+    private int teleopColumnCount;
+    
     
     DefaultTableModel model;
     
@@ -71,7 +67,7 @@ public class FormMatch extends javax.swing.JFrame {
     private String optionsScouterString = new String();
     private String optionsTeamString = new String();
     private String optionsMatchString = new String();
-    private String optionsScoreString;
+    private String optionsScoreString = new String();
     
     //other
     long optionsSaveInt;
@@ -200,7 +196,7 @@ public class FormMatch extends javax.swing.JFrame {
         optionsScoreLabel = new javax.swing.JLabel();
         optionsScore = new javax.swing.JSpinner();
         endPanel = new javax.swing.JPanel();
-        endChallenge = new javax.swing.JCheckBox();
+        endChallenged = new javax.swing.JCheckBox();
         endClimbed = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -323,6 +319,11 @@ public class FormMatch extends javax.swing.JFrame {
         wellComments.setColumns(20);
         wellComments.setLineWrap(true);
         wellComments.setRows(3);
+        wellComments.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                wellCommentsKeyTyped(evt);
+            }
+        });
         jScrollPane1.setViewportView(wellComments);
 
         wellDrivePanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -845,11 +846,11 @@ public class FormMatch extends javax.swing.JFrame {
         endPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "End Game", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12))); // NOI18N
         endPanel.setPreferredSize(new java.awt.Dimension(395, 145));
 
-        endChallenge.setText("Challenged Tower");
-        endChallenge.setDoubleBuffered(true);
-        endChallenge.addActionListener(new java.awt.event.ActionListener() {
+        endChallenged.setText("Challenged Tower");
+        endChallenged.setDoubleBuffered(true);
+        endChallenged.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                endChallengeActionPerformed(evt);
+                endChallengedActionPerformed(evt);
                 coopPerformed(evt);
                 pointsChanged(evt);
             }
@@ -872,7 +873,7 @@ public class FormMatch extends javax.swing.JFrame {
             .addGroup(endPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(endPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(endChallenge)
+                    .addComponent(endChallenged)
                     .addComponent(endClimbed))
                 .addContainerGap(250, Short.MAX_VALUE))
         );
@@ -880,7 +881,7 @@ public class FormMatch extends javax.swing.JFrame {
             endPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(endPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(endChallenge)
+                .addComponent(endChallenged)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(endClimbed)
                 .addContainerGap(58, Short.MAX_VALUE))
@@ -958,42 +959,65 @@ public class FormMatch extends javax.swing.JFrame {
 
     }//GEN-LAST:event_endClimbedActionPerformed
 
-    private void endChallengeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endChallengeActionPerformed
+    private void endChallengedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endChallengedActionPerformed
             
-        // designates yellow totes checkbox to boolean   
-        endChallengedCheck = endChallenge.isSelected();
+         
+        endChallengedCheck = endChallenged.isSelected();
         
-        if (endChallenge.isSelected())
-        {   // enables checkboxes if yellow totes checkbox is checked
+        if (endChallenged.isSelected())
+        {   
             endClimbed.setEnabled(true);
         }
         
         else
-        {   // otherwise, sets checkboxes to unchecked and disables them
+        {   
             endClimbed.setEnabled(false);
             
             endClimbed.setSelected(false); 
         }
         
-    }//GEN-LAST:event_endChallengeActionPerformed
+    }//GEN-LAST:event_endChallengedActionPerformed
 
     private void optionsSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsSaveActionPerformed
         optionsSaveInt = System.currentTimeMillis();
+        
+        teleopRowCount = teleopTable.getRowCount();
+        teleopColumnCount = teleopTable.getColumnCount();
+
         String text="General Info \n" +
                     "\t" + optionsScouterLabel.getText() + ": " + optionsScouterString + "\n" +
                     "\t" + optionsTeamLabel.getText() + ": " + optionsTeamString + "\n" +
                     "\t" + optionsMatchLabel.getText() + ": " + optionsMatchString + "\n" +
                     "\t" + optionsScoreLabel.getText() + ": " + optionsScoreString + "\n \n" +
+                    "Autonomous Info \n" +
+                    "\t" + "Defense: " + autoDefense.getSelectedItem() + "\n" +
+                    "\t" + autoReaches.getText() + ": " + autoReachesCheck + "\n" +
+                    "\t" + autoCrosses.getText() + ": " + autoCrossesCheck + "\n" +
+                    "\t" + autoLow.getText() + ": " + autoLowCheck + "\n" +
+                    "\t" + autoHigh.getText() + ": " + autoHighCheck + "\n" + 
                     "Wellness Info \n" +
                     "\t" + wellPerformanceLabel.getText() + ": " + wellPerformanceString + "\n" +
                     "\t" + wellDriveLabel.getText() + ": " + wellDriveString + "\n" +
                     "\t\t" + wellDriveFunctionalityLabel.getText() + ": " + wellDriveFunctionalityString + "\n" +
-     /*fix*/        "\t" + wellShootingLabel.getText() + ": " + wellMoveString + "\n" + 
-                    "\t\t" + wellShootingFunctionalityLabel.getText() + ": " + wellMoveFunctionalityString + "\n" + 
+                    "\t" + wellShootingLabel.getText() + ": " + wellShootingString + "\n" + 
+                    "\t\t" + wellShootingFunctionalityLabel.getText() + ": " + wellShootingFunctionalityString + "\n" + 
                     "\t" + wellFoulLabel.getText() + ": " + wellFoulResultString + "\n" +
-                    "\t" + wellCommentsLabel.getText() + ": " + wellCommentsString + "\n \n"
+                    "\t" + wellCommentsLabel.getText() + ": " + wellCommentsString + "\n \n" +
+                    "End Game Info \n" +
+                    "\t " + endChallenged.getText() + ": " + endChallengedCheck + "\n" +
+                    "\t" + endClimbed.getText() + ": " + endClimbedCheck + "\n\n" +
+                    "Teleoperation Info" +
+                    "\t Table:\n"
                     ;
         
+        for (int i = 0; i < teleopRowCount; ++i)
+        {
+            for (int j = 0; j < teleopColumnCount; ++j) 
+                text = text.concat(teleopTable.getModel().getValueAt(i, j).toString() + ", ");
+            text = text.concat("\n");
+        }
+        
+        text = text.concat("\nEnd");
         
         try 
             
@@ -1104,7 +1128,7 @@ dialog.dispose();
     }//GEN-LAST:event_optionsHelpActionPerformed
 
     private void optionsTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsTeamActionPerformed
-        optionsTeamString = optionsTeam.getText();
+        optionsChanged();
     }//GEN-LAST:event_optionsTeamActionPerformed
 
     private void wellFoulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wellFoulActionPerformed
@@ -1112,15 +1136,15 @@ dialog.dispose();
     }//GEN-LAST:event_wellFoulActionPerformed
 
     private void wellDriveFunctionalityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wellDriveFunctionalityActionPerformed
-        wellDriveFunctionalityString = wellDrive.getSelectedItem().toString();
+        wellChanged();
     }//GEN-LAST:event_wellDriveFunctionalityActionPerformed
 
     private void wellDriveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wellDriveActionPerformed
-        wellDriveString = wellDrive.getSelectedItem().toString();
+        wellChanged();
     }//GEN-LAST:event_wellDriveActionPerformed
 
     private void wellPerformanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wellPerformanceActionPerformed
-        wellPerformanceString = wellPerformance.getSelectedItem().toString();
+        wellChanged();
     }//GEN-LAST:event_wellPerformanceActionPerformed
 
     private void teleopDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleopDeleteActionPerformed
@@ -1153,23 +1177,11 @@ dialog.dispose();
     }//GEN-LAST:event_teleopDeleteActionPerformed
 
     private void teleopAnotherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleopAnotherActionPerformed
-        
-        // designates recycling container checkbox to boolean 
-        teleopAnotherCheck = teleopAnother.isSelected();
-        
-        // calls teleop points to be updated
-        teleopChanged();
-        
+        teleopChanged();        
     }//GEN-LAST:event_teleopAnotherActionPerformed
 
     private void teleopCrossActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleopCrossActionPerformed
-        
-        // designates litter checkbox to boolean 
-        teleopCrossCheck = teleopCross.isSelected();
-        
-        // calls teleop points to be updated
-        teleopChanged();
-        
+        teleopChanged();        
     }//GEN-LAST:event_teleopCrossActionPerformed
 
     private void teleopSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleopSubmitActionPerformed
@@ -1217,32 +1229,27 @@ dialog.dispose();
     }//GEN-LAST:event_teleopSubmitActionPerformed
 
     private void coopPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coopPerformed
-               
-        
-        //calls grand total points to be updated
-        anyChanged();
-            
+
     }//GEN-LAST:event_coopPerformed
 
     private void pointsChanged(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pointsChanged
-       
-        
+
     }//GEN-LAST:event_pointsChanged
 
     private void optionsScouterKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_optionsScouterKeyReleased
-        optionsScouterString = optionsScouter.getText();
+        optionsChanged();
     }//GEN-LAST:event_optionsScouterKeyReleased
 
     private void optionsTeamKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_optionsTeamKeyReleased
-       optionsTeamString = optionsTeam.getText();
+       optionsChanged();
     }//GEN-LAST:event_optionsTeamKeyReleased
 
     private void optionsMatchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_optionsMatchKeyReleased
-        optionsMatchString = optionsMatch.getText();
+        optionsChanged();
     }//GEN-LAST:event_optionsMatchKeyReleased
 
     private void wellFoulResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wellFoulResultActionPerformed
-        wellFoulResultString = wellFoulResult.getSelectedItem().toString();
+        wellChanged();
     }//GEN-LAST:event_wellFoulResultActionPerformed
 
     private void teleopDefenseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleopDefenseActionPerformed
@@ -1250,42 +1257,23 @@ dialog.dispose();
     }//GEN-LAST:event_teleopDefenseActionPerformed
 
     private void wellShootingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wellShootingActionPerformed
-        wellShootingString = wellShooting.getSelectedItem().toString();
+        wellChanged();
     }//GEN-LAST:event_wellShootingActionPerformed
 
     private void wellShootingFunctionalityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wellShootingFunctionalityActionPerformed
-        wellShootingFunctionalityString = wellShooting.getSelectedItem().toString();
+        wellChanged();
     }//GEN-LAST:event_wellShootingFunctionalityActionPerformed
 
     private void autoDefenseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDefenseActionPerformed
-        autoDefenseString = autoDefense.getSelectedItem().toString();
+        autoChanged();
     }//GEN-LAST:event_autoDefenseActionPerformed
 
     private void autoReachesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoReachesActionPerformed
-        
-        autoReachesCheck = autoReaches.isSelected();
-        
-        if (autoReaches.isSelected() == true)
-        {
-            autoCrosses.setEnabled(true);
-            autoDefense.setEnabled(true);
-
-        }
-        
-        else
-        {
-            autoCrosses.setEnabled(false);
-            autoDefense.setEnabled(false);
-            autoCrosses.setSelected(false);
-            autoDefense.setSelectedIndex(0);
-            
-        }
-        
-        
+        autoChanged();        
     }//GEN-LAST:event_autoReachesActionPerformed
 
     private void autoCrossesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoCrossesActionPerformed
-        autoCrossesCheck = autoCrosses.isSelected();
+        autoChanged();
     }//GEN-LAST:event_autoCrossesActionPerformed
 
     private void optionsClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsClearActionPerformed
@@ -1308,7 +1296,7 @@ dialog.dispose();
         wellShooting.setSelectedIndex(0);
         wellShootingFunctionality.setSelectedIndex(0);
         
-        endChallenge.setSelected(false);
+        endChallenged.setSelected(false);
         endClimbed.setSelected(false);
         
         optionsTeam.setText("");
@@ -1321,8 +1309,8 @@ dialog.dispose();
         teleopChanged();
         
         
-        int rowCount = teleopTable.getRowCount();
-        for (int i = 0; i < rowCount; ++i)
+        teleopRowCount = teleopTable.getRowCount();
+        for (int i = 0; i < teleopRowCount; ++i)
         {
             ((DefaultTableModel) teleopTable.getModel()).removeRow(0);           
         }
@@ -1339,21 +1327,22 @@ dialog.dispose();
     }//GEN-LAST:event_optionsClearActionPerformed
 
     private void optionsScoreStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_optionsScoreStateChanged
-        optionsScoreString = optionsScore.getValue().toString();
+        optionsChanged();
     }//GEN-LAST:event_optionsScoreStateChanged
+
+    private void wellCommentsKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wellCommentsKeyTyped
+        wellChanged();
+    }//GEN-LAST:event_wellCommentsKeyTyped
 
     private void optionsMousePress()
     {
-        // why blank
-        
-    
     }
     
     
     private void teleopChanged()
-    
     {
-        
+        teleopCrossCheck = teleopCross.isSelected();
+        teleopAnotherCheck = teleopAnother.isSelected();
         teleopDefenseString = teleopDefense.getSelectedItem().toString();
         // TODO, make so check string if "-"
         // enables submit button in teleop if value points > 0
@@ -1373,13 +1362,30 @@ dialog.dispose();
     
     private void autoChanged()
     {
-        // update    
-        anyChanged();
+        autoCrossesCheck = autoCrosses.isSelected();
+        autoReachesCheck = autoReaches.isSelected();
+        autoDefenseString = autoDefense.getSelectedItem().toString();
+        
+        
+        if (autoReaches.isSelected() == true)
+        {
+            autoCrosses.setEnabled(true);
+            autoDefense.setEnabled(true);
+
+        }
+        
+        else
+        {
+            autoCrosses.setEnabled(false);
+            autoDefense.setEnabled(false);
+            autoCrosses.setSelected(false);
+            autoDefense.setSelectedIndex(0);
+            
+        }
             
     }
     
     private void wellChanged() {
-        
         // enables change of foul points if foul is checked
         if (wellFoul.isSelected())
         {
@@ -1392,15 +1398,42 @@ dialog.dispose();
             wellFoulResult.setSelectedIndex(0);
             wellFoulResult.setEnabled(false);
             wellFoulLabel.setEnabled(false);
-            // update
-            anyChanged();
         }
+        
+        
+        wellShootingFunctionalityString = wellShootingFunctionality.getSelectedItem().toString();
+        wellShootingString = wellShooting.getSelectedItem().toString();
+        wellFoulResultString = wellFoulResult.getSelectedItem().toString();
+        wellPerformanceString = wellPerformance.getSelectedItem().toString();
+        wellDriveString = wellDrive.getSelectedItem().toString();
+        wellDriveFunctionalityString = wellDrive.getSelectedItem().toString();
+        
+        wellCommentsString = wellComments.getText();
+        
+        // when parsing take into account the newlines made with the additional
+        // comments (maybe add them to the end)
+        
+        
         
     }
     
 
+    private void optionsChanged() 
+    {
+                
+        optionsScoreString = optionsScore.getValue().toString();
+        optionsMatchString = optionsMatch.getText();
+        optionsTeamString = optionsTeam.getText();
+        optionsScouterString = optionsScouter.getText();
+        optionsTeamString = optionsTeam.getText();
+        
+        
+    }
+    
     private void anyChanged()
     {
+       
+        
         
     }
     
@@ -1449,7 +1482,7 @@ dialog.dispose();
     private javax.swing.JCheckBox autoLow;
     private javax.swing.JPanel autoPanel;
     private javax.swing.JCheckBox autoReaches;
-    private javax.swing.JCheckBox endChallenge;
+    private javax.swing.JCheckBox endChallenged;
     private javax.swing.JCheckBox endClimbed;
     private javax.swing.JPanel endPanel;
     private javax.swing.JLabel jLabel1;
