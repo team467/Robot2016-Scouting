@@ -7,7 +7,8 @@ public class Start {
     
     
     {
-        MainFrame main = new MainFrame();     
+        MainFrame mainStart = new MainFrame();
+        mainStart.setVisible(true);
     }
     
 }
