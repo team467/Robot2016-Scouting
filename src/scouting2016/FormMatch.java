@@ -12,6 +12,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -55,8 +57,7 @@ public class FormMatch extends javax.swing.JFrame {
     private String wellPerformanceString;
     private String wellDriveString;
     private String wellDriveFunctionalityString;
-    private String wellMoveString;
-    private String wellMoveFunctionalityString;
+
     private String wellCommentsString;
     private String wellFoulResultString;
     private String wellShootingString;
@@ -65,9 +66,10 @@ public class FormMatch extends javax.swing.JFrame {
     
     // option
     private String optionsScouterString = new String();
-    private String optionsTeamString = new String();
-    private String optionsMatchString = new String();
-    private String optionsScoreString = new String();
+    private int optionsTeamInt;
+    private int optionsMatchInt;
+    private int optionsScoreInt;
+    private boolean optionsWinCheck;
     
     //other
     long optionsSaveInt;
@@ -195,11 +197,12 @@ public class FormMatch extends javax.swing.JFrame {
         optionsClear = new javax.swing.JButton();
         optionsScoreLabel = new javax.swing.JLabel();
         optionsScore = new javax.swing.JSpinner();
+        optionsWin = new javax.swing.JCheckBox();
         endPanel = new javax.swing.JPanel();
         endChallenged = new javax.swing.JCheckBox();
         endClimbed = new javax.swing.JCheckBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Scouting");
         setBackground(new java.awt.Color(0, 0, 0));
         setFocusCycleRoot(false);
@@ -774,6 +777,15 @@ public class FormMatch extends javax.swing.JFrame {
             }
         });
 
+        optionsWin.setText("Won");
+        optionsWin.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        optionsWin.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        optionsWin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optionsWinActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
         optionsPanel.setLayout(optionsPanelLayout);
         optionsPanelLayout.setHorizontalGroup(
@@ -807,9 +819,12 @@ public class FormMatch extends javax.swing.JFrame {
                                 .addComponent(optionsHelp))
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(optionsScoreLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(optionsScore, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsPanelLayout.createSequentialGroup()
+                                .addComponent(optionsScoreLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(optionsScore, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(optionsWin, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         optionsPanelLayout.setVerticalGroup(
@@ -839,7 +854,9 @@ public class FormMatch extends javax.swing.JFrame {
                         .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(optionsScoreLabel)
                             .addComponent(optionsScore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(33, 33, 33)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(optionsWin)
+                        .addGap(5, 5, 5)))
                 .addGap(7, 7, 7))
         );
 
@@ -986,9 +1003,10 @@ public class FormMatch extends javax.swing.JFrame {
 
         String text="General Info \n" +
                     "\t" + optionsScouterLabel.getText() + ": " + optionsScouterString + "\n" +
-                    "\t" + optionsTeamLabel.getText() + ": " + optionsTeamString + "\n" +
-                    "\t" + optionsMatchLabel.getText() + ": " + optionsMatchString + "\n" +
-                    "\t" + optionsScoreLabel.getText() + ": " + optionsScoreString + "\n \n" +
+                    "\t" + optionsTeamLabel.getText() + ": " + optionsTeamInt + "\n" +
+                    "\t" + optionsMatchLabel.getText() + ": " + optionsMatchInt + "\n" +
+                    "\t" + optionsScoreLabel.getText() + ": " + optionsScoreInt + "\n" +
+                    "\t" + optionsWin.getText() + ": " + optionsWinCheck + "\n\n" +
                     "Autonomous Info \n" +
                     "\t" + "Defense: " + autoDefense.getSelectedItem() + "\n" +
                     "\t" + autoReaches.getText() + ": " + autoReachesCheck + "\n" +
@@ -1002,7 +1020,7 @@ public class FormMatch extends javax.swing.JFrame {
                     "\t" + wellShootingLabel.getText() + ": " + wellShootingString + "\n" + 
                     "\t\t" + wellShootingFunctionalityLabel.getText() + ": " + wellShootingFunctionalityString + "\n" + 
                     "\t" + wellFoulLabel.getText() + ": " + wellFoulResultString + "\n" +
-                    "\t" + wellCommentsLabel.getText() + ": " + wellCommentsString + "\n \n" +
+                    "\t" + wellCommentsLabel.getText() + ": " + wellCommentsString + "\n\n" +
                     "End Game Info \n" +
                     "\t " + endChallenged.getText() + ": " + endChallengedCheck + "\n" +
                     "\t" + endClimbed.getText() + ": " + endClimbedCheck + "\n\n" +
@@ -1022,7 +1040,7 @@ public class FormMatch extends javax.swing.JFrame {
         try 
             
         {
-          File file = new File(optionsScouterString + " " + optionsSaveInt + ".sav");
+          File file = new File(optionsTeamInt + "-" + optionsMatchInt + "-" + optionsScouterString + ".sav");
           BufferedWriter output = new BufferedWriter(new FileWriter(file));
           output.write(text);
           output.close();
@@ -1334,6 +1352,10 @@ dialog.dispose();
         wellChanged();
     }//GEN-LAST:event_wellCommentsKeyTyped
 
+    private void optionsWinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsWinActionPerformed
+        optionsChanged();
+    }//GEN-LAST:event_optionsWinActionPerformed
+
     private void optionsMousePress()
     {
     }
@@ -1420,12 +1442,26 @@ dialog.dispose();
 
     private void optionsChanged() 
     {
-                
-        optionsScoreString = optionsScore.getValue().toString();
-        optionsMatchString = optionsMatch.getText();
-        optionsTeamString = optionsTeam.getText();
+        try{ 
+            optionsScoreInt = Integer.parseInt(optionsScore.getValue().toString());
+            if (!("".equals(optionsMatch.getText())))
+            optionsMatchInt = Integer.parseInt(optionsMatch.getText());
+            if (!("".equals(optionsTeam.getText())))
+            optionsTeamInt = Integer.parseInt(optionsTeam.getText());
+        }
+        catch (NumberFormatException e)
+        {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            String ePrint = sw.toString();
+            
+            JOptionPane.showMessageDialog(null, "Not a place for a letter", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
         optionsScouterString = optionsScouter.getText();
-        optionsTeamString = optionsTeam.getText();
+        
+        optionsWinCheck = optionsWin.isSelected();
         
         
     }
@@ -1503,6 +1539,7 @@ dialog.dispose();
     private javax.swing.JLabel optionsScouterLabel;
     private java.awt.TextField optionsTeam;
     private javax.swing.JLabel optionsTeamLabel;
+    private javax.swing.JCheckBox optionsWin;
     private javax.swing.JCheckBox teleopAnother;
     private javax.swing.JCheckBox teleopCross;
     private javax.swing.JComboBox<String> teleopDefense;
