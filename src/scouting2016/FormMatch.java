@@ -996,7 +996,8 @@ public class FormMatch extends javax.swing.JFrame {
     }//GEN-LAST:event_endChallengedActionPerformed
 
     private void optionsSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsSaveActionPerformed
-        optionsSaveInt = System.currentTimeMillis();
+        // could use for unique file names
+        // optionsSaveInt = System.currentTimeMillis();
         
         teleopRowCount = teleopTable.getRowCount();
         teleopColumnCount = teleopTable.getColumnCount();
@@ -1040,12 +1041,13 @@ public class FormMatch extends javax.swing.JFrame {
         try 
             
         {
-          File file = new File(optionsTeamInt + "-" + optionsMatchInt + "-" + optionsScouterString + ".sav");
-          BufferedWriter output = new BufferedWriter(new FileWriter(file));
-          output.write(text);
-          output.close();
+            // writes data sheet to file
+            File scoutFile = new File("Sheets/ScoutSheet-" + optionsTeamInt + "-" + optionsMatchInt + "-" + optionsScouterString + ".sav");
+            BufferedWriter output = new BufferedWriter(new FileWriter(scoutFile));
+            output.write(text);
+            output.close();
           
-          JOptionPane.showMessageDialog(null,
+            JOptionPane.showMessageDialog(null,
             "Your sheet has been saved",
             "Success",
             JOptionPane.DEFAULT_OPTION);
@@ -1058,8 +1060,8 @@ public class FormMatch extends javax.swing.JFrame {
         
         catch ( IOException e )
         {
-           e.printStackTrace();
-           JOptionPane.showMessageDialog(null,
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,
             "Something went wrong.",
             "Error",
             JOptionPane.ERROR_MESSAGE);
@@ -1069,27 +1071,32 @@ public class FormMatch extends javax.swing.JFrame {
     }//GEN-LAST:event_optionsSaveActionPerformed
 
     private void optionsHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsHelpActionPerformed
-        
-      
-// sets option pane options      
-Object [] optionsScoring = {"Autonomous", "Teleop", "Coopertition"};
 
-// creates option pane
-JOptionPane optionsScoringPane = new JOptionPane("Choose scoring rules to read.", 
+        /* NEW
+           RULES
+           GO
+           HERE */
+ 
+      
+        // sets option pane options      
+        Object [] optionsScoring = {"Autonomous", "Teleop", "Coopertition"};
+
+        // creates option pane
+        JOptionPane optionsScoringPane = new JOptionPane("Choose scoring rules to read.", 
         JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, 
         null, optionsScoring, optionsScoring[0]);
-JDialog dialog = optionsScoringPane.createDialog(null, "Scoring Info");
-dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        JDialog dialog = optionsScoringPane.createDialog(null, "Scoring Info");
+        dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
-// makes option pane visible to user
-dialog.setVisible(true);
+        // makes option pane visible to user
+        dialog.setVisible(true);
 
-// reads value of option chosen
-String optionsScoringChosen = (String) optionsScoringPane.getValue();
+        // reads value of option chosen
+        String optionsScoringChosen = (String) optionsScoringPane.getValue();
 
-// displays option pane that user requested
-switch(optionsScoringChosen)
-{
+        // displays option pane that user requested
+        switch(optionsScoringChosen)
+    {
     case "Autonomous":
         
         JOptionPane.showMessageDialog(null,        
@@ -1137,10 +1144,10 @@ switch(optionsScoringChosen)
         JOptionPane.PLAIN_MESSAGE);
         break;
         
-}        
+     }        
 
-// destroys original option pane once requested option pane is closed
-dialog.dispose();
+        // destroys original option pane once requested option pane is closed
+        dialog.dispose();
     
 
     }//GEN-LAST:event_optionsHelpActionPerformed
