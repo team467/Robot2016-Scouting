@@ -57,28 +57,9 @@ public class MainFrame extends javax.swing.JFrame {
         // initializes functionality
         initComponents();       
         
-        mainParseInt();
+        nameParse();
         
-        // sets window to center of screen
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = dim.getWidth();
-        double height = dim.getHeight();
-    
-        // alerts user if screen resolution is below 1024x768 
-        if (width<1024 || height<768)
-        
-        {
-            JOptionPane.showMessageDialog(null,
-            "Your screen resolution is not supported. Some "
-                    + "elements may not appear or may appear incorrectly.",
-            "Error",
-            JOptionPane.ERROR_MESSAGE);
-        }
-    
-        // sets window to center of screen
-        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-           
-     
+        windowSet();
         
         //makes window visible to user
         setVisible(true);
@@ -208,26 +189,82 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_mainMatchFormActionPerformed
 
     
-    private void mainParseInt() throws FileNotFoundException
-    {
-        // todo: take in save flies and show on table
+    private String[] nameParse() throws FileNotFoundException
+    { 
+        File[] files = new File("./Sheets").listFiles();
+        String[] splittedString = null;
+        int tempInt = 0;
+        
+        if (files != null)
+        {
+            // goes through all files and searches for scout sheets
+            for (File file:files) 
+            {   
+                String splitString = file.getName();
+                if (!file.isDirectory() && splitString.startsWith("ScoutSheet")) 
+                {
+                    {
+                        System.out.println("Scouting Sheet: " + file.getName());   
+                        splittedString = splitString.split("-");
+                        
+                        // iterates through each piece of file name (separated by -)
+                        for (String string : splittedString)
+                        {
+                            
+                            // System.out.println(string);
+                            if (string.endsWith(".sav"))
+                            {
+                                splittedString[tempInt] = string.split(".sav")[0];
+                                // System.out.println("Changed to " + splittedString[tempInt]);
+                            }
+                            tempInt++;
+                        }
+                    }
+                }
+                tempInt = 0;
+            }
+       
+        }
+        else
+        {
+            System.out.println("No files in directory");
+        }        
+        
+        // used for data table
+        return splittedString;
     }
+    
+    
+    private void windowSet() {
+ 
+         // sets window to center of screen
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = dim.getWidth();
+        double height = dim.getHeight();
+    
+        // alerts user if screen resolution is below 1024x768 
+        if (width<1024 || height<768)
+        
+        {
+            JOptionPane.showMessageDialog(null,
+            "Your screen resolution is not supported. Some "
+                    + "elements may not appear or may appear incorrectly.",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+        }
+    
+        // sets window to center of screen
+        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        
+    }
+    
+      
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new MainFrame().setVisible(true);
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    System.out.println("Something awful happened :(");
-                }
-            }
-        });
+        
+    
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
