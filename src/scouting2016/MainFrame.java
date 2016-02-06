@@ -82,6 +82,7 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         introTable = new javax.swing.JTable();
         introView = new javax.swing.JButton();
+        introRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(828, 652));
@@ -131,9 +132,16 @@ public class MainFrame extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane2.setViewportView(introTable);
@@ -143,6 +151,14 @@ public class MainFrame extends javax.swing.JFrame {
         introView.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 introViewActionPerformed(evt);
+            }
+        });
+
+        introRefresh.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        introRefresh.setText("Refresh");
+        introRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                introRefreshActionPerformed(evt);
             }
         });
 
@@ -157,6 +173,8 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(mainMatchForm)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(introView)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(introRefresh)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
@@ -172,7 +190,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mainMatchForm)
-                    .addComponent(introView))
+                    .addComponent(introView)
+                    .addComponent(introRefresh))
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -223,10 +242,21 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_introViewActionPerformed
 
+    private void introRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_introRefreshActionPerformed
+        try
+        {
+            System.out.println("REFRESHING");
+            tableParse();
+        }
+        catch (FileNotFoundException e)
+        {
+            
+        }
+    }//GEN-LAST:event_introRefreshActionPerformed
+
     
     private String[] tableParse() throws FileNotFoundException
     { 
-        // this REALLY needs to be separated into more than one function
         // TODO (unabridged edition)
         // currently just goes through each file and spits out a new row
         // for each new file read, will need it to go through each file,
@@ -236,11 +266,21 @@ public class MainFrame extends javax.swing.JFrame {
         // and max and such for them, then print out a new row
         // P.S. check if file name is malformed before reading from it
         
-        File[] files = new File("./Sheets").listFiles();
-        String[] splittedString = null;
-        int tempInt = 0;
+        int introRowCount = 0;
         DefaultTableModel introModel = (DefaultTableModel) introTable.getModel();
         String queryResult = null;
+        String query = "Score: ";
+        
+        introRowCount = introTable.getRowCount();
+        for (int i = 0; i < introRowCount; ++i)
+        {
+            ((DefaultTableModel) introTable.getModel()).removeRow(0);           
+        }
+        
+        
+        File[] files = new File("./Sheets").listFiles();
+        String[] splittedString = null;
+        
         
         if (files != null)
         {
@@ -249,47 +289,25 @@ public class MainFrame extends javax.swing.JFrame {
             {  
                 Scanner scanner = new Scanner(file);
                 
-                String splitString = file.getName();
-                if (!file.isDirectory() && splitString.startsWith("ScoutSheet")) 
+                String wholeString = file.getName();
+                if (!file.isDirectory() && wholeString.startsWith("ScoutSheet")) 
                 {
-                    {
-                        System.out.println("Scouting Sheet: " + file.getName());   
-                        splittedString = splitString.split("-");
+                        System.out.println("Scouting Sheet: " + file.getName());         
+                        splittedString = splitString(wholeString);
+                        queryResult = queryFind(scanner, query);
+                }
                         
-                        // iterates through each piece of file name (separated by -)
-                        for (String string : splittedString)
-                        {
-                            // System.out.println(string);
-                            if (string.endsWith(".sav"))
-                            {
-                                splittedString[tempInt] = string.split(".sav")[0];
-                                // System.out.println("Changed to " + splittedString[tempInt]);
-                            } 
-                            tempInt++;
-                        }
-                           
-                        while (scanner.hasNextLine()) {
-                            
-                            // todo: use query as a loop for each sheet stat
-                            String query = "Score: ";
-                            String fileLine = scanner.nextLine();
-                                if(fileLine.contains(query)) { 
-                                        queryResult = fileLine.split(query)[1];            
-                                break;
-                                }
-}
-                        
-                        // the row-adding thing, will be edited to accomodate
+                        // the row-adding thing will be edited to accomodate
                         // the actual fields when one row per team
                         introModel.addRow(new Object[]{splittedString[1],
                         splittedString[2], splittedString[3], queryResult});
-                        
-                    }
-                }
-                tempInt = 0;
+                
+                    
             }
-       
+               
         }
+       
+        
         else
         {
             System.out.println("No files in directory");
@@ -299,6 +317,39 @@ public class MainFrame extends javax.swing.JFrame {
         return splittedString;
     }
     
+    private String[] splitString(String split)  
+    {  // takes scouting filename and returns its info
+        String[] splittedString = null;
+        int tempInt = 0;
+        splittedString = split.split("-");
+                        
+        // iterates through each piece of file name (separated by -)
+        for (String string : splittedString)
+            {
+                // System.out.println(string);
+                if (string.endsWith(".sav"))
+                {
+                    splittedString[tempInt] = string.split(".sav")[0];
+                    // System.out.println("Changed to " + splittedString[tempInt]);
+                } 
+                tempInt++;
+            }
+      
+        return splittedString;
+    }
+    
+    
+    private String queryFind(Scanner scanner, String query)
+    {
+        while (scanner.hasNextLine()) {
+                            
+        // todo: use query as a loop for each sheet stat
+        String fileLine = scanner.nextLine();
+        if(fileLine.contains(query)) 
+            return fileLine.split(query)[1];
+        }
+        return "String not found.";
+    }
     
     private void windowSet() {
  
@@ -322,15 +373,14 @@ public class MainFrame extends javax.swing.JFrame {
         setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         
     }
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String args[]) {
         
     
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton introRefresh;
     private javax.swing.JTable introTable;
     private javax.swing.JButton introView;
     private javax.swing.JScrollPane jScrollPane1;
