@@ -508,14 +508,15 @@ public class FormMatch extends javax.swing.JFrame {
                 .addGroup(teleopSubmitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(teleopSubmitPanelLayout.createSequentialGroup()
                         .addComponent(teleopAnother)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(teleopSubmit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(teleopSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(teleopSubmitPanelLayout.createSequentialGroup()
                         .addGroup(teleopSubmitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(teleopDefense, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(teleopCross))
                         .addGap(3, 3, 3)
-                        .addComponent(teleopGreyTotesLabel)))
+                        .addComponent(teleopGreyTotesLabel)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         teleopSubmitPanelLayout.setVerticalGroup(
@@ -556,9 +557,9 @@ public class FormMatch extends javax.swing.JFrame {
                         .addComponent(teleopDelete)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(teleopPanelLayout.createSequentialGroup()
-                        .addGroup(teleopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(teleopSubmitPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(teleopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+                            .addComponent(teleopSubmitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE))
                         .addGap(0, 15, Short.MAX_VALUE))))
         );
         teleopPanelLayout.setVerticalGroup(
@@ -1446,24 +1447,31 @@ public class FormMatch extends javax.swing.JFrame {
         
     }
     
+    private void textFieldCondClear(java.awt.TextField field) {
+        for (char c : field.getText().toCharArray())
+            {
+                if (!Character.isDigit(c))
+                {
+                    field.setText("");
+                }
+            }
+    }
 
     private void optionsChanged() 
     {
         try{ 
             optionsScoreInt = Integer.parseInt(optionsScore.getValue().toString());
             if (!("".equals(optionsMatch.getText())))
-            optionsMatchInt = Integer.parseInt(optionsMatch.getText());
+                optionsMatchInt = Integer.parseInt(optionsMatch.getText());
             if (!("".equals(optionsTeam.getText())))
-            optionsTeamInt = Integer.parseInt(optionsTeam.getText());
+                optionsTeamInt = Integer.parseInt(optionsTeam.getText());
         }
         catch (NumberFormatException e)
         {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            e.printStackTrace(pw);
-            String ePrint = sw.toString();
-            
             JOptionPane.showMessageDialog(null, "Not a place for a letter", "Error", JOptionPane.ERROR_MESSAGE);
+            
+            textFieldCondClear(optionsMatch);
+            textFieldCondClear(optionsTeam);
         }
         
         optionsScouterString = optionsScouter.getText();
