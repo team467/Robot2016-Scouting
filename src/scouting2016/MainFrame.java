@@ -8,6 +8,7 @@
 
 package scouting2016;
 
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.List;
 import java.awt.Toolkit;
@@ -24,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author DELL
+ * @author Adam
  */
 public class MainFrame extends javax.swing.JFrame {
 
@@ -35,9 +36,9 @@ public class MainFrame extends javax.swing.JFrame {
         
     try   
     {
-        // sets look and feel to windows
-        UIManager.setLookAndFeel(
-            UIManager.getSystemLookAndFeelClassName());
+        // sets look and feely
+        UIManager.setLookAndFeel
+            ("javax.swing.plaf.metal.MetalLookAndFeel");
 
     } 
     
@@ -57,7 +58,7 @@ public class MainFrame extends javax.swing.JFrame {
         // initializes functionality
         initComponents();       
         
-        nameParse();
+        tableParse();
         
         windowSet();
         
@@ -80,9 +81,11 @@ public class MainFrame extends javax.swing.JFrame {
         mainMatchForm = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         introTable = new javax.swing.JTable();
+        introView = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(832, 652));
+        setMinimumSize(new java.awt.Dimension(828, 652));
+        setPreferredSize(new java.awt.Dimension(820, 624));
 
         mainPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         mainPanel.setPreferredSize(new java.awt.Dimension(800, 600));
@@ -109,7 +112,7 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(mainTable);
         //height 400
 
-        mainMatchForm.setFont(new java.awt.Font("Segoe UI", 0, 96)); // NOI18N
+        mainMatchForm.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
         mainMatchForm.setText("New Match Form");
         mainMatchForm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,16 +122,29 @@ public class MainFrame extends javax.swing.JFrame {
 
         introTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Team #", "Highest Score", "Mean Score", "Win Rate"
+                "Team #", "Match #", "Scouter", "Highest Score", "Mean Score", "Win Rate"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(introTable);
+
+        introView.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        introView.setText("View Scouting Sheets");
+        introView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                introViewActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -138,25 +154,29 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
+                        .addComponent(mainMatchForm)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(introView)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGap(452, 452, 452)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(12, 12, 12))
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(mainMatchForm, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addGap(12, 12, 12))))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mainMatchForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(mainMatchForm)
+                    .addComponent(introView))
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -188,18 +208,47 @@ public class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_mainMatchFormActionPerformed
 
+    private void introViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_introViewActionPerformed
+        Desktop desktop = Desktop.getDesktop();
+        try {
+            File dirOpen = new File("./Sheets");
+            desktop.open(dirOpen);
+        }
+        catch (Exception e) 
+        {
+            JOptionPane.showMessageDialog(null,
+            "Error opening default file explorer.",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_introViewActionPerformed
+
     
-    private String[] nameParse() throws FileNotFoundException
+    private String[] tableParse() throws FileNotFoundException
     { 
+        // this REALLY needs to be separated into more than one function
+        // TODO (unabridged edition)
+        // currently just goes through each file and spits out a new row
+        // for each new file read, will need it to go through each file,
+        // determine an array of team numbers out of the files, then
+        // for the stats mentioned in the columns, read through each
+        // file in the team pool for the scores, determine the average
+        // and max and such for them, then print out a new row
+        // P.S. check if file name is malformed before reading from it
+        
         File[] files = new File("./Sheets").listFiles();
         String[] splittedString = null;
         int tempInt = 0;
+        DefaultTableModel introModel = (DefaultTableModel) introTable.getModel();
+        String queryResult = null;
         
         if (files != null)
         {
             // goes through all files and searches for scout sheets
             for (File file:files) 
-            {   
+            {  
+                Scanner scanner = new Scanner(file);
+                
                 String splitString = file.getName();
                 if (!file.isDirectory() && splitString.startsWith("ScoutSheet")) 
                 {
@@ -210,15 +259,31 @@ public class MainFrame extends javax.swing.JFrame {
                         // iterates through each piece of file name (separated by -)
                         for (String string : splittedString)
                         {
-                            
                             // System.out.println(string);
                             if (string.endsWith(".sav"))
                             {
                                 splittedString[tempInt] = string.split(".sav")[0];
                                 // System.out.println("Changed to " + splittedString[tempInt]);
-                            }
+                            } 
                             tempInt++;
                         }
+                           
+                        while (scanner.hasNextLine()) {
+                            
+                            // todo: use query as a loop for each sheet stat
+                            String query = "Score: ";
+                            String fileLine = scanner.nextLine();
+                                if(fileLine.contains(query)) { 
+                                        queryResult = fileLine.split(query)[1];            
+                                break;
+                                }
+}
+                        
+                        // the row-adding thing, will be edited to accomodate
+                        // the actual fields when one row per team
+                        introModel.addRow(new Object[]{splittedString[1],
+                        splittedString[2], splittedString[3], queryResult});
+                        
                     }
                 }
                 tempInt = 0;
@@ -257,8 +322,6 @@ public class MainFrame extends javax.swing.JFrame {
         setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         
     }
-    
-      
     /**
      * @param args the command line arguments
      */
@@ -269,6 +332,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable introTable;
+    private javax.swing.JButton introView;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton mainMatchForm;
