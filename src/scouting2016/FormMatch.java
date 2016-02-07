@@ -203,7 +203,7 @@ public class FormMatch extends javax.swing.JFrame {
         endClimbed = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Scouting");
+        setTitle("Scouting 2016 Match Sheet");
         setBackground(new java.awt.Color(0, 0, 0));
         setFocusCycleRoot(false);
         setForeground(new java.awt.Color(0, 0, 0));
@@ -960,26 +960,18 @@ public class FormMatch extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void autoHighActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoHighActionPerformed
-       
-        autoChanged();
-            
+        autoChanged();            
     }//GEN-LAST:event_autoHighActionPerformed
 
     private void autoLowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoLowActionPerformed
-        
-        autoChanged();
-        
+        autoChanged();        
     }//GEN-LAST:event_autoLowActionPerformed
 
     private void endClimbedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endClimbedActionPerformed
-           
         endClimbedCheck = endClimbed.isSelected();
-
     }//GEN-LAST:event_endClimbedActionPerformed
 
     private void endChallengedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endChallengedActionPerformed
-            
-         
         endChallengedCheck = endChallenged.isSelected();
         
         if (endChallenged.isSelected())
@@ -992,8 +984,7 @@ public class FormMatch extends javax.swing.JFrame {
             endClimbed.setEnabled(false);
             
             endClimbed.setSelected(false); 
-        }
-        
+        }        
     }//GEN-LAST:event_endChallengedActionPerformed
 
     private void optionsSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsSaveActionPerformed
@@ -1052,23 +1043,15 @@ public class FormMatch extends javax.swing.JFrame {
             "Your sheet has been saved",
             "Success",
             JOptionPane.DEFAULT_OPTION);
-          
-          
-          
-          
-          
-        } 
-        
+        }
         catch ( IOException e )
         {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null,
             "Something went wrong.",
             "Error",
-            JOptionPane.ERROR_MESSAGE);
-           
-        }
-        
+            JOptionPane.ERROR_MESSAGE);  
+        }        
     }//GEN-LAST:event_optionsSaveActionPerformed
 
     private void optionsHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsHelpActionPerformed
@@ -1149,8 +1132,6 @@ public class FormMatch extends javax.swing.JFrame {
 
         // destroys original option pane once requested option pane is closed
         dialog.dispose();
-    
-
     }//GEN-LAST:event_optionsHelpActionPerformed
 
     private void optionsTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsTeamActionPerformed
@@ -1174,13 +1155,12 @@ public class FormMatch extends javax.swing.JFrame {
     }//GEN-LAST:event_wellPerformanceActionPerformed
 
     private void teleopDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleopDeleteActionPerformed
-       
-        // gets row selected to be deleted
-        int selRow = teleopTable.getSelectedRow();
+    // gets row selected to be deleted
+    int selRow = teleopTable.getSelectedRow();
         
-        // row == -1 is when no row is selected, so only executes when one is selected
-        if(selRow != -1) 
-                {
+    // row == -1 is when no row is selected, so only executes when one is selected
+    if(selRow != -1) 
+    {
                  /*
                     //  set semitotal points to point total of row to be removed
                     teleopRowDeleteInt = 
@@ -1192,14 +1172,10 @@ public class FormMatch extends javax.swing.JFrame {
                  */
                
                    
-                    // removes row selected 
-                    ((DefaultTableModel) teleopTable.getModel()).removeRow(selRow);
-                    teleopTable.revalidate();
-                }        
-        
-        
-        
-        
+        // removes row selected 
+        ((DefaultTableModel) teleopTable.getModel()).removeRow(selRow);
+        teleopTable.revalidate();
+    }
     }//GEN-LAST:event_teleopDeleteActionPerformed
 
     private void teleopAnotherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleopAnotherActionPerformed
@@ -1211,13 +1187,11 @@ public class FormMatch extends javax.swing.JFrame {
     }//GEN-LAST:event_teleopCrossActionPerformed
 
     private void teleopSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleopSubmitActionPerformed
-       
         // adds a row which assigns variables 
         // for stack values given to table 
         DefaultTableModel teleopModel = (DefaultTableModel) teleopTable.getModel();
         teleopModel.addRow(new Object[]{teleopDefenseString,
-        teleopCrossCheck, teleopAnotherCheck});
-    
+        teleopCrossCheck, teleopAnotherCheck});   
     
     /*
         // draws sum of previous points       
@@ -1249,9 +1223,6 @@ public class FormMatch extends javax.swing.JFrame {
         
         // disables submit button, as points to submit are cleared
         teleopSubmit.setEnabled(false);
-    
-
-    
     }//GEN-LAST:event_teleopSubmitActionPerformed
 
     private void coopPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coopPerformed
@@ -1304,8 +1275,6 @@ public class FormMatch extends javax.swing.JFrame {
 
     private void optionsClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsClearActionPerformed
         // clear EVERYTHING
-       
-       
         autoReaches.setSelected(false);
         autoCrosses.setSelected(false);
         autoLow.setSelected(false);
@@ -1334,22 +1303,12 @@ public class FormMatch extends javax.swing.JFrame {
         teleopAnother.setSelected(false);
         teleopChanged();
         
-        
         teleopRowCount = teleopTable.getRowCount();
         for (int i = 0; i < teleopRowCount; ++i)
         {
             ((DefaultTableModel) teleopTable.getModel()).removeRow(0);           
         }
         teleopTable.revalidate();
-        
-        
-        
-        
-        
-        
-        
-        
-        
     }//GEN-LAST:event_optionsClearActionPerformed
 
     private void optionsScoreStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_optionsScoreStateChanged
@@ -1363,12 +1322,6 @@ public class FormMatch extends javax.swing.JFrame {
     private void optionsWinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsWinActionPerformed
         optionsChanged();
     }//GEN-LAST:event_optionsWinActionPerformed
-
-    private void optionsMousePress()
-    {
-    }
-    
-    
     private void teleopChanged()
     {
         teleopCrossCheck = teleopCross.isSelected();
@@ -1388,8 +1341,7 @@ public class FormMatch extends javax.swing.JFrame {
             teleopSubmit.setEnabled(false);
         }
       
-    }
-    
+    } 
     private void autoChanged()
     {
         autoCrossesCheck = autoCrosses.isSelected();
@@ -1431,7 +1383,8 @@ public class FormMatch extends javax.swing.JFrame {
         }
         
         
-        wellShootingFunctionalityString = wellShootingFunctionality.getSelectedItem().toString();
+        wellShootingFunctionalityString = 
+                wellShootingFunctionality.getSelectedItem().toString();
         wellShootingString = wellShooting.getSelectedItem().toString();
         wellFoulResultString = wellFoulResult.getSelectedItem().toString();
         wellPerformanceString = wellPerformance.getSelectedItem().toString();
@@ -1441,10 +1394,7 @@ public class FormMatch extends javax.swing.JFrame {
         wellCommentsString = wellComments.getText();
         
         // when parsing take into account the newlines made with the additional
-        // comments (maybe add them to the end)
-        
-        
-        
+        // comments (maybe just search for queries that define each stat
     }
     
     private void textFieldCondClear(java.awt.TextField field) {
@@ -1476,56 +1426,19 @@ public class FormMatch extends javax.swing.JFrame {
         
         optionsScouterString = optionsScouter.getText();
         
-        optionsWinCheck = optionsWin.isSelected();
-        
-        
+        optionsWinCheck = optionsWin.isSelected();       
     }
     
     private void anyChanged()
     {
-       
-        
-        
+       // just in case...    
     }
-    
-    
-    
-    
     
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //  <editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://  download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-       //   try {
-       //       for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-       //           if ("Nimbus".equals(info.getName())) {
-       //               javax.swing.UIManager.setLookAndFeel(info.getClassName());
-       //               break;
-       //           }
-       //       }
-     //     } catch (ClassNotFoundException ex) {
-     //         java.util.logging.Logger.getLogger(FormMatchNew.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-     //     } catch (InstantiationException ex) {
-     //         java.util.logging.Logger.getLogger(FormMatchNew.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-     //     } catch (IllegalAccessException ex) {
-     //         java.util.logging.Logger.getLogger(FormMatchNew.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-     //     } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-     //         java.util.logging.Logger.getLogger(FormMatchNew.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-     //     }
-        //  </editor-fold>
-        // </editor-fold>
-
-        /* Create and display the form */
-     
-            
-        
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox autoCrosses;
     private javax.swing.JComboBox<String> autoDefense;
