@@ -1,11 +1,3 @@
- /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-// pending: remove individual scoring code 
-
 package scouting2016;
 
 import java.awt.Desktop;
@@ -27,11 +19,8 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Adam
  */
-public class MainFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainFrame
-     */
+public class MainFrame extends javax.swing.JFrame {
     public MainFrame() throws FileNotFoundException {
         
     try   
@@ -85,6 +74,7 @@ public class MainFrame extends javax.swing.JFrame {
         introRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Scouting 2016");
         setMinimumSize(new java.awt.Dimension(828, 652));
         setPreferredSize(new java.awt.Dimension(820, 624));
 
@@ -260,7 +250,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO (unabridged edition)
         // currently just goes through each file and spits out a new row
         // for each new file read, will need it to go through each file,
-        // determine an array of team numbers out of the files, then
+        // determine an array of team numbers out of the files (__DONE__), then
         // for the stats mentioned in the columns, read through each
         // file in the team pool for the scores, determine the average
         // and max and such for them, then print out a new row
@@ -270,6 +260,8 @@ public class MainFrame extends javax.swing.JFrame {
         DefaultTableModel introModel = (DefaultTableModel) introTable.getModel();
         String queryResult = null;
         String query = "Score: ";
+        ArrayList<ArrayList<String>> teamList = new ArrayList<ArrayList<String>>();
+        
         
         introRowCount = introTable.getRowCount();
         for (int i = 0; i < introRowCount; ++i)
@@ -284,25 +276,37 @@ public class MainFrame extends javax.swing.JFrame {
         
         if (files != null)
         {
+            
+            teamList = teamListGen(files);
+            
+             for (int i = 0; i < teamList.size(); i++)
+            {
+                System.out.println("Team: " + teamList.get(0).get(i));
+            }
+              
+            
             // goes through all files and searches for scout sheets
             for (File file:files) 
             {  
                 Scanner scanner = new Scanner(file);
-                
-                String wholeString = file.getName();
-                if (!file.isDirectory() && wholeString.startsWith("ScoutSheet")) 
+                for (int i = 0; i < teamList.size(); i++)
                 {
-                        System.out.println("Scouting Sheet: " + file.getName());         
+                    String wholeString = file.getName();
+                    if (!file.isDirectory() && wholeString.startsWith("ScoutSheet")
+                            && wholeString.contains(teamList.get(0).get(i))) 
+                    {
+                        //System.out.println("Team! " + teamList.get(0).get(i));
+                        //System.out.println("Scouting Sheet: " + file.getName());         
                         splittedString = splitString(wholeString);
                         queryResult = queryFind(scanner, query);
-                }
+                    }
                         
-                        // the row-adding thing will be edited to accomodate
+                        
+                }
+                // the row-adding thing will be edited to accomodate
                         // the actual fields when one row per team
                         introModel.addRow(new Object[]{splittedString[1],
                         splittedString[2], splittedString[3], queryResult});
-                
-                    
             }
                
         }
@@ -313,9 +317,70 @@ public class MainFrame extends javax.swing.JFrame {
             System.out.println("No files in directory");
         }        
         
-        // used for data table
+        // just in case? not used anywhere
         return splittedString;
     }
+    
+    private ArrayList teamListGen(File[] files )
+    {
+        // alas, a mess
+        
+        //used to check each team #
+        boolean isSame = false;
+        String[] splittedString;
+        
+        ArrayList<ArrayList<String>> teamList = new ArrayList<ArrayList<String>>();
+        
+        for (File file:files)
+            {
+                String wholeString = file.getName();
+                if (!file.isDirectory() && wholeString.startsWith("ScoutSheet")) 
+                {
+                     //System.out.println("Scouting Sheet: " + file.getName());         
+                    splittedString = splitString(wholeString);
+                    
+                    // this always happens first
+                    if (teamList.isEmpty())
+                    {
+                        teamList.add(new ArrayList());
+                        teamList.get(0).add(splittedString[1]);
+                        //System.out.println("Filled " + splittedString[1] + " to the empty space");
+                    }
+                    else
+                    {   // iterates through each team #, checks equality, until no more sheets
+                        for (int i = 0; i < teamList.size(); i++)
+                        {
+                            if (!(teamList.get(0).get(i).equals(splittedString[1]))) 
+                            {
+                                
+                                //System.out.println(teamList.get(0).get(i) + " != " + splittedString[1]);
+                            }
+                            else
+                            {
+                               //System.out.println(teamList.get(0).get(i) + " == " + splittedString[1]);
+                                isSame = true;
+                                break;
+                            } 
+                        }   // then it is judgement time, whether it can be added to ArrayList
+                        if (isSame == false)
+                        {
+                            teamList.add(new ArrayList());
+                            teamList.get(0).add(splittedString[1]);
+                            //System.out.println("added the " + teamList.get(0).get(teamList.size()-1));
+                        }
+                        else 
+                        {
+                            isSame = false;
+                        }
+                    }
+                        
+                }     
+            }
+    
+        return teamList;
+    }
+    
+    
     
     private String[] splitString(String split)  
     {  // takes scouting filename and returns its info
