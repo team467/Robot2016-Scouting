@@ -53,6 +53,8 @@ public class MainFrame extends javax.swing.JFrame {
         
         //makes window visible to user
         setVisible(true);
+        
+        //todo: if "Sheets" folder doesn't exist, create it
     }
 
     /**
@@ -116,14 +118,14 @@ public class MainFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Team #", "Match #", "Scouter", "Highest Score", "Mean Score", "Win Rate"
+                "Team #", "Highest Score", "Mean Score", "Win Rate"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -247,21 +249,16 @@ public class MainFrame extends javax.swing.JFrame {
     
     private String[] tableParse() throws FileNotFoundException
     { 
-        // TODO (unabridged edition)
-        // currently just goes through each file and spits out a new row
-        // for each new file read, will need it to go through each file,
-        // determine an array of team numbers out of the files (__DONE__), then
-        // for the stats mentioned in the columns, read through each
-        // file in the team pool for the scores, determine the average
-        // and max and such for them, then print out a new row
-        // P.S. check if file name is malformed before reading from it
+        // needs to be split apart
+        // check if file name is malformed before reading from it
         
         int introRowCount = 0;
         DefaultTableModel introModel = (DefaultTableModel) introTable.getModel();
         String queryResult = null;
-        String query = "Score: ";
-        ArrayList<ArrayList<String>> teamList = new ArrayList<ArrayList<String>>();
-        
+        String query = "";
+        ArrayList<String> teamList = new ArrayList<String>();
+        ArrayList<ArrayList<String>> scoreList = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<String>> wonList = new ArrayList<ArrayList<String>>();
         
         introRowCount = introTable.getRowCount();
         for (int i = 0; i < introRowCount; ++i)
@@ -279,9 +276,95 @@ public class MainFrame extends javax.swing.JFrame {
             
             teamList = teamListGen(files);
             
-             for (int i = 0; i < teamList.size(); i++)
+            
+        int tempSize = 0;
+        int tempValue = 0;
+        int tempIndex = 0;
+        
+        for (int i = 0; i < teamList.size(); i++)
             {
-                System.out.println("Team: " + teamList.get(0).get(i));
+                // adds dimensions to 2d ArrayList
+                scoreList.add(new ArrayList());
+                wonList.add(new ArrayList());
+                
+                System.out.println("Team: " + teamList.get(i));
+                
+                for (File file:files)
+                {
+                    Scanner scanner = new Scanner(file);
+                    String wholeString = file.getName();
+                    if (!file.isDirectory() && wholeString.startsWith("ScoutSheet")
+                            && wholeString.contains(teamList.get(i))) 
+                    {
+                        //System.out.println("Team! " + teamList.get(0).get(i));
+                        //System.out.println("Scouting Sheet: " + file.getName());         
+                        splittedString = splitString(wholeString);
+                        query = "Score: ";
+                        queryResult = queryFind(scanner, query);
+                        scoreList.get(i).add(queryResult);
+                        query = "Won: ";
+                        queryResult = queryFind(scanner, query);
+                        wonList.get(i).add(queryResult);
+                        // queryResult OUTSIDE this loop will get the last file info
+                        // for team # this will be sufficient, should be rearranged
+                        
+                    }
+                        
+                    
+                }
+                
+                // CHECK FOR DIVISION BY ZERO!
+                
+                // give all these their own functions
+                tempSize = scoreList.get(i).size();
+    
+                ///* MAXIMUM VALUE */
+                for (tempIndex = 0; tempIndex < tempSize; tempIndex++)
+                {
+                    // I'm pretty sure there's a much more concise way to do this
+                    if (Integer.parseInt(scoreList.get(i).get(tempIndex)) > tempValue)
+                        tempValue = Integer.parseInt(scoreList.get(i).get(tempIndex));
+                }
+
+                scoreList.get(i).add(String.valueOf(tempValue));
+                tempValue = 0;
+                ///* MAXIMUM VALUE */
+                
+                
+                ///* AVERAGE VALUE */
+                for (tempIndex = 0; tempIndex < tempSize; tempIndex++)
+                {
+                    //System.out.println("Value:::::::::::::::::" + avgScoreList.get(i).get(tempIndex));
+                    tempValue += Integer.parseInt(scoreList.get(i).get(tempIndex));
+                }
+                tempValue /= tempIndex;
+                
+                scoreList.get(i).add(String.valueOf(tempValue));
+                tempValue = 0;
+                ///*AVERAGE VALUE*/
+                
+                // redundant, but fun
+                tempSize = wonList.get(i).size();
+                
+                ///*WIN RATE*/
+                for (tempIndex = 0; tempIndex < tempSize; tempIndex++)
+                {
+                    if (wonList.get(i).get(tempIndex).equals("true"))
+                    {
+                        tempValue += 1;
+                    }
+                }
+                tempValue *= 100;
+                tempValue /= tempIndex;
+                wonList.get(i).add(String.valueOf(tempValue));
+                tempValue = 0;
+                ///*WIN RATE*/
+                
+                introModel.addRow(new Object[]{splittedString[1], 
+                /*Max Score*/    scoreList.get(i).get(scoreList.get(i).size()-2),
+                /*Mean Score*/   scoreList.get(i).get(scoreList.get(i).size()-1),
+                /*Win Rate*/     wonList.get(i).get(wonList.get(i).size()-1) + "%"});
+                
             }
               
             
@@ -293,7 +376,7 @@ public class MainFrame extends javax.swing.JFrame {
                 {
                     String wholeString = file.getName();
                     if (!file.isDirectory() && wholeString.startsWith("ScoutSheet")
-                            && wholeString.contains(teamList.get(0).get(i))) 
+                            && wholeString.contains(teamList.get(i))) 
                     {
                         //System.out.println("Team! " + teamList.get(0).get(i));
                         //System.out.println("Scouting Sheet: " + file.getName());         
@@ -305,8 +388,7 @@ public class MainFrame extends javax.swing.JFrame {
                 }
                 // the row-adding thing will be edited to accomodate
                         // the actual fields when one row per team
-                        introModel.addRow(new Object[]{splittedString[1],
-                        splittedString[2], splittedString[3], queryResult});
+                        
             }
                
         }
@@ -315,21 +397,23 @@ public class MainFrame extends javax.swing.JFrame {
         else
         {
             System.out.println("No files in directory");
-        }        
+        }         
         
         // just in case? not used anywhere
         return splittedString;
     }
     
+    
+    
     private ArrayList teamListGen(File[] files )
     {
         // alas, a mess
-        
+                
         //used to check each team #
         boolean isSame = false;
         String[] splittedString;
         
-        ArrayList<ArrayList<String>> teamList = new ArrayList<ArrayList<String>>();
+        ArrayList<String> teamList = new ArrayList<String>();
         
         for (File file:files)
             {
@@ -342,15 +426,14 @@ public class MainFrame extends javax.swing.JFrame {
                     // this always happens first
                     if (teamList.isEmpty())
                     {
-                        teamList.add(new ArrayList());
-                        teamList.get(0).add(splittedString[1]);
+                        teamList.add(splittedString[1]);
                         //System.out.println("Filled " + splittedString[1] + " to the empty space");
                     }
                     else
                     {   // iterates through each team #, checks equality, until no more sheets
                         for (int i = 0; i < teamList.size(); i++)
                         {
-                            if (!(teamList.get(0).get(i).equals(splittedString[1]))) 
+                            if (!(teamList.get(i).equals(splittedString[1]))) 
                             {
                                 
                                 //System.out.println(teamList.get(0).get(i) + " != " + splittedString[1]);
@@ -364,8 +447,7 @@ public class MainFrame extends javax.swing.JFrame {
                         }   // then it is judgement time, whether it can be added to ArrayList
                         if (isSame == false)
                         {
-                            teamList.add(new ArrayList());
-                            teamList.get(0).add(splittedString[1]);
+                            teamList.add(splittedString[1]);
                             //System.out.println("added the " + teamList.get(0).get(teamList.size()-1));
                         }
                         else 
