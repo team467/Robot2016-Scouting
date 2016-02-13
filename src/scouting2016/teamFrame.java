@@ -106,6 +106,7 @@ public class teamFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(mainTable);
 
+        teamTable.setAutoCreateRowSorter(true);
         teamTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -187,39 +188,38 @@ public class teamFrame extends javax.swing.JFrame {
         DefaultTableModel teamModel = (DefaultTableModel) teamTable.getModel();
         int selRow = teamTable.getSelectedRow();
         int fileIndex = 0;
-        
+
         File[] files = new File("./Sheets").listFiles();
-    
+
         if (files != null)
         {
-         // goes through all files and searches for scout sheets for specific team
-            for (File file:files) 
-            {  
-                    String wholeString = file.getName();
-                    if (!file.isDirectory() && wholeString.startsWith("ScoutSheet-" +
-                            String.valueOf(introTeamFinal)))
+            // goes through all files and searches for scout sheets for specific team
+            for (File file:files)
+            {
+                String wholeString = file.getName();
+                if (!file.isDirectory() && wholeString.startsWith("ScoutSheet-" +
+                    String.valueOf(introTeamFinal)))
+            {
+                if (fileIndex == selRow)
+                {
+                    try
                     {
-                        if (fileIndex == selRow)
-                        {
-                            try 
-                            {
-                                Desktop.getDesktop().open(file);
-                                break;
-                            } 
-                            catch (IOException ex) 
-                            {
-                                System.out.println("File not found");
-                            }
-                        }
-                        else
-                        {
-                            fileIndex++;
-                        }
+                        Desktop.getDesktop().open(file);
+                        break;
                     }
+                    catch (IOException ex)
+                    {
+                        System.out.println("File not found");
+                    }
+                }
+                else
+                {
+                    fileIndex++;
+                }
             }
         }
-                
-                
+        }
+
     }//GEN-LAST:event_teamTableMouseClicked
 
     /**
