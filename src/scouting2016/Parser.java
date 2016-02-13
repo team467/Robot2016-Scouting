@@ -68,7 +68,6 @@ public class Parser {
             
             teamList = teamListGen(files);
             
-            
         int tempSize = 0;
         int tempValue = 0;
         int tempIndex = 0;
@@ -92,10 +91,10 @@ public class Parser {
                         //System.out.println("Scouting Sheet: " + file.getName());         
                         splittedString = splitString(wholeString);
                         query = "Score: ";
-                        queryResult = queryFind(scanner, query);
+                        queryResult = queryFind(file, query);
                         scoreList.get(i).add(queryResult);
                         query = "Won: ";
-                        queryResult = queryFind(scanner, query);
+                        queryResult = queryFind(file, query);
                         wonList.get(i).add(queryResult);
                         // queryResult OUTSIDE this loop will get the last file info
                         // for team # this will be sufficient, should be rearranged
@@ -165,28 +164,7 @@ public class Parser {
             }
               
             
-            // goes through all files and searches for scout sheets
-            for (File file:files) 
-            {  
-                Scanner scanner = new Scanner(file);
-                for (int i = 0; i < teamList.size(); i++)
-                {
-                    String wholeString = file.getName();
-                    if (!file.isDirectory() && wholeString.startsWith("ScoutSheet")
-                            && wholeString.contains(teamList.get(i))) 
-                    {
-                        //System.out.println("Team! " + teamList.get(0).get(i));
-                        //System.out.println("Scouting Sheet: " + file.getName());         
-                        splittedString = splitString(wholeString);
-                        queryResult = queryFind(scanner, query);
-                    }
-                        
-                        
-                }
-                // the row-adding thing will be edited to accomodate
-                        // the actual fields when one row per team
-                        
-            }
+          
                
         }
        
@@ -201,6 +179,51 @@ public class Parser {
     }
     
     
+         
+   void expandTable(int introTeam, javax.swing.JTable teamTable) throws FileNotFoundException
+   {
+        // lots of redundancy here, will reduce later
+       
+        File[] files = new File("./Sheets").listFiles();
+        String queryResult;
+        String query = "";
+        String[] teamQueries = new String[] {"Match #: ", "Scouter name: ", "Score: ", "Won: "};
+        ArrayList<String> teamInfo = new ArrayList<>();
+        DefaultTableModel teamModel = (DefaultTableModel) teamTable.getModel();
+        
+        if (files != null)
+        {
+        
+         // goes through all files and searches for scout sheets for specific team
+            for (File file:files) 
+            {  
+                
+                    String wholeString = file.getName();
+                    if (!file.isDirectory() && wholeString.startsWith("ScoutSheet")
+                            && wholeString.contains(String.valueOf(introTeam))) 
+                    {
+                        //System.out.println("Team! " + teamList.get(0).get(i));
+                        //System.out.println("Scouting Sheet: " + file.getName());         
+                        
+                        
+                        for (String teamQuery: teamQueries)
+                        {
+                            queryResult = queryFind(file, teamQuery);
+                            teamInfo.add(queryResult);
+                        }
+                        
+                        String[] teamInfoArr = new String[teamInfo.size()];
+                        teamInfoArr = teamInfo.toArray(teamInfoArr);    
+                
+                        teamModel.addRow((Object[])teamInfoArr);
+                    }
+                        
+                
+                        
+            
+            }
+        }
+   }
     
          
         
@@ -265,8 +288,10 @@ public class Parser {
     
     
     
-      private String queryFind(Scanner scanner, String query)
+      private String queryFind(File file, String query) throws FileNotFoundException
     {
+        Scanner scanner = new Scanner(file);
+        
         while (scanner.hasNextLine()) {
                             
         // todo: use query as a loop for each sheet stat
