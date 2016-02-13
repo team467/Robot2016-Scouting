@@ -5,11 +5,18 @@
  */
 package scouting2016;
 
+import java.awt.Desktop;
 import java.awt.Dimension;
+import static java.awt.SystemColor.desktop;
 import java.awt.Toolkit;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -104,7 +111,7 @@ public class teamFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Match #", "Scouter", "Score", "Won"
+                "Match #", "Scouter name", "Score", "Won"
             }
         ) {
             Class[] types = new Class [] {
@@ -120,6 +127,11 @@ public class teamFrame extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        teamTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                teamTableMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(teamTable);
@@ -170,6 +182,45 @@ public class teamFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void teamTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_teamTableMouseClicked
+        DefaultTableModel teamModel = (DefaultTableModel) teamTable.getModel();
+        int selRow = teamTable.getSelectedRow();
+        int fileIndex = 0;
+        
+        File[] files = new File("./Sheets").listFiles();
+    
+        if (files != null)
+        {
+         // goes through all files and searches for scout sheets for specific team
+            for (File file:files) 
+            {  
+                    String wholeString = file.getName();
+                    if (!file.isDirectory() && wholeString.startsWith("ScoutSheet-" +
+                            String.valueOf(introTeamFinal)))
+                    {
+                        if (fileIndex == selRow)
+                        {
+                            try 
+                            {
+                                Desktop.getDesktop().open(file);
+                                break;
+                            } 
+                            catch (IOException ex) 
+                            {
+                                System.out.println("File not found");
+                            }
+                        }
+                        else
+                        {
+                            fileIndex++;
+                        }
+                    }
+            }
+        }
+                
+                
+    }//GEN-LAST:event_teamTableMouseClicked
 
     /**
      * @param args the command line arguments
