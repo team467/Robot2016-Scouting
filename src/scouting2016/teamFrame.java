@@ -7,8 +7,10 @@ package scouting2016;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 import javax.swing.UIManager;
+
 
 /**
  *
@@ -16,10 +18,15 @@ import javax.swing.UIManager;
  */
 public class teamFrame extends javax.swing.JFrame {
 
+    private int introTeamFinal;
+
     /**
      * Creates new form teamFrame
      */
-    public teamFrame(int introTeam) {
+    public teamFrame(int introTeam) throws FileNotFoundException {
+        
+        introTeamFinal = introTeam;
+        
         initComponents();
         
         try   
@@ -33,7 +40,7 @@ public class teamFrame extends javax.swing.JFrame {
         {}
         
         
-        tableSet();
+        tableSet(introTeam);
         
         
         // sets window to center of screen
@@ -63,9 +70,10 @@ public class teamFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         mainTable = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        introTable = new javax.swing.JTable();
+        teamTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Sheets for Team " + introTeamFinal);
 
         mainPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         mainPanel.setPreferredSize(new java.awt.Dimension(800, 600));
@@ -91,7 +99,7 @@ public class teamFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(mainTable);
 
-        introTable.setModel(new javax.swing.table.DefaultTableModel(
+        teamTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -114,7 +122,7 @@ public class teamFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(introTable);
+        jScrollPane2.setViewportView(teamTable);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -169,9 +177,12 @@ public class teamFrame extends javax.swing.JFrame {
     
     
     
-    public void tableSet() {
+    public void tableSet(int introTeam) throws FileNotFoundException {
     
         Parser parse = new Parser();
+        parse.expandTable(introTeam, teamTable);
+        
+        
     
     }
     
@@ -182,10 +193,10 @@ public class teamFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable introTable;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JTable mainTable;
+    private javax.swing.JTable teamTable;
     // End of variables declaration//GEN-END:variables
 }
