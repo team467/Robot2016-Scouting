@@ -112,17 +112,6 @@ public class FormMatch extends javax.swing.JFrame {
     double width = dim.getWidth();
     double height = dim.getHeight();
     
-    // alerts user if screen resolution is below 1024x768 
-    if (width<1024 && height<768)
-        
-    {
-        JOptionPane.showMessageDialog(null,
-        "Your screen resolution is not supported. Some "
-                + "elements may not appear or may appear incorrectly.",
-        "Error",
-        JOptionPane.ERROR_MESSAGE);
-    }
-    
         // sets window to center of screen
         setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     
