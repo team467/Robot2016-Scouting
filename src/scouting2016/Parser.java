@@ -186,10 +186,17 @@ public class Parser {
        
         File[] files = new File("./Sheets").listFiles();
         String queryResult;
-        String query = "";
-        String[] teamQueries = new String[] {"Match #: ", "Scouter name: ", "Score: ", "Won: "};
+        ArrayList<String> teamQueries = new ArrayList<>();
+        //String[] teamQueries = new String[] {"Match #: ", "Scouter name: ", "Score: ", "Won: "};
         ArrayList<String> teamInfo = new ArrayList<>();
         DefaultTableModel teamModel = (DefaultTableModel) teamTable.getModel();
+        
+        
+        for (int i = 0; i < teamModel.getColumnCount(); i++)
+            {
+                teamQueries.add(teamModel.getColumnName(i));
+                teamQueries.set(i, teamQueries.get(i) + ": ");
+            }
         
         if (files != null)
         {
@@ -199,8 +206,8 @@ public class Parser {
             {  
                 
                     String wholeString = file.getName();
-                    if (!file.isDirectory() && wholeString.startsWith("ScoutSheet")
-                            && wholeString.contains(String.valueOf(introTeam))) 
+                    if (!file.isDirectory() && wholeString.startsWith("ScoutSheet-" +
+                            String.valueOf(introTeam)))
                     {
                         //System.out.println("Team! " + teamList.get(0).get(i));
                         //System.out.println("Scouting Sheet: " + file.getName());         
@@ -209,6 +216,7 @@ public class Parser {
                         for (String teamQuery: teamQueries)
                         {
                             queryResult = queryFind(file, teamQuery);
+                            System.out.println(queryResult);
                             teamInfo.add(queryResult);
                         }
                         
@@ -216,6 +224,13 @@ public class Parser {
                         teamInfoArr = teamInfo.toArray(teamInfoArr);    
                 
                         teamModel.addRow((Object[])teamInfoArr);
+                        
+                        teamInfo.clear();
+                        
+                        
+                        
+                        
+                        
                     }
                         
                 
