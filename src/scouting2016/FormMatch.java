@@ -1005,16 +1005,31 @@ public class FormMatch extends javax.swing.JFrame {
                     "\t" + wellFoulLabel.getText() + ": " + wellFoulResultString + "\n" +
                     "\t" + wellCommentsLabel.getText() + ": " + wellCommentsString + "\n\n" +
                     "End Game Info \n" +
-                    "\t " + endChallenged.getText() + ": " + endChallengedCheck + "\n" +
+                    "\t" + endChallenged.getText() + ": " + endChallengedCheck + "\n" +
                     "\t" + endClimbed.getText() + ": " + endClimbedCheck + "\n\n" +
                     "Teleoperation Info" +
-                    "\t Table:\n"
+                    " Table:\n"
                     ;
         
         for (int i = 0; i < teleopRowCount; ++i)
         {
             for (int j = 0; j < teleopColumnCount; ++j) 
-                text = text.concat(teleopTable.getModel().getValueAt(i, j).toString() + ", ");
+            {
+                switch (j)
+                {
+                    case 0:
+                        text = text.concat("Defense: ");
+                        break;
+                    case 1:
+                        text = text.concat("Crosses: ");
+                        break;
+                    case 2:
+                        text = text.concat("Helps another: ");
+                        break;
+                }
+                text = text.concat(teleopTable.getModel().getValueAt(i, j).toString() + " || ");
+                
+            }
             text = text.concat("\n");
         }
         
@@ -1042,6 +1057,8 @@ public class FormMatch extends javax.swing.JFrame {
             "Error",
             JOptionPane.ERROR_MESSAGE);  
         }        
+        
+        clearEverything();
     }//GEN-LAST:event_optionsSaveActionPerformed
 
     private void optionsHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsHelpActionPerformed
@@ -1214,7 +1231,7 @@ public class FormMatch extends javax.swing.JFrame {
         // disables submit button, as points to submit are cleared
         teleopSubmit.setEnabled(false);
         
-        clearEverything();
+        
     }//GEN-LAST:event_teleopSubmitActionPerformed
 
     private void coopPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coopPerformed
