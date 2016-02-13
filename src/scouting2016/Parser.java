@@ -216,7 +216,6 @@ public class Parser {
                         for (String teamQuery: teamQueries)
                         {
                             queryResult = queryFind(file, teamQuery);
-                            System.out.println(queryResult);
                             teamInfo.add(queryResult);
                         }
                         
