@@ -719,6 +719,7 @@ public class FormMatch extends javax.swing.JFrame {
 
         optionsSave.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         optionsSave.setText("Save");
+        optionsSave.setEnabled(false);
         optionsSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 optionsSaveActionPerformed(evt);
@@ -1212,6 +1213,8 @@ public class FormMatch extends javax.swing.JFrame {
         
         // disables submit button, as points to submit are cleared
         teleopSubmit.setEnabled(false);
+        
+        clearEverything();
     }//GEN-LAST:event_teleopSubmitActionPerformed
 
     private void coopPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coopPerformed
@@ -1263,41 +1266,7 @@ public class FormMatch extends javax.swing.JFrame {
     }//GEN-LAST:event_autoCrossesActionPerformed
 
     private void optionsClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsClearActionPerformed
-        // clear EVERYTHING
-        autoReaches.setSelected(false);
-        autoCrosses.setSelected(false);
-        autoLow.setSelected(false);
-        autoHigh.setSelected(false);
-        autoDefense.setSelectedIndex(0);
-        
-        wellPerformance.setSelectedIndex(0);
-        wellFoul.setSelected(false);
-        wellChanged();
-        wellComments.setText("");
-        
-        wellDrive.setSelectedIndex(0);
-        wellDriveFunctionality.setSelectedIndex(0);
-        wellShooting.setSelectedIndex(0);
-        wellShootingFunctionality.setSelectedIndex(0);
-        
-        endChallenged.setSelected(false);
-        endClimbed.setSelected(false);
-        
-        optionsTeam.setText("");
-        optionsMatch.setText("");
-        optionsScore.setValue(0);
-        
-        teleopDefense.setSelectedIndex(0);
-        teleopCross.setSelected(false);
-        teleopAnother.setSelected(false);
-        teleopChanged();
-        
-        teleopRowCount = teleopTable.getRowCount();
-        for (int i = 0; i < teleopRowCount; ++i)
-        {
-            ((DefaultTableModel) teleopTable.getModel()).removeRow(0);           
-        }
-        teleopTable.revalidate();
+        clearEverything();
     }//GEN-LAST:event_optionsClearActionPerformed
 
     private void optionsScoreStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_optionsScoreStateChanged
@@ -1398,12 +1367,23 @@ public class FormMatch extends javax.swing.JFrame {
 
     private void optionsChanged() 
     {
-        try{ 
+        int submitInt = 0;
+        
+        try{
             optionsScoreInt = Integer.parseInt(optionsScore.getValue().toString());
+            
+            if (!("".equals(optionsScouter.getText())))
+            optionsScouterString = optionsScouter.getText();    
+            else
+                submitInt++;
             if (!("".equals(optionsMatch.getText())))
                 optionsMatchInt = Integer.parseInt(optionsMatch.getText());
+            else
+                submitInt++;
             if (!("".equals(optionsTeam.getText())))
                 optionsTeamInt = Integer.parseInt(optionsTeam.getText());
+            else
+                submitInt++;
         }
         catch (NumberFormatException e)
         {
@@ -1411,11 +1391,15 @@ public class FormMatch extends javax.swing.JFrame {
             
             textFieldCondClear(optionsMatch);
             textFieldCondClear(optionsTeam);
+            submitInt = 4;
         }
         
         optionsScouterString = optionsScouter.getText();
         
-        optionsWinCheck = optionsWin.isSelected();       
+        optionsWinCheck = optionsWin.isSelected();
+        
+        optionsSave.setEnabled(submitInt == 0);
+        
     }
     
     private void anyChanged()
@@ -1426,6 +1410,48 @@ public class FormMatch extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    
+    
+    private void clearEverything()
+    {
+        // clear EVERYTHING
+        autoReaches.setSelected(false);
+        autoCrosses.setSelected(false);
+        autoLow.setSelected(false);
+        autoHigh.setSelected(false);
+        autoDefense.setSelectedIndex(0);
+        
+        wellPerformance.setSelectedIndex(0);
+        wellFoul.setSelected(false);
+        wellChanged();
+        wellComments.setText("");
+        
+        wellDrive.setSelectedIndex(0);
+        wellDriveFunctionality.setSelectedIndex(0);
+        wellShooting.setSelectedIndex(0);
+        wellShootingFunctionality.setSelectedIndex(0);
+        
+        endChallenged.setSelected(false);
+        endClimbed.setSelected(false);
+        
+        optionsTeam.setText("");
+        optionsMatch.setText("");
+        optionsScore.setValue(0);
+        
+        teleopDefense.setSelectedIndex(0);
+        teleopCross.setSelected(false);
+        teleopAnother.setSelected(false);
+        teleopChanged();
+        
+        teleopRowCount = teleopTable.getRowCount();
+        for (int i = 0; i < teleopRowCount; ++i)
+        {
+            ((DefaultTableModel) teleopTable.getModel()).removeRow(0);           
+        }
+        teleopTable.revalidate();
+    }
+    
+    
     public static void main(String args[]) {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
