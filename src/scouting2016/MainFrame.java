@@ -76,7 +76,7 @@ public class MainFrame extends javax.swing.JFrame {
         introTable = new javax.swing.JTable();
         introView = new javax.swing.JButton();
         introRefresh = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        introOpen = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Scouting 2016");
@@ -157,11 +157,11 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
-        jButton1.setText("Open Team Sheet");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        introOpen.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        introOpen.setText("Open Team Sheet");
+        introOpen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                introOpenActionPerformed(evt);
             }
         });
 
@@ -179,7 +179,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(introRefresh)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(introOpen)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
@@ -197,7 +197,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(mainMatchForm)
                     .addComponent(introView)
                     .addComponent(introRefresh)
-                    .addComponent(jButton1))
+                    .addComponent(introOpen))
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -263,13 +263,19 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_introRefreshActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void introOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_introOpenActionPerformed
         
         int selRow = introTable.getSelectedRow();
         
         if (selRow != -1)   
         {
-            teamFrame teamSelected = new teamFrame(Integer.parseInt(introTable.getValueAt(selRow, 0).toString()));
+            try 
+            {
+                teamFrame teamSelected = new teamFrame(Integer.parseInt(introTable.getValueAt(selRow, 0).toString()));    
+            } 
+            catch (FileNotFoundException ex) 
+            {
+            }
         }
         
         else
@@ -280,7 +286,7 @@ public class MainFrame extends javax.swing.JFrame {
             JOptionPane.ERROR_MESSAGE);
         }
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_introOpenActionPerformed
 
 
     
@@ -315,10 +321,10 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton introOpen;
     private javax.swing.JButton introRefresh;
     private javax.swing.JTable introTable;
     private javax.swing.JButton introView;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton mainMatchForm;
