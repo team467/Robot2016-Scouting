@@ -53,6 +53,8 @@ public class MainFrame extends javax.swing.JFrame {
         
         windowSet();
         
+        folderCreate();
+        
         //makes window visible to user
         setVisible(true);
         
@@ -289,9 +291,25 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_introOpenActionPerformed
 
 
-    
-  
-    
+    private void folderCreate()
+    {
+        String defaultPath = "./Sheets";
+        
+        try
+        {
+        
+            if (!(new File(defaultPath).exists()))
+            {
+                new File("./Sheets").mkdir();
+            }
+        }
+        
+        catch (Exception e)
+        {
+            System.out.println("Error creating folder");
+        }
+    }
+     
     private void windowSet() {
  
          // sets window to center of screen
