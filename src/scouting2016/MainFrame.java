@@ -118,6 +118,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        introTable.setAutoCreateRowSorter(true);
         introTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
