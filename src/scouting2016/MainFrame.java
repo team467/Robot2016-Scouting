@@ -79,6 +79,7 @@ public class MainFrame extends javax.swing.JFrame {
         introView = new javax.swing.JButton();
         introRefresh = new javax.swing.JButton();
         introOpen = new javax.swing.JButton();
+        mainPitForm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Scouting 2016");
@@ -168,6 +169,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        mainPitForm.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        mainPitForm.setText("New Pit Form");
+        mainPitForm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mainPitFormActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
@@ -178,12 +187,14 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(mainMatchForm)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(mainPitForm)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(introView)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(introRefresh)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(introOpen)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
                         .addContainerGap())
@@ -200,7 +211,8 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(mainMatchForm)
                     .addComponent(introView)
                     .addComponent(introRefresh)
-                    .addComponent(introOpen))
+                    .addComponent(introOpen)
+                    .addComponent(mainPitForm))
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -232,7 +244,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void mainMatchFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainMatchFormActionPerformed
 
-        FormMatch match = new FormMatch();
+        FormMatch matchSheet = new FormMatch();
         
     }//GEN-LAST:event_mainMatchFormActionPerformed
 
@@ -291,6 +303,10 @@ public class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_introOpenActionPerformed
 
+    private void mainPitFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainPitFormActionPerformed
+        FormPit pitSheet = new FormPit();
+    }//GEN-LAST:event_mainPitFormActionPerformed
+
 
     private void folderCreate()
     {
@@ -299,9 +315,14 @@ public class MainFrame extends javax.swing.JFrame {
         try
         {
         
-            if (!(new File(defaultPath).exists()))
+            if (!(new File("./Sheets").exists()))
             {
                 new File("./Sheets").mkdir();
+            }
+            
+            if (!(new File("./PitSheets").exists()))
+            {
+                new File("./PitSheets").mkdir();
             }
         }
         
@@ -348,6 +369,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton mainMatchForm;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JButton mainPitForm;
     private javax.swing.JTable mainTable;
     // End of variables declaration//GEN-END:variables
 }
