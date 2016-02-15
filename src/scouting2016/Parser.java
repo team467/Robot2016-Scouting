@@ -5,10 +5,13 @@
  */
 package scouting2016;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -156,10 +159,10 @@ public class Parser {
                 tempValue = 0;
                 ///*WIN RATE*/
                 
-                introModel.addRow(new Object[]{splittedString[1], 
-                /*Max Score*/    scoreList.get(i).get(scoreList.get(i).size()-2),
-                /*Mean Score*/   scoreList.get(i).get(scoreList.get(i).size()-1),
-                /*Win Rate*/     wonList.get(i).get(wonList.get(i).size()-1) + "%"});
+                introModel.addRow(new Object[]{Integer.valueOf(splittedString[1]), 
+                /*Max Score*/    Integer.valueOf(scoreList.get(i).get(scoreList.get(i).size()-2)),
+                /*Mean Score*/   Integer.valueOf(scoreList.get(i).get(scoreList.get(i).size()-1)),
+                /*Win Rate*/     Integer.valueOf(wonList.get(i).get(wonList.get(i).size()-1)) + "%"});
                 
             }
               
@@ -317,5 +320,29 @@ public class Parser {
     }
      
     
+      
+      
+        double[] windowSet() {
+ 
+         // sets window to center of screen
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = dim.getWidth();
+        double height = dim.getHeight();
+    
+        // alerts user if screen resolution is below 1024x768 
+        if (width<1024 || height<768)
+        
+        {
+            JOptionPane.showMessageDialog(null,
+            "Your screen resolution is not supported. Some "
+                    + "elements may not appear or may appear incorrectly.",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+        }
+    
+        double[] dimensions = {width, height};
+        return dimensions;
+        
+    }
     
 }
