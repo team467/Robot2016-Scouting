@@ -125,7 +125,7 @@ public class MainFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Team #", "Highest Score", "Mean Score", "Win Rate"
+                "Team #", "Highest Score", "Mean Score", "Win Rate (%)"
             }
         ) {
             Class[] types = new Class [] {

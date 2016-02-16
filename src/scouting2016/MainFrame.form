@@ -247,7 +247,7 @@
                     <Column editable="false" title="Team #" type="java.lang.Integer"/>
                     <Column editable="false" title="Highest Score" type="java.lang.Integer"/>
                     <Column editable="false" title="Mean Score" type="java.lang.Integer"/>
-                    <Column editable="false" title="Win Rate" type="java.lang.Integer"/>
+                    <Column editable="false" title="Win Rate (%)" type="java.lang.Integer"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
