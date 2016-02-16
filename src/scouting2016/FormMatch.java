@@ -1092,7 +1092,7 @@ public class FormMatch extends javax.swing.JFrame {
             
         {
             // writes data sheet to file
-            File scoutFile = new File("Sheets/ScoutSheet-" + optionsTeamInt + "-" + optionsMatchInt + "-" + optionsScouterString + ".sav");
+            File scoutFile = new File("Sheets/ScoutSheet-" + optionsTeamInt + "-" + optionsMatchInt + "-" + optionsScouterString + ".txt");
             BufferedWriter output = new BufferedWriter(new FileWriter(scoutFile));
             output.write(text);
             output.close();
@@ -1121,77 +1121,22 @@ public class FormMatch extends javax.swing.JFrame {
            GO
            HERE */
  
+        JOptionPane.showMessageDialog(null, 
+                "\tA robot reaches the outer works in autonomous if anything, even a bumper,\n"
+              + "is over the outer works. Crossing in autonomous is when the entire robot\n"
+              + "is out of the outer works after having crossed one. If even a bumper is\n"
+              + "over the outer works, is is qualified as \"reaching\".\n\n" 
+              + "\tIn tele-op, crossing a defense only counts in going from the middle\n"
+              + "ground to the other team's courtyard. You can only get points from\n"
+              + "crossing a defense twice.\n\n"
+              + "\tChallenging in End Game is if any part of the robot is over the bottom of\n"
+              + "the tower. Climbing means the robot is entirely above the low goal.\n"
+                , "Scouting Info", JOptionPane.PLAIN_MESSAGE);
       
-        // sets option pane options      
-        Object [] optionsScoring = {"Autonomous", "Teleop", "Coopertition"};
+        
+        
 
-        // creates option pane
-        JOptionPane optionsScoringPane = new JOptionPane("Choose scoring rules to read.", 
-        JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, 
-        null, optionsScoring, optionsScoring[0]);
-        JDialog dialog = optionsScoringPane.createDialog(null, "Scoring Info");
-        dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
-        // makes option pane visible to user
-        dialog.setVisible(true);
-
-        // reads value of option chosen
-        String optionsScoringChosen = (String) optionsScoringPane.getValue();
-
-        // displays option pane that user requested
-        switch(optionsScoringChosen)
-    {
-    case "Autonomous":
-        
-        JOptionPane.showMessageDialog(null,        
-              "  -Lasts for FIFTEEN SECONDS \n" +
-              "  -Robot is to rest completely on the Auto Zone (ROBOT SET) \n" +
-              "  -Successful completion of ROBOT SET will result in TWO POINTS given \n" +
-              "  -THREE YELLOW TOTES are to rest completely in the Auto Zone (TOTE SET) \n " +
-              "      -Successful completion of TOTE SET will result in SIX POINTS given \n " +
-              "  -The RECYCLING CONTAINER is to rest completely in the Auto Zone (CONTAINER SET) \n " +
-              "      -Successful completion of CONTAINER SET will result in EIGHT POINTS given \n " +
-              "  -THREE YELLOW TOTES are to be in ONE stack in the Auto Zone (STACKED TOTE SET) \n" +
-              "      -Successful completion of STACKED TOTE SET will result in TWENTY POINTS given",
-        "Autonomous",
-        JOptionPane.PLAIN_MESSAGE);
-        break;
-        
-    case "Teleop":
-        
-        JOptionPane.showMessageDialog(null,
-        "  -Solo stacks of GREY TOTES will result in TWO POINTS for each \n" +
-              "  -RECYCLING CONTAINERS by themselves will result in ZERO POINTS given \n" +
-              "  -LITTER by itself is considered UNPROCESSED LITTER, in which each will " +
-                   "result in ONE POINT given \n" +
-              "  -RECYCLING CONTAINERS containing LITTER will result in SIX POINTS given \n" +  
-              "  -Stacks of GREY TOTES with a RECYCLING CONTAINER will result in the sum of " +
-                   "TWO POINTS for each GREY TOTE, and (FOUR * quantity of GREY TOTES) \n" + 
-              "  -Stacks of GREY TOTES with a RECYCLING CONTAINER and LITTER will result in the " +
-                   "sum of TWO POINTS for each GREY TOTE, (FOUR * quantity of GREY TOTES), and SIX POINTS",
-        "Teleop",
-        JOptionPane.PLAIN_MESSAGE);
-        break;
-        
-    case "Coopertition":
-        
-        JOptionPane.showMessageDialog(null,
-        "  - FOUR YELLOW TOTES in ONE stack is considered a COOPERTITION SET, which will result " +
-                  "in TWENTY POINTS given if it does not meet the criteria of the COOPERTITION STACK \n" +
-              "  -The COOPERTITION STACK is a COOPERTITION SET that is: \n" +
-              "      -Stacked on top of one another in a single column \n" +
-              "      -The structure is completely supported by STEP \n" + 
-              "      -The entire structure is free of contact from ROBOTS for at least THREE SECONDS \n" +
-              "  -With met criteria, it will be considered a COOPERTITION STACK, which will " +
-                   "result in FOURTY POINTS given. Otherwise, it will result in TWENTY POINTS given",
-        "Coopertition",
-        JOptionPane.PLAIN_MESSAGE);
-        break;
-        
-     }        
-
-        // destroys original option pane once requested option pane is closed
-        dialog.dispose();
+       
     }//GEN-LAST:event_optionsHelpActionPerformed
 
     private void optionsTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsTeamActionPerformed
@@ -1544,6 +1489,9 @@ public class FormMatch extends javax.swing.JFrame {
         teleopDefense.setSelectedIndex(0);
         teleopCross.setSelected(false);
         teleopAnother.setSelected(false);
+        teleopLow.setValue(0);
+        teleopHigh.setValue(0);
+        
         teleopChanged();
         
         teleopRowCount = teleopTable.getRowCount();
