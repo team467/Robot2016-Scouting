@@ -511,7 +511,7 @@ public class FormPit extends javax.swing.JFrame {
             
         {
             // writes data sheet to file
-            File scoutFile = new File("./PitSheets/PitSheet-" + optionsTeam.getText() + "-" + optionsNick.getText() + "-" + optionsScouter.getText() + ".sav");
+            File scoutFile = new File("./PitSheets/PitSheet-" + optionsTeam.getText() + "-" + optionsNick.getText() + "-" + optionsScouter.getText() + ".txt");
             BufferedWriter output = new BufferedWriter(new FileWriter(scoutFile));
             output.write(text);
             output.close();
