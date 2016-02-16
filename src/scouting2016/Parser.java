@@ -29,9 +29,9 @@ public class Parser {
         for (String string : splittedString)
             {
                 // System.out.println(string);
-                if (string.endsWith(".sav"))
+                if (string.endsWith(".txt"))
                 {
-                    splittedString[tempInt] = string.split(".sav")[0];
+                    splittedString[tempInt] = string.split(".txt")[0];
                     // System.out.println("Changed to " + splittedString[tempInt]);
                 } 
                 tempInt++;
@@ -45,9 +45,10 @@ public class Parser {
          String[] tableParse(javax.swing.JTable introTable) throws FileNotFoundException
     { 
         // needs to be split apart
-        // check if file name is malformed before reading from it
+        // use universal check if file name is malformed
         
         int introRowCount = 0;
+        boolean abort = false;
         DefaultTableModel introModel = (DefaultTableModel) introTable.getModel();
         String queryResult = null;
         String query = "";
@@ -75,7 +76,7 @@ public class Parser {
         int tempValue = 0;
         int tempIndex = 0;
         
-        for (int i = 0; i < teamList.size(); i++)
+        for (int i = 0; i < teamList.size(); ++i)
             {
                 // adds dimensions to 2d ArrayList
                 scoreList.add(new ArrayList());
@@ -87,37 +88,60 @@ public class Parser {
                 {
                     Scanner scanner = new Scanner(file);
                     String wholeString = file.getName();
-                    if (!file.isDirectory() && wholeString.startsWith("ScoutSheet")
-                            && wholeString.contains(teamList.get(i))) 
+                    if (!file.isDirectory() && wholeString.startsWith("ScoutSheet")) 
                     {
-                        //System.out.println("Team! " + teamList.get(0).get(i));
-                        //System.out.println("Scouting Sheet: " + file.getName());         
                         splittedString = splitString(wholeString);
-                        query = "Score: ";
-                        queryResult = queryFind(file, query);
-                        scoreList.get(i).add(queryResult);
-                        query = "Won: ";
-                        queryResult = queryFind(file, query);
-                        wonList.get(i).add(queryResult);
+                        if (splittedString[1].equals(teamList.get(i))
+                            && (!wholeString.contains("--")))
+                        {
+                            //System.out.println("Team! " + teamList.get(i));
+                            //System.out.println("Scouting Sheet: " + file.getName());         
+                            query = "Score: ";
+                            queryResult = queryFind(file, query);
+                            scoreList.get(i).add(queryResult);
+                            //System.out.println("Score: " + scoreList.get(i).get(scoreList.get(i).size()-1));
+                            query = "Won: ";
+                            queryResult = queryFind(file, query);
+                            wonList.get(i).add(queryResult);
+                        
                         // queryResult OUTSIDE this loop will get the last file info
                         // for team # this will be sufficient, should be rearranged
-                        
+                        }
                     }
                         
+                    else if (wholeString.contains("--"))
+                    {
+                        JOptionPane.showMessageDialog(null,
+                        "File name: \"" + file.getName() + "\" is malformed."
+                                + "\nAborting sheet collection.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                        abort = true;
+                    }
                     
                 }
                 
+                if (abort == true)
+                    break;
                 // CHECK FOR DIVISION BY ZERO!
                 
                 // give all these their own functions
                 tempSize = scoreList.get(i).size();
-    
+                 //System.out.println(i + ", " + scoreList.get(i).size());
+                tempValue = 0;
+                
+                
+                
                 ///* MAXIMUM VALUE */
                 for (tempIndex = 0; tempIndex < tempSize; tempIndex++)
                 {
+                    //System.out.println("Focused score: " + scoreList.get(i).get(tempIndex));
                     // I'm pretty sure there's a much more concise way to do this
                     if (Integer.parseInt(scoreList.get(i).get(tempIndex)) > tempValue)
+                    {
                         tempValue = Integer.parseInt(scoreList.get(i).get(tempIndex));
+                        //System.out.println("Max Score: " + tempValue);
+                    }
                 }
 
                 scoreList.get(i).add(String.valueOf(tempValue));
@@ -143,26 +167,27 @@ public class Parser {
                 tempSize = wonList.get(i).size();
                 
                 ///*WIN RATE*/
-                for (tempIndex = 0; tempIndex < tempSize; tempIndex++)
+                for (tempIndex = 0; tempIndex < tempSize; ++tempIndex)
                 {
                     if (wonList.get(i).get(tempIndex).equals("true"))
                     {
-                        tempValue += 1;
+                        tempValue++;
                     }
                 }
+                
                 if (tempIndex == 0)
                     tempIndex++;
                 
                 tempValue *= 100;
-                tempValue /= tempIndex;
+                tempValue /= (tempIndex);
                 wonList.get(i).add(String.valueOf(tempValue));
                 tempValue = 0;
                 ///*WIN RATE*/
                 
-                introModel.addRow(new Object[]{Integer.valueOf(splittedString[1]), 
+                introModel.addRow(new Object[]{Integer.valueOf(teamList.get(i)), 
                 /*Max Score*/    Integer.valueOf(scoreList.get(i).get(scoreList.get(i).size()-2)),
                 /*Mean Score*/   Integer.valueOf(scoreList.get(i).get(scoreList.get(i).size()-1)),
-                /*Win Rate*/     Integer.valueOf(wonList.get(i).get(wonList.get(i).size()-1)) + "%"});
+                /*Win Rate*/     Integer.valueOf(wonList.get(i).get(wonList.get(i).size()-1))});
                 
             }
               
@@ -185,7 +210,12 @@ public class Parser {
          
    void expandTable(int introTeam, javax.swing.JTable teamTable) throws FileNotFoundException
    {
-        // lots of redundancy here, will reduce later
+        // lots of redundancy here, needs reduction
+       
+        // to add reading of more data for columns,
+        // just add the column whose column name
+        // matches what's wanted to be added
+       
        
         File[] files = new File("./Sheets").listFiles();
         String queryResult;
@@ -258,7 +288,8 @@ public class Parser {
         for (File file:files)
             {
                 String wholeString = file.getName();
-                if (!file.isDirectory() && wholeString.startsWith("ScoutSheet")) 
+                if (!file.isDirectory() && wholeString.startsWith("ScoutSheet")
+                    && (!wholeString.contains("--"))) 
                 {
                      //System.out.println("Scouting Sheet: " + file.getName());         
                     splittedString = splitString(wholeString);
