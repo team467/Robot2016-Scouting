@@ -443,7 +443,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane3" pref="379" max="32767" attributes="0"/>
+                          <Component id="jScrollPane3" pref="402" max="32767" attributes="0"/>
                           <Component id="jScrollPane2" max="32767" attributes="0"/>
                           <Component id="jScrollPane1" alignment="1" max="32767" attributes="0"/>
                       </Group>
@@ -477,7 +477,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="autoLabel1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Can the opponent reach defenses in autonomous? Which ones?"/>
+                <Property name="text" type="java.lang.String" value="Can the robot reach defenses in autonomous? Which ones?"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="autoLabel2">

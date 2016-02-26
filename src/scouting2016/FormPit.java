@@ -268,7 +268,7 @@ public class FormPit extends javax.swing.JFrame {
         autoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Autonomous"));
         autoPanel.setPreferredSize(new java.awt.Dimension(380, 125));
 
-        autoLabel1.setText("Can the opponent reach defenses in autonomous? Which ones?");
+        autoLabel1.setText("Can the robot reach defenses in autonomous? Which ones?");
 
         autoLabel2.setText("Can the robot cross defenses in autonomous? Which ones?");
 
@@ -298,7 +298,7 @@ public class FormPit extends javax.swing.JFrame {
                     .addComponent(autoLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(autoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
                     .addComponent(jScrollPane2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
@@ -511,7 +511,8 @@ public class FormPit extends javax.swing.JFrame {
             
         {
             // writes data sheet to file
-            File scoutFile = new File("./PitSheets/PitSheet-" + optionsTeam.getText() + "-" + optionsNick.getText() + "-" + optionsScouter.getText() + ".txt");
+            File scoutFile = new File("./PitSheets/PitSheet-" + optionsTeam.getText() 
+                    + "-" + optionsNick.getText() + "-" + optionsScouter.getText() + ".txt");
             BufferedWriter output = new BufferedWriter(new FileWriter(scoutFile));
             output.write(text);
             output.close();
@@ -525,7 +526,7 @@ public class FormPit extends javax.swing.JFrame {
         {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null,
-            "Something went wrong.",
+            "Failed to write to Pit Scouting Sheet",
             "Error",
             JOptionPane.ERROR_MESSAGE);  
         }   
