@@ -76,10 +76,11 @@ public class MainFrame extends javax.swing.JFrame {
         mainMatchForm = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         introTable = new javax.swing.JTable();
-        introView = new javax.swing.JButton();
+        introViewMatch = new javax.swing.JButton();
         introRefresh = new javax.swing.JButton();
         introOpen = new javax.swing.JButton();
         mainPitForm = new javax.swing.JButton();
+        introViewPit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Scouting 2016");
@@ -145,11 +146,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(introTable);
 
-        introView.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
-        introView.setText("View Scouting Sheets");
-        introView.addActionListener(new java.awt.event.ActionListener() {
+        introViewMatch.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        introViewMatch.setText("View Scouting Sheets");
+        introViewMatch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                introViewActionPerformed(evt);
+                introViewMatchActionPerformed(evt);
             }
         });
 
@@ -177,6 +178,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        introViewPit.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        introViewPit.setText("View Pit Sheets");
+        introViewPit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                introViewPitActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
@@ -189,7 +198,9 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(mainPitForm)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(introView)
+                        .addComponent(introViewMatch)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(introViewPit)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(introRefresh)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -209,10 +220,11 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mainMatchForm)
-                    .addComponent(introView)
+                    .addComponent(introViewMatch)
                     .addComponent(introRefresh)
                     .addComponent(introOpen)
-                    .addComponent(mainPitForm))
+                    .addComponent(mainPitForm)
+                    .addComponent(introViewPit))
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -248,7 +260,7 @@ public class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_mainMatchFormActionPerformed
 
-    private void introViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_introViewActionPerformed
+    private void introViewMatchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_introViewMatchActionPerformed
         Desktop desktop = Desktop.getDesktop();
         try {
             File dirOpen = new File("./Sheets");
@@ -261,7 +273,7 @@ public class MainFrame extends javax.swing.JFrame {
             "Error",
             JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_introViewActionPerformed
+    }//GEN-LAST:event_introViewMatchActionPerformed
 
     private void introRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_introRefreshActionPerformed
         try
@@ -306,6 +318,21 @@ public class MainFrame extends javax.swing.JFrame {
     private void mainPitFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainPitFormActionPerformed
         FormPit pitSheet = new FormPit();
     }//GEN-LAST:event_mainPitFormActionPerformed
+
+    private void introViewPitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_introViewPitActionPerformed
+       Desktop desktop = Desktop.getDesktop();
+        try {
+            File dirOpen = new File("./PitSheets");
+            desktop.open(dirOpen);
+        }
+        catch (Exception e) 
+        {
+            JOptionPane.showMessageDialog(null,
+            "Error opening default file explorer.",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_introViewPitActionPerformed
 
 
     private void folderCreate()
@@ -364,7 +391,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton introOpen;
     private javax.swing.JButton introRefresh;
     private javax.swing.JTable introTable;
-    private javax.swing.JButton introView;
+    private javax.swing.JButton introViewMatch;
+    private javax.swing.JButton introViewPit;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton mainMatchForm;
