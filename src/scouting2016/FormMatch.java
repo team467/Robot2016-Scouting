@@ -51,6 +51,7 @@ public class FormMatch extends javax.swing.JFrame {
     private int teleopColumnCount;
     private int teleopLowInt;
     private int teleopHighInt;
+    private int teleopTimesInt;
     
     
     DefaultTableModel model;
@@ -161,10 +162,11 @@ public class FormMatch extends javax.swing.JFrame {
         teleopTable = new javax.swing.JTable(model);
         teleopSubmitPanel = new javax.swing.JPanel();
         teleopSubmit = new javax.swing.JButton();
-        teleopGreyTotesLabel = new javax.swing.JLabel();
         teleopCross = new javax.swing.JCheckBox();
         teleopAnother = new javax.swing.JCheckBox();
         teleopDefense = new javax.swing.JComboBox<>();
+        teleopTimes = new javax.swing.JSpinner();
+        teleopTimesLabel = new javax.swing.JLabel();
         teleopDelete = new javax.swing.JButton();
         teleopLow = new javax.swing.JSpinner();
         teleopLowLabel = new javax.swing.JLabel();
@@ -429,14 +431,14 @@ public class FormMatch extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Defense", "Crosses", "Helps Another"
+                "Defense", "Crosses", "Helps Another", "Times"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true
+                false, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -454,6 +456,7 @@ public class FormMatch extends javax.swing.JFrame {
             teleopTable.getColumnModel().getColumn(0).setResizable(false);
             teleopTable.getColumnModel().getColumn(1).setResizable(false);
             teleopTable.getColumnModel().getColumn(2).setResizable(false);
+            teleopTable.getColumnModel().getColumn(3).setResizable(false);
         }
 
         teleopSubmitPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -469,8 +472,6 @@ public class FormMatch extends javax.swing.JFrame {
                 teleopSubmitActionPerformed(evt);
             }
         });
-
-        teleopGreyTotesLabel.setText("Defense");
 
         teleopCross.setText("Able to Cross");
         teleopCross.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -495,6 +496,15 @@ public class FormMatch extends javax.swing.JFrame {
             }
         });
 
+        teleopTimes.setModel(new javax.swing.SpinnerNumberModel(0, null, 99, 1));
+        teleopTimes.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                teleopTimesStateChanged(evt);
+            }
+        });
+
+        teleopTimesLabel.setText("Times");
+
         javax.swing.GroupLayout teleopSubmitPanelLayout = new javax.swing.GroupLayout(teleopSubmitPanel);
         teleopSubmitPanel.setLayout(teleopSubmitPanelLayout);
         teleopSubmitPanelLayout.setHorizontalGroup(
@@ -502,36 +512,33 @@ public class FormMatch extends javax.swing.JFrame {
             .addGroup(teleopSubmitPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(teleopSubmitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(teleopDefense, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(teleopAnother)
+                    .addComponent(teleopCross))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(teleopSubmitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(teleopSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(teleopSubmitPanelLayout.createSequentialGroup()
-                        .addComponent(teleopDefense, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(3, 3, 3)
-                        .addComponent(teleopGreyTotesLabel))
-                    .addGroup(teleopSubmitPanelLayout.createSequentialGroup()
-                        .addGroup(teleopSubmitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(teleopAnother)
-                            .addComponent(teleopCross))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(teleopSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(teleopTimes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(teleopTimesLabel)))
+                .addContainerGap())
         );
         teleopSubmitPanelLayout.setVerticalGroup(
             teleopSubmitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, teleopSubmitPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(teleopSubmitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(teleopGreyTotesLabel)
-                    .addComponent(teleopDefense, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(teleopSubmitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(teleopSubmitPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(teleopCross)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(teleopAnother, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14))
-                    .addGroup(teleopSubmitPanelLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(teleopSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(teleopDefense, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(teleopSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(teleopSubmitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(teleopCross)
+                    .addComponent(teleopTimes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(teleopTimesLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(teleopAnother, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
         );
 
         teleopDelete.setText("Delete");
@@ -541,7 +548,7 @@ public class FormMatch extends javax.swing.JFrame {
             }
         });
 
-        teleopLow.setModel(new javax.swing.SpinnerNumberModel(0, 0, 9, 1));
+        teleopLow.setModel(new javax.swing.SpinnerNumberModel(0, 0, 99, 1));
         teleopLow.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 teleopLowStateChanged(evt);
@@ -550,7 +557,7 @@ public class FormMatch extends javax.swing.JFrame {
 
         teleopLowLabel.setText("Low Goals");
 
-        teleopHigh.setModel(new javax.swing.SpinnerNumberModel(0, 0, 9, 1));
+        teleopHigh.setModel(new javax.swing.SpinnerNumberModel(0, 0, 99, 1));
         teleopHigh.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 teleopHighStateChanged(evt);
@@ -1059,6 +1066,7 @@ public class FormMatch extends javax.swing.JFrame {
                     "Teleoperation Info\n" +
                     "\t" + teleopLowLabel.getText() + ": " + teleopLowInt + "\n" +
                     "\t" + teleopHighLabel.getText() + ": " + teleopHighInt + "\n" +
+                    "\t" + teleopTimesLabel.getText() + ": " + teleopTimesInt + "\n" +
                     "\tTable:\n"
                     ;
         
@@ -1104,9 +1112,8 @@ public class FormMatch extends javax.swing.JFrame {
         }
         catch ( IOException e )
         {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(null,
-            "Something went wrong.",
+            "Error saving sheet.\nDetails:\n" + System.err,
             "Error",
             JOptionPane.ERROR_MESSAGE);  
         }        
@@ -1303,6 +1310,10 @@ public class FormMatch extends javax.swing.JFrame {
     private void teleopHighStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_teleopHighStateChanged
         teleopChanged();
     }//GEN-LAST:event_teleopHighStateChanged
+
+    private void teleopTimesStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_teleopTimesStateChanged
+        teleopChanged();
+    }//GEN-LAST:event_teleopTimesStateChanged
     private void teleopChanged()
     {
         teleopCrossCheck = teleopCross.isSelected();
@@ -1310,10 +1321,12 @@ public class FormMatch extends javax.swing.JFrame {
         teleopDefenseString = teleopDefense.getSelectedItem().toString();
         teleopLowInt = Integer.parseInt(teleopLow.getValue().toString());
         teleopHighInt = Integer.parseInt(teleopHigh.getValue().toString());
+        teleopTimesInt = Integer.parseInt(teleopTimes.getValue().toString());
+                
         // TODO, make so check string if "-"
         // enables submit button in teleop if value points > 0
         if ((teleopDefense.getSelectedIndex() != 0 ) && ((teleopCrossCheck == true)
-                || (teleopAnotherCheck == true)))
+                || (teleopAnotherCheck == true)) && teleopTimesInt > 0)
         {
             teleopSubmit.setEnabled(true);
         }
@@ -1538,7 +1551,6 @@ public class FormMatch extends javax.swing.JFrame {
     private javax.swing.JCheckBox teleopCross;
     private javax.swing.JComboBox<String> teleopDefense;
     private javax.swing.JButton teleopDelete;
-    private javax.swing.JLabel teleopGreyTotesLabel;
     private javax.swing.JSpinner teleopHigh;
     private javax.swing.JLabel teleopHighLabel;
     private javax.swing.JSpinner teleopLow;
@@ -1547,6 +1559,8 @@ public class FormMatch extends javax.swing.JFrame {
     private javax.swing.JButton teleopSubmit;
     private javax.swing.JPanel teleopSubmitPanel;
     private javax.swing.JTable teleopTable;
+    private javax.swing.JSpinner teleopTimes;
+    private javax.swing.JLabel teleopTimesLabel;
     private javax.swing.JTextArea wellComments;
     private javax.swing.JLabel wellCommentsLabel;
     private javax.swing.JComboBox wellDrive;
