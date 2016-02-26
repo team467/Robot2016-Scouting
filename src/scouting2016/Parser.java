@@ -254,14 +254,24 @@ public class Parser {
                         
                         String[] teamInfoArr = new String[teamInfo.size()];
                         teamInfoArr = teamInfo.toArray(teamInfoArr);    
-                
+                        
                         teamModel.addRow((Object[])teamInfoArr);
                         
+                        
+                        // makes sheets correctly sortable by numbers
+                        // by converting the strings to integers
+                        for (int i = 0; i < teamInfo.size(); i++) {
+                            
+                            try {
+                                teamModel.setValueAt(Integer.valueOf(teamInfoArr[i]),
+                                        teamModel.getRowCount()-1, i);
+                            }
+                          
+                            catch (Exception e) {
+                            }
+                        }
+                        
                         teamInfo.clear();
-                        
-                        
-                        
-                        
                         
                     }
                         
@@ -283,7 +293,7 @@ public class Parser {
         boolean isSame = false;
         String[] splittedString;
         
-        ArrayList<String> teamList = new ArrayList<String>();
+        ArrayList<String> teamList = new ArrayList<>();
         
         for (File file:files)
             {
