@@ -122,6 +122,7 @@ public class FormPit extends javax.swing.JFrame {
         optionsScouterLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Pit Sheet");
 
         mainPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         mainPanel.setPreferredSize(new java.awt.Dimension(800, 600));
