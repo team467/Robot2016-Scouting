@@ -7,8 +7,11 @@ package scouting2016;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
@@ -42,7 +45,7 @@ public class Parser {
     
      
      
-         String[] tableParse(javax.swing.JTable introTable) throws FileNotFoundException
+    String[] tableParse(javax.swing.JTable introTable) throws FileNotFoundException
     { 
         // needs to be split apart
         // use universal check if file name is malformed
@@ -86,27 +89,29 @@ public class Parser {
                 
                 for (File file:files)
                 {
-                    Scanner scanner = new Scanner(file);
-                    String wholeString = file.getName();
-                    if (!file.isDirectory() && wholeString.startsWith("ScoutSheet")) 
-                    {
-                        splittedString = splitString(wholeString);
-                        if (splittedString[1].equals(teamList.get(i))
-                            && (!wholeString.contains("--")))
+                    String wholeString = "";
+                    if (!file.isDirectory()) {
+                        Scanner scanner = new Scanner(file);
+                        wholeString = file.getName();
+                        if (wholeString.startsWith("ScoutSheet")) 
                         {
-                            //System.out.println("Team! " + teamList.get(i));
-                            //System.out.println("Scouting Sheet: " + file.getName());         
-                            query = "Score: ";
-                            queryResult = queryFind(file, query);
-                            scoreList.get(i).add(queryResult);
-                            //System.out.println("Score: " + scoreList.get(i).get(scoreList.get(i).size()-1));
-                            query = "Won: ";
-                            queryResult = queryFind(file, query);
-                            wonList.get(i).add(queryResult);
+                            splittedString = splitString(wholeString);
+                            if (splittedString[1].equals(teamList.get(i))
+                                && (!wholeString.contains("--")))
+                            {   
+                                //System.out.println("Team! " + teamList.get(i));
+                                //System.out.println("Scouting Sheet: " + file.getName());         
+                                query = "Score: ";
+                                queryResult = queryFind(file, query);
+                                scoreList.get(i).add(queryResult);
+                                //System.out.println("Score: " + scoreList.get(i).get(scoreList.get(i).size()-1));
+                                query = "Won: ";
+                                queryResult = queryFind(file, query);
+                                wonList.get(i).add(queryResult);
                         
-                        // queryResult OUTSIDE this loop will get the last file info
-                        // for team # this will be sufficient, should be rearranged
-                        }
+                            // queryResult OUTSIDE this loop will get the last file info
+                            }
+                    }
                     }
                         
                     else if (wholeString.contains("--"))
@@ -206,9 +211,56 @@ public class Parser {
         return splittedString;
     }
     
+   void comboSet (javax.swing.JComboBox queryCombo, javax.swing.JButton queryAddColumn) 
+           throws FileNotFoundException {
     
+       File[] files = new File("./Sheets").listFiles();
+       boolean success = false;
+       
+       if (files != null)
+        {
+              
+         // goes through all files and searches for scout template
+            for (File file:files) 
+            {  
+                    String wholeString = file.getName();
+                    
+                    if (!file.isDirectory() && wholeString.equals("ScoutTemplate.txt"))
+                    {
+                        success = true;
+                        Scanner scanner = new Scanner(file);
+                        String fileLine;
+                        String[] splitFileLine;
+                        while (scanner.hasNextLine()) {
+                            fileLine = scanner.nextLine();
+                            if (fileLine.contains(":")) {
+                                splitFileLine = fileLine.split(":");
+                                if (splitFileLine[0].contains("\t")) {
+                                    splitFileLine = splitFileLine[0].split("\t");
+                                    queryCombo.addItem(splitFileLine[1]);
+                                }
+                                else {
+                                    queryCombo.addItem(splitFileLine[0]);
+                                }                         
+                            }
+                        }
+                    }
+       
+            }    
+        }
+       if (success == false) {
+           JOptionPane.showMessageDialog(null,
+            "Match Sheet template not found. Column adding will be disabled.",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+            queryCombo.setEnabled(success);
+            queryAddColumn.setEnabled(success);
+       }
+       
+   }
          
-   void expandTable(int introTeam, javax.swing.JTable teamTable) throws FileNotFoundException
+   void expandTable(int introTeam, javax.swing.JTable teamTable) 
+           throws FileNotFoundException, IOException
    {
         // lots of redundancy here, needs reduction
        
@@ -234,11 +286,14 @@ public class Parser {
         if (files != null)
         {
         
+            
+            
          // goes through all files and searches for scout sheets for specific team
             for (File file:files) 
             {  
                 
                     String wholeString = file.getName();
+                    
                     if (!file.isDirectory() && wholeString.startsWith("ScoutSheet-" +
                             String.valueOf(introTeam)))
                     {
@@ -350,12 +405,16 @@ public class Parser {
     {
         Scanner scanner = new Scanner(file);
         
-        while (scanner.hasNextLine()) {
-                            
-        // todo: use query as a loop for each sheet stat
-        String fileLine = scanner.nextLine();
-        if(fileLine.contains(query)) 
-            return fileLine.split(query)[1];
+        while (scanner.hasNextLine()) 
+        {
+            String fileLine = scanner.nextLine();
+            if(fileLine.contains(query)) 
+                try {
+                return fileLine.split(query)[1];
+                }
+                catch (Exception e) {
+                    return "Nothing to return";
+                }
         }
         return "String not found.";
     }
