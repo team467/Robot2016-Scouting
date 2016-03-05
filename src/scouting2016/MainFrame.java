@@ -6,6 +6,7 @@ import java.awt.List;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -112,7 +113,7 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(mainTable);
         //height 400
 
-        mainMatchForm.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        mainMatchForm.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         mainMatchForm.setText("New Match Form");
         mainMatchForm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,7 +147,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(introTable);
 
-        introViewMatch.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        introViewMatch.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         introViewMatch.setText("View Scouting Sheets");
         introViewMatch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,7 +155,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        introRefresh.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        introRefresh.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         introRefresh.setText("Refresh");
         introRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,7 +163,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        introOpen.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        introOpen.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         introOpen.setText("Open Team Sheet");
         introOpen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,7 +171,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        mainPitForm.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        mainPitForm.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         mainPitForm.setText("New Pit Form");
         mainPitForm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,7 +179,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        introViewPit.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        introViewPit.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         introViewPit.setText("View Pit Sheets");
         introViewPit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -298,10 +299,14 @@ public class MainFrame extends javax.swing.JFrame {
         {
             try 
             {
-                teamFrame teamSelected = new teamFrame(Integer.parseInt(introTable.getValueAt(selRow, 0).toString()));    
+                TeamFrame teamSelected = new TeamFrame(Integer.parseInt(introTable.getValueAt(selRow, 0).toString()));    
             } 
             catch (FileNotFoundException ex) 
             {
+                System.out.println("Error (FNFE)");
+            } 
+            catch (IOException ex) {
+                System.out.println("Error (IOE)");
             }
         }
         
