@@ -201,7 +201,7 @@ public class FormMatch extends javax.swing.JFrame {
         endClimbed = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Scouting 2016 Match Sheet");
+        setTitle("Match Sheet");
         setBackground(new java.awt.Color(0, 0, 0));
         setFocusCycleRoot(false);
         setForeground(new java.awt.Color(0, 0, 0));
@@ -1013,23 +1013,11 @@ public class FormMatch extends javax.swing.JFrame {
     }//GEN-LAST:event_autoLowActionPerformed
 
     private void endClimbedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endClimbedActionPerformed
-        endClimbedCheck = endClimbed.isSelected();
+        endChanged();
     }//GEN-LAST:event_endClimbedActionPerformed
 
     private void endChallengedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endChallengedActionPerformed
-        endChallengedCheck = endChallenged.isSelected();
-        
-        if (endChallenged.isSelected())
-        {   
-            endClimbed.setEnabled(true);
-        }
-        
-        else
-        {   
-            endClimbed.setEnabled(false);
-            
-            endClimbed.setSelected(false); 
-        }        
+        endChanged();
     }//GEN-LAST:event_endChallengedActionPerformed
 
     private void optionsSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsSaveActionPerformed
@@ -1039,6 +1027,10 @@ public class FormMatch extends javax.swing.JFrame {
         teleopRowCount = teleopTable.getRowCount();
         teleopColumnCount = teleopTable.getColumnCount();
 
+        if (wellCommentsString.isEmpty()) {
+            wellCommentsString = "-";
+        }
+        
         String text="General Info\n" +
                     "\t" + optionsScouterLabel.getText() + ": " + optionsScouterString + "\n" +
                     "\t" + optionsTeamLabel.getText() + ": " + optionsTeamInt + "\n" +
@@ -1050,13 +1042,15 @@ public class FormMatch extends javax.swing.JFrame {
                     "\t" + autoReaches.getText() + ": " + autoReachesCheck + "\n" +
                     "\t" + autoCrosses.getText() + ": " + autoCrossesCheck + "\n" +
                     "\t" + autoLow.getText() + ": " + autoLowCheck + "\n" +
-                    "\t" + autoHigh.getText() + ": " + autoHighCheck + "\n" + 
+                    "\t" + autoHigh.getText() + ": " + autoHighCheck + "\n\n" + 
                     "Wellness Info\n" +
                     "\t" + wellPerformanceLabel.getText() + ": " + wellPerformanceString + "\n" +
                     "\t" + wellDriveLabel.getText() + ": " + wellDriveString + "\n" +
-                    "\t\t" + wellDriveFunctionalityLabel.getText() + ": " + wellDriveFunctionalityString + "\n" +
+                    "\t\t" + wellDriveLabel.getText() +  " " + 
+                        wellDriveFunctionalityLabel.getText() + ": " + wellDriveFunctionalityString + "\n" +
                     "\t" + wellShootingLabel.getText() + ": " + wellShootingString + "\n" + 
-                    "\t\t" + wellShootingFunctionalityLabel.getText() + ": " + wellShootingFunctionalityString + "\n" + 
+                    "\t\t" + wellShootingLabel.getText() + " " + 
+                            wellShootingFunctionalityLabel.getText() + ": " + wellShootingFunctionalityString + "\n" + 
                     "\t" + wellFoul.getText() + ": " + wellFoulCheck + "\n" + 
                     "\t" + wellFoulLabel.getText() + ": " + wellFoulResultString + "\n" +
                     "\t" + wellCommentsLabel.getText() + ": " + wellCommentsString + "\n\n" +
@@ -1087,6 +1081,8 @@ public class FormMatch extends javax.swing.JFrame {
                     case 2:
                         text = text.concat("Helps another: ");
                         break;
+                    case 3:
+                        text = text.concat("Times: ");
                 }
                 text = text.concat(teleopTable.getModel().getValueAt(i, j).toString() + " || ");
                 
@@ -1203,7 +1199,7 @@ public class FormMatch extends javax.swing.JFrame {
         // for stack values given to table 
         DefaultTableModel teleopModel = (DefaultTableModel) teleopTable.getModel();
         teleopModel.addRow(new Object[]{teleopDefenseString,
-        teleopCrossCheck, teleopAnotherCheck});   
+        teleopCrossCheck, teleopAnotherCheck, teleopTimesInt});   
     
     /*
         // draws sum of previous points       
@@ -1225,6 +1221,7 @@ public class FormMatch extends javax.swing.JFrame {
         // resets state of checkboxes and spinner
         // teleopGreyTotesInt = 0;
         teleopDefense.setSelectedIndex(0);
+        teleopTimes.setValue(0);
     
         teleopCrossCheck = false;
         teleopCross.setSelected(false);
@@ -1236,6 +1233,7 @@ public class FormMatch extends javax.swing.JFrame {
         // disables submit button, as points to submit are cleared
         teleopSubmit.setEnabled(false);
         
+        teleopChanged();
         
     }//GEN-LAST:event_teleopSubmitActionPerformed
 
@@ -1361,6 +1359,24 @@ public class FormMatch extends javax.swing.JFrame {
             
         }
             
+    }
+    
+    private void endChanged() {
+        endClimbedCheck = endClimbed.isSelected();
+        
+        endChallengedCheck = endChallenged.isSelected();
+        
+        if (endChallenged.isSelected())
+        {   
+            endClimbed.setEnabled(true);
+        }
+        
+        else
+        {   
+            endClimbed.setEnabled(false);
+            
+            endClimbed.setSelected(false); 
+        }  
     }
     
     private void wellChanged() {
@@ -1504,8 +1520,13 @@ public class FormMatch extends javax.swing.JFrame {
         teleopAnother.setSelected(false);
         teleopLow.setValue(0);
         teleopHigh.setValue(0);
+        teleopTimes.setValue(0);
         
         teleopChanged();
+        optionsChanged();
+        endChanged();
+        wellChanged();
+        autoChanged();
         
         teleopRowCount = teleopTable.getRowCount();
         for (int i = 0; i < teleopRowCount; ++i)
