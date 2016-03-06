@@ -214,49 +214,28 @@ public class Parser {
    void comboSet (javax.swing.JComboBox queryCombo, javax.swing.JButton queryAddColumn) 
            throws FileNotFoundException {
     
-       File[] files = new File("./Sheets").listFiles();
-       boolean success = false;
-       
-       if (files != null)
+        Template template = new Template();
+        Scanner scanner = new Scanner(template.templateStr);
+        String fileLine;
+        String[] splitFileLine;
+        while (scanner.hasNextLine()) 
         {
-              
-         // goes through all files and searches for scout template
-            for (File file:files) 
-            {  
-                    String wholeString = file.getName();
-                    
-                    if (!file.isDirectory() && wholeString.equals("ScoutTemplate.txt"))
-                    {
-                        success = true;
-                        Scanner scanner = new Scanner(file);
-                        String fileLine;
-                        String[] splitFileLine;
-                        while (scanner.hasNextLine()) {
-                            fileLine = scanner.nextLine();
-                            if (fileLine.contains(":")) {
-                                splitFileLine = fileLine.split(":");
-                                if (splitFileLine[0].contains("\t")) {
-                                    splitFileLine = splitFileLine[0].split("\t");
-                                    queryCombo.addItem(splitFileLine[1]);
-                                }
-                                else {
-                                    queryCombo.addItem(splitFileLine[0]);
-                                }                         
-                            }
-                        }
-                    }
-       
-            }    
+            fileLine = scanner.nextLine();
+            if (fileLine.contains(":")) 
+            {
+                splitFileLine = fileLine.split(":");
+                if (splitFileLine[0].contains("\t")) 
+                {
+                    splitFileLine = splitFileLine[0].split("\t");
+                    queryCombo.addItem(splitFileLine[1]);
+                }
+                else 
+                {
+                    queryCombo.addItem(splitFileLine[0]);
+                }                         
+            }
         }
-       if (success == false) {
-           JOptionPane.showMessageDialog(null,
-            "Match Sheet template not found. Column adding will be disabled.",
-            "Error",
-            JOptionPane.ERROR_MESSAGE);
-            queryCombo.setEnabled(success);
-            queryAddColumn.setEnabled(success);
-       }
-       
+   
    }
          
    void expandTable(int introTeam, javax.swing.JTable teamTable) 
