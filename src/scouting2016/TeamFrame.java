@@ -151,9 +151,15 @@ public class TeamFrame extends javax.swing.JFrame {
 
         queryCombo.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         queryCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
+        queryCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                queryComboActionPerformed(evt);
+            }
+        });
 
         queryAddColumn.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         queryAddColumn.setText("Add Column");
+        queryAddColumn.setEnabled(false);
         queryAddColumn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 queryAddColumnActionPerformed(evt);
@@ -230,7 +236,7 @@ public class TeamFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 600, Short.MAX_VALUE)
+                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -329,6 +335,17 @@ public class TeamFrame extends javax.swing.JFrame {
         }    
          
     }//GEN-LAST:event_resetColumnsActionPerformed
+
+    private void queryComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryComboActionPerformed
+        if (queryCombo.getSelectedIndex() == 0)
+        {
+            queryAddColumn.setEnabled(false);
+        }
+        else
+        {
+            queryAddColumn.setEnabled(true);
+        }
+    }//GEN-LAST:event_queryComboActionPerformed
 
     /**
      * @param args the command line arguments
