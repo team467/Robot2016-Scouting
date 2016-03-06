@@ -1060,7 +1060,6 @@ public class FormMatch extends javax.swing.JFrame {
                     "Teleoperation Info\n" +
                     "\t" + teleopLowLabel.getText() + ": " + teleopLowInt + "\n" +
                     "\t" + teleopHighLabel.getText() + ": " + teleopHighInt + "\n" +
-                    "\t" + teleopTimesLabel.getText() + ": " + teleopTimesInt + "\n" +
                     "\tTable:\n"
                     ;
         
@@ -1084,7 +1083,9 @@ public class FormMatch extends javax.swing.JFrame {
                     case 3:
                         text = text.concat("Times: ");
                 }
-                text = text.concat(teleopTable.getModel().getValueAt(i, j).toString() + " || ");
+                text = text.concat(teleopTable.getModel().getValueAt(i, j).toString()); 
+                if (j < (teleopColumnCount -1) )
+                    text = text.concat(" || ");
                 
             }
             text = text.concat("\n");
@@ -1514,6 +1515,7 @@ public class FormMatch extends javax.swing.JFrame {
         optionsTeam.setText("");
         optionsMatch.setText("");
         optionsScore.setValue(0);
+        optionsWin.setSelected(false);
         
         teleopDefense.setSelectedIndex(0);
         teleopCross.setSelected(false);
