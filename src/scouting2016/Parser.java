@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package scouting2016;
 
 import java.awt.Dimension;
@@ -16,10 +11,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
- * @author adam
+ * @author Adam Frick
  */
 public class Parser {
     
@@ -75,11 +71,11 @@ public class Parser {
             
             teamList = teamListGen(files);
             
-        int tempSize = 0;
-        int tempValue = 0;
-        int tempIndex = 0;
+            int tempSize = 0;
+            int tempValue = 0;
+            int tempIndex = 0;
         
-        for (int i = 0; i < teamList.size(); ++i)
+            for (int i = 0; i < teamList.size(); ++i)
             {
                 // adds dimensions to 2d ArrayList
                 scoreList.add(new ArrayList());
@@ -98,15 +94,12 @@ public class Parser {
                             splittedString = splitString(wholeString);
                             if (splittedString[1].equals(teamList.get(i))
                                 && (!wholeString.contains("--")))
-                            {   
-                                //System.out.println("Team! " + teamList.get(i));
-                                //System.out.println("Scouting Sheet: " + file.getName());         
+                            {         
                                 query = "Score: ";
-                                queryResult = queryFind(file, query);
+                                queryResult = queryFind(file, null, query, false);
                                 scoreList.get(i).add(queryResult);
-                                //System.out.println("Score: " + scoreList.get(i).get(scoreList.get(i).size()-1));
                                 query = "Won: ";
-                                queryResult = queryFind(file, query);
+                                queryResult = queryFind(file, null, query, false);
                                 wonList.get(i).add(queryResult);
                         
                             // queryResult OUTSIDE this loop will get the last file info
@@ -128,11 +121,9 @@ public class Parser {
                 
                 if (abort == true)
                     break;
-                // CHECK FOR DIVISION BY ZERO!
                 
                 // give all these their own functions
                 tempSize = scoreList.get(i).size();
-                 //System.out.println(i + ", " + scoreList.get(i).size());
                 tempValue = 0;
                 
                 
@@ -140,12 +131,10 @@ public class Parser {
                 ///* MAXIMUM VALUE */
                 for (tempIndex = 0; tempIndex < tempSize; tempIndex++)
                 {
-                    //System.out.println("Focused score: " + scoreList.get(i).get(tempIndex));
                     // I'm pretty sure there's a much more concise way to do this
                     if (Integer.parseInt(scoreList.get(i).get(tempIndex)) > tempValue)
                     {
                         tempValue = Integer.parseInt(scoreList.get(i).get(tempIndex));
-                        //System.out.println("Max Score: " + tempValue);
                     }
                 }
 
@@ -157,7 +146,6 @@ public class Parser {
                 ///* AVERAGE VALUE */
                 for (tempIndex = 0; tempIndex < tempSize; tempIndex++)
                 {
-                    //System.out.println("Value:::::::::::::::::" + avgScoreList.get(i).get(tempIndex));
                     tempValue += Integer.parseInt(scoreList.get(i).get(tempIndex));
                 }
                 if (tempIndex == 0)
@@ -211,8 +199,7 @@ public class Parser {
         return splittedString;
     }
     
-   void comboSet (javax.swing.JComboBox queryCombo, javax.swing.JButton queryAddColumn) 
-           throws FileNotFoundException {
+    void comboSet (javax.swing.JComboBox queryCombo) throws FileNotFoundException {
     
         Template template = new Template();
         Scanner scanner = new Scanner(template.templateStr);
@@ -238,7 +225,7 @@ public class Parser {
    
    }
          
-   void expandTable(int introTeam, javax.swing.JTable teamTable) 
+    void expandTable(int introTeam, javax.swing.JTable teamTable, boolean columnChange) 
            throws FileNotFoundException, IOException
    {
         // lots of redundancy here, needs reduction
@@ -247,18 +234,19 @@ public class Parser {
         // just add the column whose column name
         // matches what's wanted to be added
        
-       
         File[] files = new File("./Sheets").listFiles();
         String queryResult;
         ArrayList<String> teamQueries = new ArrayList<>();
-        //String[] teamQueries = new String[] {"Match #: ", "Scouter name: ", "Score: ", "Won: "};
         ArrayList<String> teamInfo = new ArrayList<>();
         DefaultTableModel teamModel = (DefaultTableModel) teamTable.getModel();
+        TableColumnModel teamColumnModel = teamTable.getColumnModel();
+
+        teamModel.setRowCount(0);
         
-        
-        for (int i = 0; i < teamModel.getColumnCount(); i++)
+        for (int i = 0; i < teamColumnModel.getColumnCount(); i++)
             {
-                teamQueries.add(teamModel.getColumnName(i));
+                
+                teamQueries.add(teamColumnModel.getColumn(i).getHeaderValue().toString());
                 teamQueries.set(i, teamQueries.get(i) + ": ");
             }
         
@@ -275,20 +263,16 @@ public class Parser {
                     
                     if (!file.isDirectory() && wholeString.startsWith("ScoutSheet-" +
                             String.valueOf(introTeam)))
-                    {
-                        //System.out.println("Team! " + teamList.get(0).get(i));
-                        //System.out.println("Scouting Sheet: " + file.getName());         
-                        
-                        
+                    {   
                         for (String teamQuery: teamQueries)
                         {
-                            queryResult = queryFind(file, teamQuery);
+                            queryResult = queryFind(file, null, teamQuery, false);
                             teamInfo.add(queryResult);
                         }
                         
                         String[] teamInfoArr = new String[teamInfo.size()];
                         teamInfoArr = teamInfo.toArray(teamInfoArr);    
-                        
+                      
                         teamModel.addRow((Object[])teamInfoArr);
                         
                         
@@ -296,22 +280,20 @@ public class Parser {
                         // by converting the strings to integers
                         for (int i = 0; i < teamInfo.size(); i++) {
                             
-                            try {
+                            try 
+                            {
                                 teamModel.setValueAt(Integer.valueOf(teamInfoArr[i]),
                                         teamModel.getRowCount()-1, i);
                             }
                           
-                            catch (Exception e) {
+                            catch (Exception e) 
+                            {
+                                // catches if not an integer (supposed to happen for non-integers)
                             }
                         }
                         
                         teamInfo.clear();
-                        
-                    }
-                        
-                
-                        
-            
+                    }    
             }
         }
    }
@@ -320,9 +302,7 @@ public class Parser {
         
 
     private ArrayList teamListGen(File[] files )
-    {
-        // alas, a mess
-                
+    {           
         //used to check each team #
         boolean isSame = false;
         String[] splittedString;
@@ -373,25 +353,31 @@ public class Parser {
                         
                 }     
             }
-    
         return teamList;
     }
     
-    
-    
-    
-      private String queryFind(File file, String query) throws FileNotFoundException
+      String queryFind(File file, String templateString, String query, 
+              boolean typeFind) throws FileNotFoundException
     {
-        Scanner scanner = new Scanner(file);
+        Scanner scanner;
+        if (typeFind == false)
+            scanner = new Scanner(file);
+        else
+            scanner = new Scanner(templateString);
         
         while (scanner.hasNextLine()) 
         {
             String fileLine = scanner.nextLine();
             if(fileLine.contains(query)) 
-                try {
-                return fileLine.split(query)[1];
+                try 
+                {
+                    if (typeFind == false)
+                        return fileLine.split(query)[1];
+                    else
+                        return fileLine.split(query + ":")[1];        
                 }
-                catch (Exception e) {
+                catch (Exception e) 
+                {
                     return "Nothing to return";
                 }
         }
@@ -401,9 +387,9 @@ public class Parser {
     
       
       
-        double[] windowSet() {
+    double[] windowSet() {
  
-         // sets window to center of screen
+        // sets window to center of screen
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         double width = dim.getWidth();
         double height = dim.getHeight();
