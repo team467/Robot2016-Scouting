@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package scouting2016;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -25,58 +20,57 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Adam 
+ * @author Adam Frick
  */
-
 public class FormMatch extends javax.swing.JFrame {
 
 //  variables
     
     // autonomous
-    private String autoDefenseString;
-    private boolean autoReachesCheck;
-    private boolean autoCrossesCheck;
-    private boolean autoLowCheck;
-    private boolean autoHighCheck;
+    private String autoDefenseString = "";
+    private boolean autoReachesCheck = false;
+    private boolean autoCrossesCheck = false;
+    private boolean autoLowCheck = false;
+    private boolean autoHighCheck = false;
     
     // end game
-    private boolean endChallengedCheck;
-    private boolean endClimbedCheck;
+    private boolean endChallengedCheck = false;
+    private boolean endClimbedCheck = false;
     
     // teleop
-    private String teleopDefenseString;
-    private boolean teleopCrossCheck;
-    private boolean teleopAnotherCheck;
-    private int teleopRowCount;
-    private int teleopColumnCount;
-    private int teleopLowInt;
-    private int teleopHighInt;
-    private int teleopTimesInt;
+    private String teleopDefenseString = "";
+    private boolean teleopCrossCheck = false;
+    private boolean teleopAnotherCheck = false;
+    private int teleopRowCount = 0;
+    private int teleopColumnCount = 0;
+    private int teleopLowInt = 0;
+    private int teleopHighInt = 0;
+    private int teleopTimesInt = 0;
     
     
     DefaultTableModel model;
     
     // wellness
-    private String wellPerformanceString;
-    private String wellDriveString;
-    private String wellDriveFunctionalityString;
+    private String wellPerformanceString = "";
+    private String wellDriveString = "";
+    private String wellDriveFunctionalityString = "";
 
-    private String wellCommentsString;
-    private boolean wellFoulCheck;
-    private String wellFoulResultString;
-    private String wellShootingString;
-    private String wellShootingFunctionalityString;
+    private String wellCommentsString = "";
+    private boolean wellFoulCheck = false;
+    private String wellFoulResultString = "";
+    private String wellShootingString = "";
+    private String wellShootingFunctionalityString = "";
     
     
     // option
-    private String optionsScouterString = new String();
-    private int optionsTeamInt;
-    private int optionsMatchInt;
-    private int optionsScoreInt;
-    private boolean optionsWinCheck;
+    private String optionsScouterString = "";
+    private int optionsTeamInt = 0;
+    private int optionsMatchInt = 0;
+    private int optionsScoreInt = 0;
+    private boolean optionsWinCheck = false;
     
     //other
-    long optionsSaveInt;
+    long optionsSaveInt = 0;
     
     /**
      * Creates new form NewJFrame
@@ -92,7 +86,6 @@ public class FormMatch extends javax.swing.JFrame {
         // sets look and feel to windows
         UIManager.setLookAndFeel
             ("javax.swing.plaf.metal.MetalLookAndFeel");
-
     } 
     
     catch(Exception e)
@@ -473,6 +466,7 @@ public class FormMatch extends javax.swing.JFrame {
             }
         });
 
+        teleopCross.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         teleopCross.setText("Able to Cross");
         teleopCross.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         teleopCross.addActionListener(new java.awt.event.ActionListener() {
@@ -481,6 +475,7 @@ public class FormMatch extends javax.swing.JFrame {
             }
         });
 
+        teleopAnother.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         teleopAnother.setText("Helps Another Cross");
         teleopAnother.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         teleopAnother.addActionListener(new java.awt.event.ActionListener() {
@@ -496,13 +491,14 @@ public class FormMatch extends javax.swing.JFrame {
             }
         });
 
-        teleopTimes.setModel(new javax.swing.SpinnerNumberModel(0, null, 99, 1));
+        teleopTimes.setModel(new javax.swing.SpinnerNumberModel(0, 0, 99, 1));
         teleopTimes.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 teleopTimesStateChanged(evt);
             }
         });
 
+        teleopTimesLabel.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         teleopTimesLabel.setText("Times");
 
         javax.swing.GroupLayout teleopSubmitPanelLayout = new javax.swing.GroupLayout(teleopSubmitPanel);
@@ -515,7 +511,7 @@ public class FormMatch extends javax.swing.JFrame {
                     .addComponent(teleopDefense, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(teleopAnother)
                     .addComponent(teleopCross))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(teleopSubmitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(teleopSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(teleopSubmitPanelLayout.createSequentialGroup()
@@ -555,6 +551,7 @@ public class FormMatch extends javax.swing.JFrame {
             }
         });
 
+        teleopLowLabel.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         teleopLowLabel.setText("Low Goals");
 
         teleopHigh.setModel(new javax.swing.SpinnerNumberModel(0, 0, 99, 1));
@@ -564,6 +561,7 @@ public class FormMatch extends javax.swing.JFrame {
             }
         });
 
+        teleopHighLabel.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         teleopHighLabel.setText("High Goals");
 
         javax.swing.GroupLayout teleopPanelLayout = new javax.swing.GroupLayout(teleopPanel);
@@ -1038,11 +1036,11 @@ public class FormMatch extends javax.swing.JFrame {
                     "\t" + optionsScoreLabel.getText() + ": " + optionsScoreInt + "\n" +
                     "\t" + optionsWin.getText() + ": " + optionsWinCheck + "\n\n" +
                     "Autonomous Info\n" +
-                    "\t" + "Defense: " + autoDefense.getSelectedItem() + "\n" +
-                    "\t" + autoReaches.getText() + ": " + autoReachesCheck + "\n" +
-                    "\t" + autoCrosses.getText() + ": " + autoCrossesCheck + "\n" +
-                    "\t" + autoLow.getText() + ": " + autoLowCheck + "\n" +
-                    "\t" + autoHigh.getText() + ": " + autoHighCheck + "\n\n" + 
+                    "\t" + "Auto Defense: " + autoDefense.getSelectedItem() + "\n" +
+                    "\t" + "Auto " + autoReaches.getText() + ": " + autoReachesCheck + "\n" +
+                    "\t" + "Auto " + autoCrosses.getText() + ": " + autoCrossesCheck + "\n" +
+                    "\t" + "Auto " + autoLow.getText() + ": " + autoLowCheck + "\n" +
+                    "\t" + "Auto" + autoHigh.getText() + ": " + autoHighCheck + "\n\n" + 
                     "Wellness Info\n" +
                     "\t" + wellPerformanceLabel.getText() + ": " + wellPerformanceString + "\n" +
                     "\t" + wellDriveLabel.getText() + ": " + wellDriveString + "\n" +
@@ -1052,7 +1050,7 @@ public class FormMatch extends javax.swing.JFrame {
                     "\t\t" + wellShootingLabel.getText() + " " + 
                             wellShootingFunctionalityLabel.getText() + ": " + wellShootingFunctionalityString + "\n" + 
                     "\t" + wellFoul.getText() + ": " + wellFoulCheck + "\n" + 
-                    "\t" + wellFoulLabel.getText() + ": " + wellFoulResultString + "\n" +
+                    "\t" + "Foul " + wellFoulLabel.getText() + ": " + wellFoulResultString + "\n" +
                     "\t" + wellCommentsLabel.getText() + ": " + wellCommentsString + "\n\n" +
                     "End Game Info\n" +
                     "\t" + endChallenged.getText() + ": " + endChallengedCheck + "\n" +
@@ -1119,11 +1117,6 @@ public class FormMatch extends javax.swing.JFrame {
     }//GEN-LAST:event_optionsSaveActionPerformed
 
     private void optionsHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsHelpActionPerformed
-
-        /* NEW
-           RULES
-           GO
-           HERE */
  
         JOptionPane.showMessageDialog(null, 
                 "\tA robot reaches the outer works in autonomous if anything, even a bumper,\n"
@@ -1136,11 +1129,7 @@ public class FormMatch extends javax.swing.JFrame {
               + "\tChallenging in End Game is if any part of the robot is over the bottom of\n"
               + "the tower. Climbing means the robot is entirely above the low goal.\n"
                 , "Scouting Info", JOptionPane.PLAIN_MESSAGE);
-      
         
-        
-
-       
     }//GEN-LAST:event_optionsHelpActionPerformed
 
     private void optionsTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsTeamActionPerformed
@@ -1167,20 +1156,8 @@ public class FormMatch extends javax.swing.JFrame {
     // gets row selected to be deleted
     int selRow = teleopTable.getSelectedRow();
         
-    // row == -1 is when no row is selected, so only executes when one is selected
     if(selRow != -1) 
     {
-                 /*
-                    //  set semitotal points to point total of row to be removed
-                    teleopRowDeleteInt = 
-                           (Integer.parseInt(teleopTable.getValueAt(selRow, 3).toString())) ;
-                   
-                    // subtracts row deleted from semitotal 
-                   teleopSemiTotalPointsInt = (teleopSemiTotalPointsInt -
-                           teleopRowDeleteInt);
-                 */
-               
-                   
         // removes row selected 
         ((DefaultTableModel) teleopTable.getModel()).removeRow(selRow);
         teleopTable.revalidate();
@@ -1201,26 +1178,8 @@ public class FormMatch extends javax.swing.JFrame {
         DefaultTableModel teleopModel = (DefaultTableModel) teleopTable.getModel();
         teleopModel.addRow(new Object[]{teleopDefenseString,
         teleopCrossCheck, teleopAnotherCheck, teleopTimesInt});   
-    
-    /*
-        // draws sum of previous points       
-        int rows = teleopTable.getRowCount();
-        for (int i = 0;  i < rows; i++) 
- 
-            {   // semitotal points is points to be added from the added row  
-                teleopRowAddInt = ( Integer.parseInt(teleopTable.getValueAt(i, 3).toString())) ;    
-            }
         
-        // sets semitotal points to the sum of row added and semitotal points
-        teleopSemiTotalPointsInt = (teleopSemiTotalPointsInt + teleopRowAddInt);
-    
-    
-        // sets row added value back to 0
-        teleopRowAddInt = 0;
-    */
-    
         // resets state of checkboxes and spinner
-        // teleopGreyTotesInt = 0;
         teleopDefense.setSelectedIndex(0);
         teleopTimes.setValue(0);
     
@@ -1397,7 +1356,7 @@ public class FormMatch extends javax.swing.JFrame {
         
         
         wellShootingFunctionalityString = 
-                wellShootingFunctionality.getSelectedItem().toString();
+        wellShootingFunctionality.getSelectedItem().toString();
         wellShootingString = wellShooting.getSelectedItem().toString();
         wellFoulCheck = wellFoul.isSelected();
         wellFoulResultString = wellFoulResult.getSelectedItem().toString();
@@ -1406,9 +1365,6 @@ public class FormMatch extends javax.swing.JFrame {
         wellDriveFunctionalityString = wellDrive.getSelectedItem().toString();
         
         wellCommentsString = wellComments.getText();
-        
-        // when parsing take into account the newlines made with the additional
-        // comments (maybe just search for queries that define each stat
     }
     
     private void textFieldCondClear(java.awt.TextField field) {
@@ -1473,22 +1429,10 @@ public class FormMatch extends javax.swing.JFrame {
         }
         
         optionsScouterString = optionsScouter.getText();
-        
         optionsWinCheck = optionsWin.isSelected();
-        
         optionsSave.setEnabled(submitInt == 0);
         
-    }
-    
-    private void anyChanged()
-    {
-       // just in case...    
-    }
-    
-    /**
-     * @param args the command line arguments
-     */
-    
+    }    
     
     private void clearEverything()
     {
@@ -1539,7 +1483,9 @@ public class FormMatch extends javax.swing.JFrame {
     }
     
     
-    public static void main(String args[]) {
+    public static void main(String args[]) 
+    {
+        
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox autoCrosses;

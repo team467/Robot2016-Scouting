@@ -644,7 +644,7 @@
                               <Component id="teleopAnother" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="teleopCross" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="15" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="teleopSubmit" min="-2" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
@@ -699,6 +699,9 @@
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="teleopCross">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Roboto" size="11" style="0"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Able to Cross"/>
                     <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
@@ -708,6 +711,9 @@
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="teleopAnother">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Roboto" size="11" style="0"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Helps Another Cross"/>
                     <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
@@ -742,7 +748,7 @@
                 <Component class="javax.swing.JSpinner" name="teleopTimes">
                   <Properties>
                     <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                      <SpinnerModel initial="0" maximum="99" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                      <SpinnerModel initial="0" maximum="99" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
                     </Property>
                   </Properties>
                   <Events>
@@ -751,6 +757,9 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="teleopTimesLabel">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Roboto" size="11" style="0"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Times"/>
                   </Properties>
                 </Component>
@@ -776,6 +785,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="teleopLowLabel">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Roboto" size="11" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Low Goals"/>
               </Properties>
             </Component>
@@ -791,6 +803,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="teleopHighLabel">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Roboto" size="11" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="High Goals"/>
               </Properties>
             </Component>
