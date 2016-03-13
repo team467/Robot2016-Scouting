@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package scouting2016;
 
 import java.awt.Dimension;
@@ -16,7 +11,7 @@ import javax.swing.UIManager;
 
 /**
  *
- * @author adam
+ * @author Adam Frick
  */
 public class FormPit extends javax.swing.JFrame {
 
@@ -25,19 +20,18 @@ public class FormPit extends javax.swing.JFrame {
      */
     public FormPit() {
         
-        try   
+    try   
     {
         // sets look and feely
         UIManager.setLookAndFeel
             ("javax.swing.plaf.metal.MetalLookAndFeel");
     } 
     catch(Exception e)  
-    {}  
+    {
+        System.out.println("Unable to set look and feel");
+    }  
         initComponents();
-        
-        
-        
-        
+
          // sets window to center of screen
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         double width = dim.getWidth();
@@ -55,10 +49,7 @@ public class FormPit extends javax.swing.JFrame {
         }
     
         // sets window to center of screen
-        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-        
-    
-        
+        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);    
         setVisible(true);
     }
 
@@ -83,36 +74,25 @@ public class FormPit extends javax.swing.JFrame {
         teleLabel8 = new javax.swing.JLabel();
         teleLabel9 = new javax.swing.JLabel();
         teleLabel10 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        teleText1 = new javax.swing.JTextArea();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        teleText2 = new javax.swing.JTextArea();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        teleText3 = new javax.swing.JTextArea();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        teleText4 = new javax.swing.JTextArea();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        teleText5 = new javax.swing.JTextArea();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        teleText6 = new javax.swing.JTextArea();
-        jScrollPane10 = new javax.swing.JScrollPane();
-        teleText7 = new javax.swing.JTextArea();
-        jScrollPane11 = new javax.swing.JScrollPane();
-        teleText8 = new javax.swing.JTextArea();
-        jScrollPane12 = new javax.swing.JScrollPane();
-        teleText9 = new javax.swing.JTextArea();
-        jScrollPane13 = new javax.swing.JScrollPane();
-        teleText10 = new javax.swing.JTextArea();
+        teleText1 = new javax.swing.JTextField();
+        teleLabel11 = new javax.swing.JLabel();
+        teleText2 = new javax.swing.JTextField();
+        teleText3 = new javax.swing.JTextField();
+        teleText4 = new javax.swing.JTextField();
+        teleText5 = new javax.swing.JTextField();
+        teleText6 = new javax.swing.JTextField();
+        teleText7 = new javax.swing.JTextField();
+        teleText8 = new javax.swing.JTextField();
+        teleText9 = new javax.swing.JTextField();
+        teleText10 = new javax.swing.JTextField();
+        teleText11 = new javax.swing.JTextField();
         autoPanel = new javax.swing.JPanel();
         autoLabel1 = new javax.swing.JLabel();
         autoLabel2 = new javax.swing.JLabel();
         autoLabel3 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        autoText1 = new javax.swing.JTextArea();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        autoText2 = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        autoText3 = new javax.swing.JTextArea();
+        autoText1 = new javax.swing.JTextField();
+        autoText2 = new javax.swing.JTextField();
+        autoText3 = new javax.swing.JTextField();
         pitSave = new javax.swing.JButton();
         optionsNick = new java.awt.TextField();
         optionsNickLabel = new javax.swing.JLabel();
@@ -149,45 +129,73 @@ public class FormPit extends javax.swing.JFrame {
 
         teleLabel10.setText("What ally would best compliment your robot?");
 
-        teleText1.setColumns(20);
-        teleText1.setRows(1);
-        jScrollPane4.setViewportView(teleText1);
+        teleText1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                teleText1ActionPerformed(evt);
+            }
+        });
 
-        teleText2.setColumns(20);
-        teleText2.setRows(1);
-        jScrollPane5.setViewportView(teleText2);
+        teleLabel11.setText("Additional Comments:");
 
-        teleText3.setColumns(20);
-        teleText3.setRows(1);
-        jScrollPane6.setViewportView(teleText3);
+        teleText2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                teleText2ActionPerformed(evt);
+            }
+        });
 
-        teleText4.setColumns(20);
-        teleText4.setRows(1);
-        jScrollPane7.setViewportView(teleText4);
+        teleText3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                teleText3ActionPerformed(evt);
+            }
+        });
 
-        teleText5.setColumns(20);
-        teleText5.setRows(1);
-        jScrollPane8.setViewportView(teleText5);
+        teleText4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                teleText4ActionPerformed(evt);
+            }
+        });
 
-        teleText6.setColumns(20);
-        teleText6.setRows(1);
-        jScrollPane9.setViewportView(teleText6);
+        teleText5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                teleText5ActionPerformed(evt);
+            }
+        });
 
-        teleText7.setColumns(20);
-        teleText7.setRows(1);
-        jScrollPane10.setViewportView(teleText7);
+        teleText6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                teleText6ActionPerformed(evt);
+            }
+        });
 
-        teleText8.setColumns(20);
-        teleText8.setRows(1);
-        jScrollPane11.setViewportView(teleText8);
+        teleText7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                teleText7ActionPerformed(evt);
+            }
+        });
 
-        teleText9.setColumns(20);
-        teleText9.setRows(1);
-        jScrollPane12.setViewportView(teleText9);
+        teleText8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                teleText8ActionPerformed(evt);
+            }
+        });
 
-        teleText10.setColumns(20);
-        teleText10.setRows(1);
-        jScrollPane13.setViewportView(teleText10);
+        teleText9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                teleText9ActionPerformed(evt);
+            }
+        });
+
+        teleText10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                teleText10ActionPerformed(evt);
+            }
+        });
+
+        teleText11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                teleText11ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout telePanelLayout = new javax.swing.GroupLayout(telePanel);
         telePanel.setLayout(telePanelLayout);
@@ -196,74 +204,90 @@ public class FormPit extends javax.swing.JFrame {
             .addGroup(telePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(teleLabel7)
-                    .addComponent(teleLabel8)
-                    .addComponent(teleLabel2)
-                    .addComponent(teleLabel9)
-                    .addComponent(teleLabel10)
-                    .addComponent(teleLabel1)
-                    .addComponent(teleLabel3)
-                    .addComponent(teleLabel4)
-                    .addComponent(teleLabel5)
-                    .addComponent(teleLabel6))
-                .addGap(17, 17, 17)
-                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane9)
-                    .addComponent(jScrollPane8)
-                    .addComponent(jScrollPane7)
-                    .addComponent(jScrollPane6)
-                    .addComponent(jScrollPane4)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane10, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane12, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane13, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, telePanelLayout.createSequentialGroup()
+                        .addComponent(teleLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(teleText1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(telePanelLayout.createSequentialGroup()
+                        .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(teleLabel10)
+                            .addComponent(teleLabel9)
+                            .addComponent(teleLabel8)
+                            .addComponent(teleLabel6)
+                            .addComponent(teleLabel5)
+                            .addComponent(teleLabel7)
+                            .addComponent(teleLabel11))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(teleText10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(teleText11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(teleText5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(teleText6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(teleText7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(teleText8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(teleText9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, telePanelLayout.createSequentialGroup()
+                        .addComponent(teleLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(teleText4, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, telePanelLayout.createSequentialGroup()
+                        .addComponent(teleLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(teleText2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, telePanelLayout.createSequentialGroup()
+                        .addComponent(teleLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(teleText3, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         telePanelLayout.setVerticalGroup(
             telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(telePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(teleLabel1)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(teleLabel2)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(teleLabel3)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(teleLabel4)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(teleLabel5)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(teleLabel6)
-                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(teleLabel7)
-                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(teleLabel8)
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(teleLabel9)
-                    .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(teleLabel10)
-                    .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(teleText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(teleLabel1))
+                .addGap(0, 0, 0)
+                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(teleText2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(teleLabel2))
+                .addGap(0, 0, 0)
+                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(teleText3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(teleLabel3))
+                .addGap(0, 0, 0)
+                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(teleText4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(teleLabel4))
+                .addGap(0, 0, 0)
+                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(teleText5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(teleLabel5))
+                .addGap(0, 0, 0)
+                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(teleText6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(teleLabel6))
+                .addGap(0, 0, 0)
+                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(teleText7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(teleLabel7))
+                .addGap(0, 0, 0)
+                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(teleText8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(teleLabel8))
+                .addGap(0, 0, 0)
+                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(teleText9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(teleLabel9))
+                .addGap(0, 0, 0)
+                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(teleText10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(teleLabel10))
+                .addGap(0, 0, 0)
+                .addGroup(telePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(teleText11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(teleLabel11))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         autoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Autonomous"));
@@ -273,19 +297,25 @@ public class FormPit extends javax.swing.JFrame {
 
         autoLabel2.setText("Can the robot cross defenses in autonomous? Which ones?");
 
-        autoLabel3.setText("Can the robot cross defenses in autonomous? Which ones?");
+        autoLabel3.setText("Can the robot shoot in autonomous? Which goals?");
 
-        autoText1.setColumns(20);
-        autoText1.setRows(1);
-        jScrollPane1.setViewportView(autoText1);
+        autoText1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                autoText1ActionPerformed(evt);
+            }
+        });
 
-        autoText2.setColumns(20);
-        autoText2.setRows(1);
-        jScrollPane2.setViewportView(autoText2);
+        autoText2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                autoText2ActionPerformed(evt);
+            }
+        });
 
-        autoText3.setColumns(20);
-        autoText3.setRows(1);
-        jScrollPane3.setViewportView(autoText3);
+        autoText3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                autoText3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout autoPanelLayout = new javax.swing.GroupLayout(autoPanel);
         autoPanel.setLayout(autoPanelLayout);
@@ -294,32 +324,35 @@ public class FormPit extends javax.swing.JFrame {
             .addGroup(autoPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(autoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(autoLabel1)
-                    .addComponent(autoLabel2)
-                    .addComponent(autoLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(autoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(autoPanelLayout.createSequentialGroup()
+                        .addComponent(autoLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                        .addComponent(autoText1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(autoPanelLayout.createSequentialGroup()
+                        .addGroup(autoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(autoLabel2)
+                            .addComponent(autoLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(autoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(autoText2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(autoText3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         autoPanelLayout.setVerticalGroup(
             autoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(autoPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(autoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(autoLabel1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(autoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(autoLabel2)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(autoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(autoLabel3)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26))
+                .addGroup(autoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(autoText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(autoLabel1))
+                .addGap(0, 0, 0)
+                .addGroup(autoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(autoText2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(autoLabel2))
+                .addGap(0, 0, 0)
+                .addGroup(autoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(autoText3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(autoLabel3))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pitSave.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
@@ -402,12 +435,12 @@ public class FormPit extends javax.swing.JFrame {
                     .addComponent(optionsNickLabel)
                     .addComponent(optionsNick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
-                .addComponent(autoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(autoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(telePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pitSave)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -450,31 +483,82 @@ public class FormPit extends javax.swing.JFrame {
         optionsChanged();
     }//GEN-LAST:event_optionsScouterKeyReleased
 
+    private void autoText2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoText2ActionPerformed
+
+    }//GEN-LAST:event_autoText2ActionPerformed
+
+    private void autoText3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoText3ActionPerformed
+
+    }//GEN-LAST:event_autoText3ActionPerformed
+
+    private void autoText1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoText1ActionPerformed
+
+    }//GEN-LAST:event_autoText1ActionPerformed
+
+    private void teleText11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleText11ActionPerformed
+
+    }//GEN-LAST:event_teleText11ActionPerformed
+
+    private void teleText10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleText10ActionPerformed
+
+    }//GEN-LAST:event_teleText10ActionPerformed
+
+    private void teleText9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleText9ActionPerformed
+
+    }//GEN-LAST:event_teleText9ActionPerformed
+
+    private void teleText8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleText8ActionPerformed
+
+    }//GEN-LAST:event_teleText8ActionPerformed
+
+    private void teleText7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleText7ActionPerformed
+
+    }//GEN-LAST:event_teleText7ActionPerformed
+
+    private void teleText6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleText6ActionPerformed
+
+    }//GEN-LAST:event_teleText6ActionPerformed
+
+    private void teleText5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleText5ActionPerformed
+
+    }//GEN-LAST:event_teleText5ActionPerformed
+
+    private void teleText4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleText4ActionPerformed
+
+    }//GEN-LAST:event_teleText4ActionPerformed
+
+    private void teleText3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleText3ActionPerformed
+
+    }//GEN-LAST:event_teleText3ActionPerformed
+
+    private void teleText2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleText2ActionPerformed
+
+    }//GEN-LAST:event_teleText2ActionPerformed
+
+    private void teleText1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleText1ActionPerformed
+
+    }//GEN-LAST:event_teleText1ActionPerformed
+
     
     private void optionsChanged() 
     {
-    
         int submitInt = 0;
             
         if ("".equals(optionsScouter.getText()))    
                 submitInt++;
         else if (optionsScouter.getText().contains("-"))
-        {
             textFieldCondClear(optionsScouter);
-        }
+        
         if ("".equals(optionsNick.getText()))
                 submitInt++;
         else if (optionsNick.getText().contains("-"))
-        {
             textFieldCondClear(optionsNick);
-        }
+        
         if ("".equals(optionsTeam.getText()))
                 submitInt++;
         else if (optionsTeam.getText().contains("-"))
-        {
             textFieldCondClear(optionsTeam);
-        }
-    
+        
         pitSave.setEnabled(submitInt == 0);
     
     }
@@ -505,11 +589,11 @@ public class FormPit extends javax.swing.JFrame {
             teleLabel7.getText() + "\n\t\t" + teleText7.getText() + "\n\n\t" +
             teleLabel8.getText() + "\n\t\t" + teleText8.getText() + "\n\n\t" +
             teleLabel9.getText() + "\n\t\t" + teleText9.getText() + "\n\n\t" +
-            teleLabel10.getText() + "\n\t\t" + teleText10.getText()
+            teleLabel10.getText() + "\n\t\t" + teleText10.getText() + "\n\n\t" +
+            teleLabel11.getText() + "\n\t\t" + teleText11.getText()
             ;    
     
-    try 
-            
+        try     
         {
             // writes data sheet to file
             File scoutFile = new File("./PitSheets/PitSheet-" + optionsTeam.getText() 
@@ -530,11 +614,15 @@ public class FormPit extends javax.swing.JFrame {
             "Failed to write to Pit Scouting Sheet",
             "Error",
             JOptionPane.ERROR_MESSAGE);  
-        }   
+        }
+        
+    
+        
     }
     
     
-    private void textFieldCondClear(java.awt.TextField field) {
+    private void textFieldCondClear(java.awt.TextField field) 
+    {
         for (char c : field.getText().toCharArray())
             {
                 if (!Character.isDigit(c))
@@ -549,7 +637,9 @@ public class FormPit extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) 
+    {
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -557,22 +647,9 @@ public class FormPit extends javax.swing.JFrame {
     private javax.swing.JLabel autoLabel2;
     private javax.swing.JLabel autoLabel3;
     private javax.swing.JPanel autoPanel;
-    private javax.swing.JTextArea autoText1;
-    private javax.swing.JTextArea autoText2;
-    private javax.swing.JTextArea autoText3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane10;
-    private javax.swing.JScrollPane jScrollPane11;
-    private javax.swing.JScrollPane jScrollPane12;
-    private javax.swing.JScrollPane jScrollPane13;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JTextField autoText1;
+    private javax.swing.JTextField autoText2;
+    private javax.swing.JTextField autoText3;
     private javax.swing.JPanel mainPanel;
     private java.awt.TextField optionsNick;
     private javax.swing.JLabel optionsNickLabel;
@@ -583,6 +660,7 @@ public class FormPit extends javax.swing.JFrame {
     private javax.swing.JButton pitSave;
     private javax.swing.JLabel teleLabel1;
     private javax.swing.JLabel teleLabel10;
+    private javax.swing.JLabel teleLabel11;
     private javax.swing.JLabel teleLabel2;
     private javax.swing.JLabel teleLabel3;
     private javax.swing.JLabel teleLabel4;
@@ -592,15 +670,16 @@ public class FormPit extends javax.swing.JFrame {
     private javax.swing.JLabel teleLabel8;
     private javax.swing.JLabel teleLabel9;
     private javax.swing.JPanel telePanel;
-    private javax.swing.JTextArea teleText1;
-    private javax.swing.JTextArea teleText10;
-    private javax.swing.JTextArea teleText2;
-    private javax.swing.JTextArea teleText3;
-    private javax.swing.JTextArea teleText4;
-    private javax.swing.JTextArea teleText5;
-    private javax.swing.JTextArea teleText6;
-    private javax.swing.JTextArea teleText7;
-    private javax.swing.JTextArea teleText8;
-    private javax.swing.JTextArea teleText9;
+    private javax.swing.JTextField teleText1;
+    private javax.swing.JTextField teleText10;
+    private javax.swing.JTextField teleText11;
+    private javax.swing.JTextField teleText2;
+    private javax.swing.JTextField teleText3;
+    private javax.swing.JTextField teleText4;
+    private javax.swing.JTextField teleText5;
+    private javax.swing.JTextField teleText6;
+    private javax.swing.JTextField teleText7;
+    private javax.swing.JTextField teleText8;
+    private javax.swing.JTextField teleText9;
     // End of variables declaration//GEN-END:variables
 }
