@@ -3,10 +3,27 @@ package scouting2016;
 import java.io.FileNotFoundException;
 
 // TODO:
-// -add new function to convert rows in new columns into ints as necessary
-//      and use it in the initial and when columns change
-// -add template of scout sheet if missing
+// finish the main frame parsing
+// use the preferred form of commenting
+/**
+ * also, reduce a lot of the redundancy (especially in the 
+ * initializing parts, where the window setting statements
+ * are very similar or identical across them all
+ * 
+ * additionally, elaborate on some of the catches and overall
+ * add more comments
+ * 
+ * and, find out why the look and feel isn't quite the same
+ * on Mac OS X than it is on GNU/Linux or Windows
+ * 
+ * and finally, close the parenthesis)
+ * 
+ */
 
+/**
+ *
+ * @author Adam Frick
+ */
 public class Start {
     public static void main(String[] args) throws FileNotFoundException
     
