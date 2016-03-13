@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package scouting2016;
 
 import java.awt.Desktop;
@@ -17,17 +12,20 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
-
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
- * @author adam
+ * @author Adam Frick
  */
 public class TeamFrame extends javax.swing.JFrame {
 
     private int introTeamFinal;
     private ArrayList<String> teamColumnDefault = new ArrayList<>();
+    int columnsAdded = 0;
     
     /**
      * Creates new form teamFrame
@@ -35,14 +33,13 @@ public class TeamFrame extends javax.swing.JFrame {
     public TeamFrame(int introTeam) throws FileNotFoundException, IOException {
         
         introTeamFinal = introTeam;
-        
         initComponents();
         
         DefaultTableModel teamModel = (DefaultTableModel) teamTable.getModel();
-        for (int i = 0; i < teamModel.getColumnCount(); i++) {
-                teamColumnDefault.add(teamModel.getColumnName(i));
-            }
-        
+        for (int i = 0; i < teamModel.getColumnCount(); i++) 
+        {
+            teamColumnDefault.add(teamModel.getColumnName(i));
+        }
         
         try   
         {
@@ -52,7 +49,9 @@ public class TeamFrame extends javax.swing.JFrame {
 
         }  
         catch (Exception e)
-        {}
+        {
+            System.out.println("Unable to set look and feel");
+        }
         
         
         tableSet(introTeamFinal);
@@ -66,9 +65,7 @@ public class TeamFrame extends javax.swing.JFrame {
         // sets window to center of screen
         setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         
-        setVisible(true);
-        
-        
+        setVisible(true);       
         
     }
 
@@ -128,7 +125,7 @@ public class TeamFrame extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
@@ -248,35 +245,69 @@ public class TeamFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_teamTableMouseClicked
 
     private void queryAddColumnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryAddColumnActionPerformed
-        Parser parse = new Parser();
-        ArrayList <String> columnNames = new ArrayList<>();
         DefaultTableModel teamModel = (DefaultTableModel) teamTable.getModel();
+        
+        TableColumnModel columns = teamTable.getColumnModel();
+        TableColumn c = new TableColumn();
+        c.setHeaderValue(queryCombo.getSelectedItem().toString());
+        columnsAdded++;
+        String columnNamesArray[] = new String[columns.getColumnCount() + 1]; 
+        final Class columnTypesArray[] = new Class[columns.getColumnCount() + 1];
+        final boolean columnCanEdit[] = new boolean[columns.getColumnCount() + 1];
+        
+        Template template = new Template();
+        Parser parse = new Parser();   
+        
+        int i = 0;
+        for (i = 0; i < columns.getColumnCount(); i++) 
+        {
+            columnNamesArray[i] = columns.getColumn(i).getHeaderValue().toString();
+            columnTypesArray[i] = teamTable.getColumnClass(i);
+            columnCanEdit[i] = false;
+        }
+        columnNamesArray[i] = queryCombo.getSelectedItem().toString();
+        
         try 
         {
-            for (int i = 0; i < teamModel.getColumnCount(); i++) {
-                columnNames.add(teamModel.getColumnName(i));
-            }
-            columnNames.add(queryCombo.getSelectedItem().toString());
-            System.out.println(columnNames);
-            
-            String columnNamesArray[] = new String[columnNames.size()];              
-		for(int i = 0; i < columnNames.size(); i++){
-		  columnNamesArray[i] = columnNames.get(i);
-		}
-            
-            teamTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {}, columnNamesArray));
-            
+            if (parse.queryFind(null, template.templateStr, queryCombo.getSelectedItem().toString(), true).equals("INTEGER"))
+                columnTypesArray[i] = java.lang.Integer.class;
+            else
+                columnTypesArray[i] = java.lang.String.class;
+        } 
+        
+        catch (FileNotFoundException ex) 
+        {
+            System.out.println("File not found.");
         }
-        catch (Exception e) 
+       
+        try 
+        {
+            columns.addColumn(c);
+            teamTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+                    columnNamesArray)
+            {
+                Class[] types = columnTypesArray;
+                boolean[] canEdit = columnCanEdit;
+
+                public Class getColumnClass(int columnIndex) 
+                {
+                    return types [columnIndex];
+                }
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) 
+                {
+                    return canEdit [columnIndex];
+                }
+            } );
+            parse.expandTable(introTeamFinal, teamTable, true);
+            
+        } 
+        catch (IOException ex) 
         {
             System.out.println("Error");
-        }
-        
-        try {
-            parse.expandTable(introTeamFinal, teamTable);
-        } catch (IOException ex) {
-            System.out.println("Error (IOE)");
         }
         
     }//GEN-LAST:event_queryAddColumnActionPerformed
@@ -296,43 +327,47 @@ public class TeamFrame extends javax.swing.JFrame {
                 String wholeString = file.getName();
                 if (!file.isDirectory() && wholeString.startsWith("ScoutSheet-" +
                     String.valueOf(introTeamFinal)))
-            {
-                if (fileIndex == selRow)
                 {
-                    try
+                    if (fileIndex == selRow)
                     {
-                        Desktop.getDesktop().open(file);
-                        break;
+                        try
+                        {
+                            Desktop.getDesktop().open(file);
+                            break;
+                        }
+                        catch (IOException ex)
+                        {
+                            System.out.println("File not found");
+                        }
                     }
-                    catch (IOException ex)
+                    else
                     {
-                        System.out.println("File not found");
+                        fileIndex++;
                     }
-                }
-                else
-                {
-                    fileIndex++;
                 }
             }
-        }
         }
     }//GEN-LAST:event_matchOpenButtonActionPerformed
 
     private void resetColumnsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetColumnsActionPerformed
+        
+        // doesn't change actual table model, as the default ones aren't changed
+        // if this changes at any time then your problem is right here
+        
+        TableColumnModel columns = teamTable.getColumnModel();
+        TableColumn c = new TableColumn();
+        c.setHeaderValue(queryCombo.getSelectedItem().toString());
+        
+        
         Parser parse = new Parser();
-        String columnNamesArray[] = new String[teamColumnDefault.size()];              
-		for(int i = 0; i < teamColumnDefault.size(); i++){
-		  columnNamesArray[i] = teamColumnDefault.get(i);
-		}
-            
-            teamTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {}, columnNamesArray));
-            
-        try {
-            parse.expandTable(introTeamFinal, teamTable);
-        } catch (IOException ex) {
-            System.out.println("Error (IOE)");
-        }    
+        for (int i = 0; i < columnsAdded; i++) 
+            columns.removeColumn(columns.getColumn(columns.getColumnCount()-1));
+        columnsAdded = 0;
+            try { 
+                parse.expandTable(introTeamFinal, teamTable, true);
+            } catch (IOException ex) {
+                System.out.println("Error (IO)");
+            }
          
     }//GEN-LAST:event_resetColumnsActionPerformed
 
@@ -346,26 +381,17 @@ public class TeamFrame extends javax.swing.JFrame {
             queryAddColumn.setEnabled(true);
         }
     }//GEN-LAST:event_queryComboActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    
-    
-    
+        
     public void tableSet(int introTeam) throws FileNotFoundException, IOException {
     
         Parser parse = new Parser();
-        parse.expandTable(introTeam, teamTable);
-        parse.comboSet(queryCombo, queryAddColumn);
+        parse.expandTable(introTeam, teamTable, false);
+        parse.comboSet(queryCombo);
     }
-    
-    
     
     public static void main(String args[]) {
         
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
