@@ -18,9 +18,8 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Adam
+ * @author Adam Frick
  */
-
 public class MainFrame extends javax.swing.JFrame {
     public MainFrame() throws FileNotFoundException {
         
@@ -53,8 +52,9 @@ public class MainFrame extends javax.swing.JFrame {
         parse.tableParse(introTable);
         
         windowSet();
-        
         folderCreate();
+        
+        comboQuerySet();
         
         //makes window visible to user
         setVisible(true);
@@ -71,22 +71,65 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        newPopup = new javax.swing.JPopupMenu();
+        newMatchPopup = new javax.swing.JMenuItem();
+        newPitPopup = new javax.swing.JMenuItem();
+        viewPopup = new javax.swing.JPopupMenu();
+        viewMatchPopup = new javax.swing.JMenuItem();
+        viewPitPopup = new javax.swing.JMenuItem();
+        jCheckBox1 = new javax.swing.JCheckBox();
         mainPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         mainTable = new javax.swing.JTable();
-        mainMatchForm = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         introTable = new javax.swing.JTable();
-        introViewMatch = new javax.swing.JButton();
         introRefresh = new javax.swing.JButton();
         introOpen = new javax.swing.JButton();
-        mainPitForm = new javax.swing.JButton();
-        introViewPit = new javax.swing.JButton();
+        newPopupButton = new javax.swing.JButton();
+        viewPopupButton = new javax.swing.JButton();
+        queryCombo = new javax.swing.JComboBox<>();
+        queryCheck = new javax.swing.JCheckBox();
+        queryText = new javax.swing.JTextField();
+        querySpinner = new javax.swing.JSpinner();
+
+        newMatchPopup.setText("Match Form");
+        newMatchPopup.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        newMatchPopup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newMatchPopupActionPerformed(evt);
+            }
+        });
+        newPopup.add(newMatchPopup);
+
+        newPitPopup.setText("Pit Form");
+        newPitPopup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newPitPopupActionPerformed(evt);
+            }
+        });
+        newPopup.add(newPitPopup);
+
+        viewMatchPopup.setText("Match Sheets");
+        viewMatchPopup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewMatchPopupActionPerformed(evt);
+            }
+        });
+        viewPopup.add(viewMatchPopup);
+
+        viewPitPopup.setText("Pit Sheets");
+        viewPitPopup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewPitPopupActionPerformed(evt);
+            }
+        });
+        viewPopup.add(viewPitPopup);
+
+        jCheckBox1.setText("jCheckBox1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Scouting 2016");
         setMinimumSize(new java.awt.Dimension(828, 652));
-        setPreferredSize(new java.awt.Dimension(820, 624));
 
         mainPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         mainPanel.setPreferredSize(new java.awt.Dimension(800, 600));
@@ -113,28 +156,20 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(mainTable);
         //height 400
 
-        mainMatchForm.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
-        mainMatchForm.setText("New Match Form");
-        mainMatchForm.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mainMatchFormActionPerformed(evt);
-            }
-        });
-
         introTable.setAutoCreateRowSorter(true);
         introTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Team #", "Highest Score", "Mean Score", "Win Rate (%)"
+                "Team #", "Highest Score", "Mean Score", "Win Rate (%)", "Query"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -147,15 +182,6 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(introTable);
 
-        introViewMatch.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
-        introViewMatch.setText("View Scouting Sheets");
-        introViewMatch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                introViewMatchActionPerformed(evt);
-            }
-        });
-
-        introRefresh.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         introRefresh.setText("Refresh");
         introRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,27 +189,51 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        introOpen.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
-        introOpen.setText("Open Team Sheet");
+        introOpen.setText("Open Team Sheets");
         introOpen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 introOpenActionPerformed(evt);
             }
         });
 
-        mainPitForm.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
-        mainPitForm.setText("New Pit Form");
-        mainPitForm.addActionListener(new java.awt.event.ActionListener() {
+        newPopupButton.setText("New");
+        newPopupButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mainPitFormActionPerformed(evt);
+                newPopupButtonActionPerformed(evt);
             }
         });
 
-        introViewPit.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
-        introViewPit.setText("View Pit Sheets");
-        introViewPit.addActionListener(new java.awt.event.ActionListener() {
+        viewPopupButton.setText("View");
+        viewPopupButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                introViewPitActionPerformed(evt);
+                viewPopupButtonActionPerformed(evt);
+            }
+        });
+
+        queryCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                queryComboActionPerformed(evt);
+            }
+        });
+
+        queryCheck.setEnabled(false);
+        queryCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                queryCheckActionPerformed(evt);
+            }
+        });
+
+        queryText.setEnabled(false);
+        queryText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                queryTextActionPerformed(evt);
+            }
+        });
+
+        querySpinner.setEnabled(false);
+        querySpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                querySpinnerStateChanged(evt);
             }
         });
 
@@ -195,38 +245,51 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(mainMatchForm)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(newPopupButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mainPitForm)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(introViewMatch)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(introViewPit)
+                        .addComponent(viewPopupButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(introRefresh)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(introOpen)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(452, 452, 452)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(12, 12, 12))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(queryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(queryCheck)
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(queryText, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(querySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(mainMatchForm)
-                    .addComponent(introViewMatch)
-                    .addComponent(introRefresh)
-                    .addComponent(introOpen)
-                    .addComponent(mainPitForm)
-                    .addComponent(introViewPit))
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(queryCheck)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(introRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(introOpen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(newPopupButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(viewPopupButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(queryCombo)
+                        .addGroup(mainPanelLayout.createSequentialGroup()
+                            .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(querySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(queryText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(0, 0, Short.MAX_VALUE))))
+                .addGap(0, 0, 0)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -254,27 +317,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void mainMatchFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainMatchFormActionPerformed
-
-        FormMatch matchSheet = new FormMatch();
-        
-    }//GEN-LAST:event_mainMatchFormActionPerformed
-
-    private void introViewMatchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_introViewMatchActionPerformed
-        Desktop desktop = Desktop.getDesktop();
-        try {
-            File dirOpen = new File("./Sheets");
-            desktop.open(dirOpen);
-        }
-        catch (Exception e) 
-        {
-            JOptionPane.showMessageDialog(null,
-            "Error opening default file explorer.",
-            "Error",
-            JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_introViewMatchActionPerformed
 
     private void introRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_introRefreshActionPerformed
         try
@@ -320,13 +362,26 @@ public class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_introOpenActionPerformed
 
-    private void mainPitFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainPitFormActionPerformed
-        FormPit pitSheet = new FormPit();
-    }//GEN-LAST:event_mainPitFormActionPerformed
+    private void newPopupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newPopupButtonActionPerformed
+        newPopup.show(this, newPopupButton.getX()+10, newPopupButton.getY()+65);
+    }//GEN-LAST:event_newPopupButtonActionPerformed
 
-    private void introViewPitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_introViewPitActionPerformed
-       Desktop desktop = Desktop.getDesktop();
-        try {
+    private void newMatchPopupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newMatchPopupActionPerformed
+        FormMatch matchSheet = new FormMatch();
+    }//GEN-LAST:event_newMatchPopupActionPerformed
+
+    private void newPitPopupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newPitPopupActionPerformed
+        FormPit pitSheet = new FormPit();
+    }//GEN-LAST:event_newPitPopupActionPerformed
+
+    private void viewPopupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewPopupButtonActionPerformed
+        viewPopup.show(this, viewPopupButton.getX()+10, viewPopupButton.getY()+65);
+    }//GEN-LAST:event_viewPopupButtonActionPerformed
+
+    private void viewPitPopupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewPitPopupActionPerformed
+        Desktop desktop = Desktop.getDesktop();
+        try 
+        {
             File dirOpen = new File("./PitSheets");
             desktop.open(dirOpen);
         }
@@ -337,7 +392,65 @@ public class MainFrame extends javax.swing.JFrame {
             "Error",
             JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_introViewPitActionPerformed
+    }//GEN-LAST:event_viewPitPopupActionPerformed
+
+    private void viewMatchPopupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewMatchPopupActionPerformed
+        Desktop desktop = Desktop.getDesktop();
+        try 
+        {
+            File dirOpen = new File("./Sheets");
+            desktop.open(dirOpen);
+        }
+        catch (Exception e) 
+        {
+            JOptionPane.showMessageDialog(null,
+            "Error opening default file explorer.",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_viewMatchPopupActionPerformed
+
+    private void queryComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryComboActionPerformed
+        Parser parse = new Parser();
+        Template template = new Template();
+                
+        querySpinner.setValue(0);
+        queryText.setText("");
+        queryCheck.setSelected(false);
+        
+        querySpinner.setEnabled(false);
+        queryText.setEnabled(false);
+        queryCheck.setEnabled(false);
+        
+        try 
+        {
+            String dataType = parse.queryFind(null, template.templateStr,
+                    queryCombo.getSelectedItem().toString(), true);
+            if (dataType.equals("BOOLEAN"))
+                queryCheck.setEnabled(true);
+            if (dataType.equals("STRING"))
+                queryText.setEnabled(true);
+            if (dataType.equals("INTEGER"))
+                querySpinner.setEnabled(true);
+            
+        } 
+        catch (FileNotFoundException ex) 
+        {
+            System.out.println("Error (IO)");
+        }
+    }//GEN-LAST:event_queryComboActionPerformed
+
+    private void queryCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryCheckActionPerformed
+        queryChanged(0);
+    }//GEN-LAST:event_queryCheckActionPerformed
+
+    private void queryTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryTextActionPerformed
+        queryChanged(1);
+    }//GEN-LAST:event_queryTextActionPerformed
+
+    private void querySpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_querySpinnerStateChanged
+        queryChanged(2);
+    }//GEN-LAST:event_querySpinnerStateChanged
 
 
     private void folderCreate()
@@ -363,7 +476,28 @@ public class MainFrame extends javax.swing.JFrame {
             System.out.println("Error creating folder");
         }
     }
-     
+    
+    private void comboQuerySet() throws FileNotFoundException {
+        Parser parse = new Parser();
+        parse.comboSet(queryCombo);
+        
+        
+    }
+    
+    private void queryChanged(int queryIndex) {
+        
+        
+        
+        switch (queryIndex) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+        }
+    }
+    
     private void windowSet() {
  
          // sets window to center of screen
@@ -396,13 +530,22 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton introOpen;
     private javax.swing.JButton introRefresh;
     private javax.swing.JTable introTable;
-    private javax.swing.JButton introViewMatch;
-    private javax.swing.JButton introViewPit;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JButton mainMatchForm;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JButton mainPitForm;
     private javax.swing.JTable mainTable;
+    private javax.swing.JMenuItem newMatchPopup;
+    private javax.swing.JMenuItem newPitPopup;
+    private javax.swing.JPopupMenu newPopup;
+    private javax.swing.JButton newPopupButton;
+    private javax.swing.JCheckBox queryCheck;
+    private javax.swing.JComboBox<String> queryCombo;
+    private javax.swing.JSpinner querySpinner;
+    private javax.swing.JTextField queryText;
+    private javax.swing.JMenuItem viewMatchPopup;
+    private javax.swing.JMenuItem viewPitPopup;
+    private javax.swing.JPopupMenu viewPopup;
+    private javax.swing.JButton viewPopupButton;
     // End of variables declaration//GEN-END:variables
 }
