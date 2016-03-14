@@ -9,9 +9,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import scouting2016.MainFrame.QueryContainer;
+
+
 
 /**
  *
@@ -41,7 +45,8 @@ public class Parser {
     
      
      
-    String[] tableParse(javax.swing.JTable introTable) throws FileNotFoundException
+    String[] tableParse(javax.swing.JTable introTable, boolean searchQuery, 
+            QueryContainer queryContainer) throws FileNotFoundException
     { 
         // needs to be split apart
         // use universal check if file name is malformed
@@ -52,8 +57,10 @@ public class Parser {
         String queryResult = null;
         String query = "";
         ArrayList<String> teamList = new ArrayList<>();
+        int totalSheets = 0;
         ArrayList<ArrayList<String>> scoreList = new ArrayList<>();
         ArrayList<ArrayList<String>> wonList = new ArrayList<>();
+        ArrayList<ArrayList<String>> queryList = new ArrayList<>();
         
         introRowCount = introTable.getRowCount();
         for (int i = 0; i < introRowCount; ++i)
@@ -80,8 +87,9 @@ public class Parser {
                 // adds dimensions to 2d ArrayList
                 scoreList.add(new ArrayList());
                 wonList.add(new ArrayList());
+                queryList.add(new ArrayList());
+                totalSheets = 0;
                 
-                System.out.println("Team: " + teamList.get(i));
                 
                 for (File file:files)
                 {
@@ -89,18 +97,41 @@ public class Parser {
                     if (!file.isDirectory()) {
                         Scanner scanner = new Scanner(file);
                         wholeString = file.getName();
+                        
                         if (wholeString.startsWith("ScoutSheet")) 
                         {
                             splittedString = splitString(wholeString);
+                            
                             if (splittedString[1].equals(teamList.get(i))
                                 && (!wholeString.contains("--")))
-                            {         
+                            {
+                                totalSheets++;
                                 query = "Score: ";
                                 queryResult = queryFind(file, null, query, false);
                                 scoreList.get(i).add(queryResult);
                                 query = "Won: ";
                                 queryResult = queryFind(file, null, query, false);
                                 wonList.get(i).add(queryResult);
+                                
+                                if (searchQuery) {
+                                    query = queryContainer.queryHeader + ": ";
+                                    queryResult = queryFind(file, null, query, false);
+                                    
+                                    if (queryContainer.queryIndex != 2)
+                                    {
+                                        if (queryContainer.queryString.equals(queryResult))
+                                            queryList.get(i).add(queryResult);
+                                    }
+                                    else
+                                        {
+                                            if ((Integer.valueOf(queryContainer.queryString) < 
+                                                    Integer.valueOf(queryResult) )
+                                                    && 
+                                                    (Integer.valueOf(queryContainer.queryStringAlt) >
+                                                    Integer.valueOf(queryResult)) )
+                                                queryList.get(i).add(queryResult);
+                                        }
+                                }
                         
                             // queryResult OUTSIDE this loop will get the last file info
                             }
@@ -176,11 +207,43 @@ public class Parser {
                 wonList.get(i).add(String.valueOf(tempValue));
                 tempValue = 0;
                 ///*WIN RATE*/
+               
+           
                 
-                introModel.addRow(new Object[]{Integer.valueOf(teamList.get(i)), 
-                /*Max Score*/    Integer.valueOf(scoreList.get(i).get(scoreList.get(i).size()-2)),
-                /*Mean Score*/   Integer.valueOf(scoreList.get(i).get(scoreList.get(i).size()-1)),
-                /*Win Rate*/     Integer.valueOf(wonList.get(i).get(wonList.get(i).size()-1))});
+                
+           
+                if (!searchQuery) 
+                {
+                    introModel.addRow(new Object[]{Integer.valueOf(teamList.get(i)), 
+                    /*Max Score*/    Integer.valueOf(scoreList.get(i).get(scoreList.get(i).size()-2)),
+                    /*Mean Score*/   Integer.valueOf(scoreList.get(i).get(scoreList.get(i).size()-1)),
+                    /*Win Rate*/     Integer.valueOf(wonList.get(i).get(wonList.get(i).size()-1))});
+                }
+                else
+                {
+                    
+                    tempSize = queryList.get(i).size();
+                    tempValue = 0;
+                    ///* QUERY */
+                    for (tempIndex = 0; tempIndex < tempSize; tempIndex++)
+                    {
+                        if (!(queryList.get(i).get(tempIndex).equals("String not found.")))
+                        {
+                            tempValue++;
+                        }
+                    }
+
+                    queryList.get(i).add(String.valueOf(tempValue) + "/" + String.valueOf(totalSheets));
+                    tempValue = 0;
+                    ///* QUERY */
+                    
+                    introModel.addRow(new Object[]{Integer.valueOf(teamList.get(i)), 
+                    /*Max Score*/    Integer.valueOf(scoreList.get(i).get(scoreList.get(i).size()-2)),
+                    /*Mean Score*/   Integer.valueOf(scoreList.get(i).get(scoreList.get(i).size()-1)),
+                    /*Win Rate*/     Integer.valueOf(wonList.get(i).get(wonList.get(i).size()-1)),
+                    /*Query*/        queryList.get(i).get(queryList.get(i).size()-1)
+                    });
+                }
                 
             }
               
