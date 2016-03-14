@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -49,7 +50,7 @@ public class MainFrame extends javax.swing.JFrame {
         
         Parser parse = new Parser();
         
-        parse.tableParse(introTable);
+        parse.tableParse(introTable, false, null);
         
         windowSet();
         folderCreate();
@@ -90,7 +91,8 @@ public class MainFrame extends javax.swing.JFrame {
         queryCombo = new javax.swing.JComboBox<>();
         queryCheck = new javax.swing.JCheckBox();
         queryText = new javax.swing.JTextField();
-        querySpinner = new javax.swing.JSpinner();
+        querySpinnerMin = new javax.swing.JSpinner();
+        querySpinnerMax = new javax.swing.JSpinner();
 
         newMatchPopup.setText("Match Form");
         newMatchPopup.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
@@ -166,7 +168,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
@@ -210,6 +212,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        queryCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
         queryCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 queryComboActionPerformed(evt);
@@ -229,11 +232,39 @@ public class MainFrame extends javax.swing.JFrame {
                 queryTextActionPerformed(evt);
             }
         });
+        queryText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                queryTextKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                queryTextKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                queryTextKeyTyped(evt);
+            }
+        });
 
-        querySpinner.setEnabled(false);
-        querySpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+        querySpinnerMin.setEnabled(false);
+        querySpinnerMin.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                querySpinnerStateChanged(evt);
+                querySpinnerMinStateChanged(evt);
+            }
+        });
+        querySpinnerMin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                querySpinnerMinKeyReleased(evt);
+            }
+        });
+
+        querySpinnerMax.setEnabled(false);
+        querySpinnerMax.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                querySpinnerMaxStateChanged(evt);
+            }
+        });
+        querySpinnerMax.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                querySpinnerMaxKeyReleased(evt);
             }
         });
 
@@ -267,7 +298,9 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(queryText, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(querySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(querySpinnerMin, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(querySpinnerMax, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))))
         );
         mainPanelLayout.setVerticalGroup(
@@ -275,20 +308,19 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(introRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(introOpen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(newPopupButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(viewPopupButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(queryCombo, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(queryCheck)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(introRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(introOpen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(newPopupButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(viewPopupButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(queryCombo)
-                        .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(queryCheck)
                             .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(querySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(queryText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(querySpinnerMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(queryText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(querySpinnerMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(0, 0, 0)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -320,16 +352,15 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void introRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_introRefreshActionPerformed
         try
-        {
-            System.out.println("REFRESHING");
-            
-            Parser parse = new Parser();
-            
-            parse.tableParse(introTable);
+        {   
+            Parser parse = new Parser();   
+            parse.tableParse(introTable, false, null);
+            queryCombo.setSelectedIndex(0);
+            comboChanged();
         }
         catch (FileNotFoundException e)
         {
-            
+            System.out.println("Error (File not found)");   
         }
     }//GEN-LAST:event_introRefreshActionPerformed
 
@@ -411,33 +442,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_viewMatchPopupActionPerformed
 
     private void queryComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryComboActionPerformed
-        Parser parse = new Parser();
-        Template template = new Template();
-                
-        querySpinner.setValue(0);
-        queryText.setText("");
-        queryCheck.setSelected(false);
-        
-        querySpinner.setEnabled(false);
-        queryText.setEnabled(false);
-        queryCheck.setEnabled(false);
-        
-        try 
-        {
-            String dataType = parse.queryFind(null, template.templateStr,
-                    queryCombo.getSelectedItem().toString(), true);
-            if (dataType.equals("BOOLEAN"))
-                queryCheck.setEnabled(true);
-            if (dataType.equals("STRING"))
-                queryText.setEnabled(true);
-            if (dataType.equals("INTEGER"))
-                querySpinner.setEnabled(true);
-            
-        } 
-        catch (FileNotFoundException ex) 
-        {
-            System.out.println("Error (IO)");
-        }
+        comboChanged();
     }//GEN-LAST:event_queryComboActionPerformed
 
     private void queryCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryCheckActionPerformed
@@ -445,14 +450,110 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_queryCheckActionPerformed
 
     private void queryTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryTextActionPerformed
-        queryChanged(1);
+
     }//GEN-LAST:event_queryTextActionPerformed
 
-    private void querySpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_querySpinnerStateChanged
+    private void querySpinnerMinStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_querySpinnerMinStateChanged
         queryChanged(2);
-    }//GEN-LAST:event_querySpinnerStateChanged
+    }//GEN-LAST:event_querySpinnerMinStateChanged
 
+    private void queryTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_queryTextKeyTyped
+       
+    }//GEN-LAST:event_queryTextKeyTyped
 
+    private void queryTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_queryTextKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_queryTextKeyPressed
+
+    private void queryTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_queryTextKeyReleased
+
+        if (!queryText.getText().equals(""))
+            queryChanged(1);
+        else {
+            try 
+            {
+                Parser parse = new Parser();
+                parse.tableParse(introTable, false, null);
+            } 
+            catch (FileNotFoundException ex) 
+            {
+                System.out.println("Error (IO)");
+            }
+        }
+    
+            
+    }//GEN-LAST:event_queryTextKeyReleased
+
+    private void querySpinnerMaxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_querySpinnerMaxStateChanged
+        queryChanged(2);
+    }//GEN-LAST:event_querySpinnerMaxStateChanged
+
+    private void querySpinnerMaxKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_querySpinnerMaxKeyReleased
+        queryChanged(2);
+    }//GEN-LAST:event_querySpinnerMaxKeyReleased
+
+    private void querySpinnerMinKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_querySpinnerMinKeyReleased
+        queryChanged(2);
+    }//GEN-LAST:event_querySpinnerMinKeyReleased
+
+    private void comboChanged() {
+        Parser parse = new Parser();
+        Template template = new Template();
+                
+        querySpinnerMin.setValue(0);
+        queryText.setText("");
+        queryCheck.setSelected(false);
+        
+        if (queryCombo.getSelectedIndex() == 0) {
+            try 
+            {
+                parse.tableParse(introTable, false, null);
+            } 
+            catch (FileNotFoundException ex) 
+            {
+                System.out.println("Error (IO)");
+            }
+        }
+        else {
+            
+        
+        JComponent[] jComponents = {querySpinnerMin, querySpinnerMax, 
+            queryText, queryCheck};
+        for (JComponent jComponentPiece:jComponents) 
+        {
+            jComponentPiece.setEnabled(false);
+        }
+        
+        try 
+        {
+            String dataType = parse.queryFind(null, template.templateStr,
+                    queryCombo.getSelectedItem().toString(), true);
+            if (dataType.equals("BOOLEAN")) 
+            {
+                queryCheck.setEnabled(true);
+                queryChanged(0);
+            }
+            if (dataType.equals("STRING"))
+            {
+                queryText.setEnabled(true);
+                queryChanged(1);
+            }
+            if (dataType.equals("INTEGER"))
+            {
+                querySpinnerMin.setEnabled(true);
+                querySpinnerMax.setEnabled(true);
+                queryChanged(2);
+            }
+            
+        } 
+        catch (FileNotFoundException ex) 
+        {
+            System.out.println("Error (IO)");
+        }
+        
+        }
+    }
+    
     private void folderCreate()
     {
         String defaultPath = "./Sheets";
@@ -484,17 +585,66 @@ public class MainFrame extends javax.swing.JFrame {
         
     }
     
+    public class QueryContainer {
+        int queryIndex;
+        String queryString;
+        String queryStringAlt;
+        String queryHeader;
+    }
+    
     private void queryChanged(int queryIndex) {
+        QueryContainer queryContainer = new QueryContainer();
+        Parser parse = new Parser();
         
+        queryContainer.queryString = "";
+        queryContainer.queryHeader = "";
+        queryContainer.queryIndex = queryIndex;
         
+        // add an "out of x" where x is # of matches for that team
         
+        queryContainer.queryHeader = queryCombo.getSelectedItem().toString();
         switch (queryIndex) {
             case 0:
+                try 
+                {
+                    queryContainer.queryString = String.valueOf(queryCheck.isSelected());
+                    parse.tableParse(introTable, true, queryContainer);
+                }
+                catch (Exception e) 
+                {
+                    System.out.println("Could not parse");
+                }
+                
                 break;
             case 1:
+                
+                try 
+                {
+                    queryContainer.queryString = queryText.getText();
+                    parse.tableParse(introTable, true, queryContainer);
+                }
+                catch (Exception e) 
+                {
+                    System.out.println("Could not parse");
+                }
+                
                 break;
             case 2:
+                
+                try 
+                {
+                    queryContainer.queryString = String.valueOf(querySpinnerMin.getValue());
+                    queryContainer.queryStringAlt = String.valueOf(querySpinnerMax.getValue());
+                    parse.tableParse(introTable, true, queryContainer);
+                }
+                catch (Exception e) 
+                {
+                    System.out.println("Could not parse");
+                }
+                
                 break;
+            default:
+                System.out.println("Impossible!");
         }
     }
     
@@ -541,7 +691,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton newPopupButton;
     private javax.swing.JCheckBox queryCheck;
     private javax.swing.JComboBox<String> queryCombo;
-    private javax.swing.JSpinner querySpinner;
+    private javax.swing.JSpinner querySpinnerMax;
+    private javax.swing.JSpinner querySpinnerMin;
     private javax.swing.JTextField queryText;
     private javax.swing.JMenuItem viewMatchPopup;
     private javax.swing.JMenuItem viewPitPopup;
