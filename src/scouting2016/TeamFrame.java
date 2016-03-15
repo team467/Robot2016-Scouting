@@ -2,17 +2,12 @@ package scouting2016;
 
 import java.awt.Desktop;
 import java.awt.Dimension;
-import static java.awt.SystemColor.desktop;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -292,11 +287,13 @@ public class TeamFrame extends javax.swing.JFrame {
                 Class[] types = columnTypesArray;
                 boolean[] canEdit = columnCanEdit;
 
+                @Override
                 public Class getColumnClass(int columnIndex) 
                 {
                     return types [columnIndex];
                 }
 
+                @Override
                 public boolean isCellEditable(int rowIndex, int columnIndex) 
                 {
                     return canEdit [columnIndex];
