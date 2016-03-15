@@ -2,9 +2,8 @@ package scouting2016;
 
 import java.io.FileNotFoundException;
 
-// TODO:
-// finish the main frame parsing
-// use the preferred form of commenting
+// TODO
+// use the preferred style of commenting
 /**
  * also, reduce a lot of the redundancy (especially in the 
  * initializing parts, where the window setting statements
