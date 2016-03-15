@@ -17,8 +17,8 @@ public class Template {
 "\n" +
 "Autonomous Info\n" +
 "	Auto Defense:STRING\n" +
-"	Auto Reaches:STRING\n" +
-"	Auto Crosses:STRING\n" +
+"	Auto Reaches:BOOLEAN\n" +
+"	Auto Crosses:BOOLEAN\n" +
 "	Auto Scores Low Goal:BOOLEAN\n" +
 "	Auto Scores High Goal:BOOLEAN\n" +
 "\n" +
