@@ -2,20 +2,13 @@ package scouting2016;
 
 import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.List;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.NoSuchElementException;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -93,6 +86,8 @@ public class MainFrame extends javax.swing.JFrame {
         queryText = new javax.swing.JTextField();
         querySpinnerMin = new javax.swing.JSpinner();
         querySpinnerMax = new javax.swing.JSpinner();
+        querySpinnerMinLabel = new javax.swing.JLabel();
+        querySpinnerMaxLabel = new javax.swing.JLabel();
 
         newMatchPopup.setText("Match Form");
         newMatchPopup.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
@@ -184,6 +179,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(introTable);
 
+        introRefresh.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         introRefresh.setText("Refresh");
         introRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,13 +187,15 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        introOpen.setText("Open Team Sheets");
+        introOpen.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
+        introOpen.setText("Team Sheets");
         introOpen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 introOpenActionPerformed(evt);
             }
         });
 
+        newPopupButton.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         newPopupButton.setText("New");
         newPopupButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,6 +203,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        viewPopupButton.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         viewPopupButton.setText("View");
         viewPopupButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,6 +211,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        queryCombo.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         queryCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
         queryCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -226,6 +226,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        queryText.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         queryText.setEnabled(false);
         queryText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,6 +245,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        querySpinnerMin.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         querySpinnerMin.setEnabled(false);
         querySpinnerMin.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -256,6 +258,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        querySpinnerMax.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         querySpinnerMax.setEnabled(false);
         querySpinnerMax.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -267,6 +270,14 @@ public class MainFrame extends javax.swing.JFrame {
                 querySpinnerMaxKeyReleased(evt);
             }
         });
+
+        querySpinnerMinLabel.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
+        querySpinnerMinLabel.setText("min");
+        querySpinnerMinLabel.setEnabled(false);
+
+        querySpinnerMaxLabel.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
+        querySpinnerMaxLabel.setText("max");
+        querySpinnerMaxLabel.setEnabled(false);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -297,9 +308,13 @@ public class MainFrame extends javax.swing.JFrame {
                             .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(queryText, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(6, 6, 6)
+                                .addComponent(querySpinnerMinLabel)
+                                .addGap(0, 0, 0)
                                 .addComponent(querySpinnerMin, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(querySpinnerMaxLabel)
+                                .addGap(0, 0, 0)
                                 .addComponent(querySpinnerMax, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))))
         );
@@ -319,7 +334,9 @@ public class MainFrame extends javax.swing.JFrame {
                             .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(querySpinnerMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(queryText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(querySpinnerMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(querySpinnerMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(querySpinnerMinLabel)
+                                .addComponent(querySpinnerMaxLabel)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(0, 0, 0)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -518,7 +535,7 @@ public class MainFrame extends javax.swing.JFrame {
             
         
         JComponent[] jComponents = {querySpinnerMin, querySpinnerMax, 
-            queryText, queryCheck};
+            queryText, queryCheck, querySpinnerMinLabel, querySpinnerMaxLabel};
         for (JComponent jComponentPiece:jComponents) 
         {
             jComponentPiece.setEnabled(false);
@@ -542,6 +559,8 @@ public class MainFrame extends javax.swing.JFrame {
             {
                 querySpinnerMin.setEnabled(true);
                 querySpinnerMax.setEnabled(true);
+                querySpinnerMinLabel.setEnabled(true);
+                querySpinnerMaxLabel.setEnabled(true);
                 queryChanged(2);
             }
             
@@ -692,7 +711,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox queryCheck;
     private javax.swing.JComboBox<String> queryCombo;
     private javax.swing.JSpinner querySpinnerMax;
+    private javax.swing.JLabel querySpinnerMaxLabel;
     private javax.swing.JSpinner querySpinnerMin;
+    private javax.swing.JLabel querySpinnerMinLabel;
     private javax.swing.JTextField queryText;
     private javax.swing.JMenuItem viewMatchPopup;
     private javax.swing.JMenuItem viewPitPopup;
