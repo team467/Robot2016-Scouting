@@ -1,21 +1,12 @@
 package scouting2016;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.WindowEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import javax.swing.JDialog;
 import javax.swing.UIManager;
 import javax.swing.JOptionPane;
-import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -72,42 +63,37 @@ public class FormMatch extends javax.swing.JFrame {
     //other
     long optionsSaveInt = 0;
     
-    /**
-     * Creates new form NewJFrame
-     */
     public FormMatch()
-{
-    // sets up teleop table
-    this.model = new javax.swing.table.DefaultTableModel();
+    {
+        // sets up teleop table
+        this.model = new javax.swing.table.DefaultTableModel();
    
-    try
-        
-    {
-        // sets look and feel to windows
-        UIManager.setLookAndFeel
+        try    
+        {
+            // sets look and feel to windows
+            UIManager.setLookAndFeel
             ("javax.swing.plaf.metal.MetalLookAndFeel");
-    } 
+        } 
     
-    catch(Exception e)
-        
-    {
-        // the user must be aware!
-        // look and feel may be unsupported by platform
-        JOptionPane.showMessageDialog(null,
-        "The Scouting UI cannot be properly initialized. \n"
+        catch(Exception e)    
+        {
+            // the user must be aware!
+            // look and feel may be unsupported by platform
+            JOptionPane.showMessageDialog(null,
+            "The Scouting UI cannot be properly initialized. \n"
                 + "The program will execute, but it may not "
                 + "appear or function as intended.",
-        "Error",
-        JOptionPane.ERROR_MESSAGE);
-    }
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+        }
 
-    // initializes functionality
-    initComponents();
+        // initializes functionality
+        initComponents();
     
-    // sets window to center of screen
-    Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-    double width = dim.getWidth();
-    double height = dim.getHeight();
+        // sets window to center of screen
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = dim.getWidth();
+        double height = dim.getHeight();
     
         // sets window to center of screen
         setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
@@ -1153,15 +1139,15 @@ public class FormMatch extends javax.swing.JFrame {
     }//GEN-LAST:event_wellPerformanceActionPerformed
 
     private void teleopDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleopDeleteActionPerformed
-    // gets row selected to be deleted
-    int selRow = teleopTable.getSelectedRow();
+        // gets row selected to be deleted
+        int selRow = teleopTable.getSelectedRow();
         
-    if(selRow != -1) 
-    {
-        // removes row selected 
-        ((DefaultTableModel) teleopTable.getModel()).removeRow(selRow);
-        teleopTable.revalidate();
-    }
+        if(selRow != -1) 
+        {
+            // removes row selected 
+            ((DefaultTableModel) teleopTable.getModel()).removeRow(selRow);
+            teleopTable.revalidate();
+        }
     }//GEN-LAST:event_teleopDeleteActionPerformed
 
     private void teleopAnotherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teleopAnotherActionPerformed
@@ -1362,7 +1348,7 @@ public class FormMatch extends javax.swing.JFrame {
         wellFoulResultString = wellFoulResult.getSelectedItem().toString();
         wellPerformanceString = wellPerformance.getSelectedItem().toString();
         wellDriveString = wellDrive.getSelectedItem().toString();
-        wellDriveFunctionalityString = wellDrive.getSelectedItem().toString();
+        wellDriveFunctionalityString = wellDriveFunctionality.getSelectedItem().toString();
         
         wellCommentsString = wellComments.getText();
     }
