@@ -42,7 +42,7 @@ public class Parser {
     
      
      
-    String[] tableParse(javax.swing.JTable introTable, boolean searchQuery, 
+    void tableParse(javax.swing.JTable introTable, boolean searchQuery, 
             QueryContainer queryContainer) throws FileNotFoundException
     { 
         // needs to be split apart
@@ -187,15 +187,19 @@ public class Parser {
         {
             System.out.println("No files in directory");
         }         
-        
-        // can probably be removed
-        return splittedString;
     }
     
     ArrayList<ArrayList<String>> colQueryParser(ArrayList<ArrayList<String>> colQuerier, int i, int id) {
         int colQueryValue = 0;
         int colQueryIndex;
         int colQuerySize = colQuerier.get(i).size();
+        
+        /*
+        id 1: max score
+        id 2: average score
+        id 3: win rate
+        id 4: query (search)
+         */
         
         for (colQueryIndex = 0; colQueryIndex < colQuerySize; colQueryIndex++)
                 {
