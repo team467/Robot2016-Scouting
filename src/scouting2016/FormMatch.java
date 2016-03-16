@@ -1108,7 +1108,7 @@ public class FormMatch extends javax.swing.JFrame {
                 "\tA robot reaches the outer works in autonomous if anything, even a bumper,\n"
               + "is over the outer works. Crossing in autonomous is when the entire robot\n"
               + "is out of the outer works after having crossed one. If even a bumper is\n"
-              + "over the outer works, is is qualified as \"reaching\".\n\n" 
+              + "over the outer works, it is qualified as \"reaching\".\n\n" 
               + "\tIn tele-op, crossing a defense only counts in going from the middle\n"
               + "ground to the other team's courtyard. You can only get points from\n"
               + "crossing a defense twice.\n\n"
