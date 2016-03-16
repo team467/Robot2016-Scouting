@@ -75,9 +75,10 @@ public class Parser {
             
             teamList = teamListGen(files);
             
-            int tempSize = 0;
-            int tempValue = 0;
-            int tempIndex = 0;
+            int 
+            colQuerySize = 0,
+            colQueryValue = 0,
+            colQueryIndex = 0;
         
             for (int i = 0; i < teamList.size(); ++i)
             {
@@ -121,10 +122,10 @@ public class Parser {
                                     }
                                     else
                                         {
-                                            if ((Integer.valueOf(queryContainer.queryString) < 
+                                            if ((Integer.valueOf(queryContainer.queryString) <= 
                                                     Integer.valueOf(queryResult) )
                                                     && 
-                                                    (Integer.valueOf(queryContainer.queryStringAlt) >
+                                                    (Integer.valueOf(queryContainer.queryStringAlt) >=
                                                     Integer.valueOf(queryResult)) )
                                                 queryList.get(i).add(queryResult);
                                         }
@@ -150,64 +151,9 @@ public class Parser {
                 if (abort == true)
                     break;
                 
-                // give all these their own functions
-                tempSize = scoreList.get(i).size();
-                tempValue = 0;
-                
-                
-                
-                ///* MAXIMUM VALUE */
-                for (tempIndex = 0; tempIndex < tempSize; tempIndex++)
-                {
-                    // I'm pretty sure there's a much more concise way to do this
-                    if (Integer.parseInt(scoreList.get(i).get(tempIndex)) > tempValue)
-                    {
-                        tempValue = Integer.parseInt(scoreList.get(i).get(tempIndex));
-                    }
-                }
-
-                scoreList.get(i).add(String.valueOf(tempValue));
-                tempValue = 0;
-                ///* MAXIMUM VALUE */
-                
-                
-                ///* AVERAGE VALUE */
-                for (tempIndex = 0; tempIndex < tempSize; tempIndex++)
-                {
-                    tempValue += Integer.parseInt(scoreList.get(i).get(tempIndex));
-                }
-                if (tempIndex == 0)
-                    tempIndex++;
-                tempValue /= tempIndex;
-                
-                scoreList.get(i).add(String.valueOf(tempValue));
-                tempValue = 0;
-                ///*AVERAGE VALUE*/
-                
-                // redundant, but fun
-                tempSize = wonList.get(i).size();
-                
-                ///*WIN RATE*/
-                for (tempIndex = 0; tempIndex < tempSize; ++tempIndex)
-                {
-                    if (wonList.get(i).get(tempIndex).equals("true"))
-                    {
-                        tempValue++;
-                    }
-                }
-                
-                if (tempIndex == 0)
-                    tempIndex++;
-                
-                tempValue *= 100;
-                tempValue /= (tempIndex);
-                wonList.get(i).add(String.valueOf(tempValue));
-                tempValue = 0;
-                ///*WIN RATE*/
-               
-           
-                
-                
+                scoreList = colQueryParser(scoreList, i, 0);
+                scoreList = colQueryParser(scoreList, i, 1);
+                wonList = colQueryParser(wonList, i , 2);
            
                 if (!searchQuery) 
                 {
@@ -217,22 +163,13 @@ public class Parser {
                     /*Win Rate*/     Integer.valueOf(wonList.get(i).get(wonList.get(i).size()-1))});
                 }
                 else
-                {
+                {   
+                    // finds # of occurances of search
+                    queryList = colQueryParser(queryList, i, 3);
                     
-                    tempSize = queryList.get(i).size();
-                    tempValue = 0;
-                    ///* QUERY */
-                    for (tempIndex = 0; tempIndex < tempSize; tempIndex++)
-                    {
-                        if (!(queryList.get(i).get(tempIndex).equals("String not found.")))
-                        {
-                            tempValue++;
-                        }
-                    }
-
-                    queryList.get(i).add(String.valueOf(tempValue) + "/" + String.valueOf(totalSheets));
-                    tempValue = 0;
-                    ///* QUERY */
+                    // adds divisor (total sheets) for a specific team from query
+                    queryList.get(i).add(queryList.get(i).size(), 
+                            queryList.get(i).get(queryList.get(i).size()-1).concat(String.valueOf(totalSheets)));
                     
                     introModel.addRow(new Object[]{Integer.valueOf(teamList.get(i)), 
                     /*Max Score*/    Integer.valueOf(scoreList.get(i).get(scoreList.get(i).size()-2)),
@@ -243,20 +180,92 @@ public class Parser {
                 }
                 
             }
-              
-            
-          
-               
+                     
         }
        
-        
         else
         {
             System.out.println("No files in directory");
         }         
         
-        // just in case? not used anywhere
+        // can probably be removed
         return splittedString;
+    }
+    
+    ArrayList<ArrayList<String>> colQueryParser(ArrayList<ArrayList<String>> colQuerier, int i, int id) {
+        int colQueryValue = 0;
+        int colQueryIndex;
+        int colQuerySize = colQuerier.get(i).size();
+        
+        for (colQueryIndex = 0; colQueryIndex < colQuerySize; colQueryIndex++)
+                {
+                    switch (id) {
+                        
+                        case 0:
+                            if (Integer.parseInt(colQuerier.get(i).get(colQueryIndex)) > colQueryValue)
+                            {
+                                colQueryValue = Integer.parseInt(colQuerier.get(i).get(colQueryIndex));
+                            }
+                        break;
+                        
+                        case 1:
+                            if (colQueryIndex + 1 != colQuerySize)
+                                colQueryValue += Integer.parseInt(colQuerier.get(i).get(colQueryIndex));
+                        break;
+                        
+                        case 2:
+                            if (colQuerier.get(i).get(colQueryIndex).equals("true"))
+                            {
+                                colQueryValue++;
+                            }
+                        break;
+                        
+                        case 3:
+                            if (!(colQuerier.get(i).get(colQueryIndex).equals("String not found.")))
+                            {
+                                colQueryValue++;
+                            }
+                        break;
+                        
+                        default:
+                            System.out.println("ID Error");       
+                    }   
+                        
+                }
+        
+        switch (id) {
+            case 0:
+                colQuerier.get(i).add(String.valueOf(colQueryValue));
+            break;
+            
+            case 1:
+                if (colQueryIndex == 0)
+                    colQueryIndex++;
+                colQueryValue /= colQueryIndex-1;
+                colQuerier.get(i).add(String.valueOf(colQueryValue));
+            break;
+            
+            case 2:
+                if (colQueryIndex == 0)
+                    colQueryIndex++;
+                
+                colQueryValue *= 100;
+                colQueryValue /= (colQueryIndex);
+                colQuerier.get(i).add(String.valueOf(colQueryValue));
+            break;
+                
+            case 3:
+                
+                colQuerier.get(i).add(String.valueOf(colQueryValue) + "/");
+                
+            break;
+            
+            default:
+                System.out.println("ID Error");
+                
+        }
+        
+        return colQuerier;
     }
     
     void comboSet (javax.swing.JComboBox queryCombo) throws FileNotFoundException {
