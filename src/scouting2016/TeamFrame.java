@@ -299,7 +299,7 @@ public class TeamFrame extends javax.swing.JFrame {
                     return canEdit [columnIndex];
                 }
             } );
-            parse.expandTable(introTeamFinal, teamTable, true);
+            parse.teamTableParse(introTeamFinal, teamTable, true);
             
         } 
         catch (IOException ex) 
@@ -361,7 +361,7 @@ public class TeamFrame extends javax.swing.JFrame {
             columns.removeColumn(columns.getColumn(columns.getColumnCount()-1));
         columnsAdded = 0;
             try { 
-                parse.expandTable(introTeamFinal, teamTable, true);
+                parse.teamTableParse(introTeamFinal, teamTable, true);
             } catch (IOException ex) {
                 System.out.println("Error (IO)");
             }
@@ -382,7 +382,7 @@ public class TeamFrame extends javax.swing.JFrame {
     public void tableSet(int introTeam) throws FileNotFoundException, IOException {
     
         Parser parse = new Parser();
-        parse.expandTable(introTeam, teamTable, false);
+        parse.teamTableParse(introTeam, teamTable, false);
         parse.comboSet(queryCombo);
     }
     
