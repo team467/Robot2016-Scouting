@@ -1,6 +1,4 @@
 package scouting2016;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -65,8 +63,6 @@ public class FormMatch extends javax.swing.JFrame {
     
     public FormMatch()
     {
-        // sets up teleop table
-        this.model = new javax.swing.table.DefaultTableModel();
    
         try    
         {
@@ -91,13 +87,8 @@ public class FormMatch extends javax.swing.JFrame {
         initComponents();
     
         // sets window to center of screen
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = dim.getWidth();
-        double height = dim.getHeight();
-    
-        // sets window to center of screen
-        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-    
+        Parser parse = new Parser();
+        parse.windowSet(this);
     
         // window is made visible
         setVisible(true);
@@ -300,6 +291,9 @@ public class FormMatch extends javax.swing.JFrame {
         wellComments.setLineWrap(true);
         wellComments.setRows(3);
         wellComments.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                wellCommentsKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 wellCommentsKeyTyped(evt);
             }
@@ -1005,17 +999,12 @@ public class FormMatch extends javax.swing.JFrame {
     }//GEN-LAST:event_endChallengedActionPerformed
 
     private void optionsSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsSaveActionPerformed
-        // could use for unique file names
-        // optionsSaveInt = System.currentTimeMillis();
-        
+
         teleopRowCount = teleopTable.getRowCount();
         teleopColumnCount = teleopTable.getColumnCount();
-
-        if (wellCommentsString.isEmpty()) {
-            wellCommentsString = "-";
-        }
         
-        String text="General Info\n" +
+        String saveText=
+                    "General Info\n" +
                     "\t" + optionsScouterLabel.getText() + ": " + optionsScouterString + "\n" +
                     "\t" + optionsTeamLabel.getText() + ": " + optionsTeamInt + "\n" +
                     "\t" + optionsMatchLabel.getText() + ": " + optionsMatchInt + "\n" +
@@ -1049,41 +1038,40 @@ public class FormMatch extends javax.swing.JFrame {
         
         for (int i = 0; i < teleopRowCount; ++i)
         {
-            text = text.concat("\t");
+            saveText = saveText.concat("\t");
             
             for (int j = 0; j < teleopColumnCount; ++j) 
             {
                 switch (j)
                 {
                     case 0:
-                        text = text.concat("Defense: ");
+                        saveText = saveText.concat("Defense: ");
                         break;
                     case 1:
-                        text = text.concat("Crosses: ");
+                        saveText = saveText.concat("Crosses: ");
                         break;
                     case 2:
-                        text = text.concat("Helps another: ");
+                        saveText = saveText.concat("Helps another: ");
                         break;
                     case 3:
-                        text = text.concat("Times: ");
+                        saveText = saveText.concat("Times: ");
                 }
-                text = text.concat(teleopTable.getModel().getValueAt(i, j).toString()); 
+                saveText = saveText.concat(teleopTable.getModel().getValueAt(i, j).toString()); 
                 if (j < (teleopColumnCount -1) )
-                    text = text.concat(" || ");
+                    saveText = saveText.concat(" || ");
                 
             }
-            text = text.concat("\n");
+            saveText = saveText.concat("\n");
         }
         
-        text = text.concat("\nEnd");
+        saveText = saveText.concat("\nEnd");
         
         try 
-            
         {
             // writes data sheet to file
-            File scoutFile = new File("Sheets/ScoutSheet-" + optionsTeamInt + "-" + optionsMatchInt + "-" + optionsScouterString + ".txt");
-            BufferedWriter output = new BufferedWriter(new FileWriter(scoutFile));
-            output.write(text);
+            File matchSheetFile = new File("Sheets/ScoutSheet-" + optionsTeamInt + "-" + optionsMatchInt + "-" + optionsScouterString + ".txt");
+            BufferedWriter output = new BufferedWriter(new FileWriter(matchSheetFile));
+            output.write(saveText);
             output.close();
           
             JOptionPane.showMessageDialog(null,
@@ -1174,9 +1162,8 @@ public class FormMatch extends javax.swing.JFrame {
         
         teleopAnotherCheck = false;
         teleopAnother.setSelected(false);
-        
-        
-        // disables submit button, as points to submit are cleared
+
+        // disables submit button since required fields are cleared
         teleopSubmit.setEnabled(false);
         
         teleopChanged();
@@ -1240,7 +1227,7 @@ public class FormMatch extends javax.swing.JFrame {
     }//GEN-LAST:event_optionsScoreStateChanged
 
     private void wellCommentsKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wellCommentsKeyTyped
-        wellChanged();
+
     }//GEN-LAST:event_wellCommentsKeyTyped
 
     private void optionsWinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsWinActionPerformed
@@ -1258,6 +1245,10 @@ public class FormMatch extends javax.swing.JFrame {
     private void teleopTimesStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_teleopTimesStateChanged
         teleopChanged();
     }//GEN-LAST:event_teleopTimesStateChanged
+
+    private void wellCommentsKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wellCommentsKeyReleased
+        wellChanged();
+    }//GEN-LAST:event_wellCommentsKeyReleased
     private void teleopChanged()
     {
         teleopCrossCheck = teleopCross.isSelected();
@@ -1267,29 +1258,23 @@ public class FormMatch extends javax.swing.JFrame {
         teleopHighInt = Integer.parseInt(teleopHigh.getValue().toString());
         teleopTimesInt = Integer.parseInt(teleopTimes.getValue().toString());
                 
-        // TODO, make so check string if "-"
-        // enables submit button in teleop if value points > 0
-        if ((teleopDefense.getSelectedIndex() != 0 ) && ((teleopCrossCheck == true)
-                || (teleopAnotherCheck == true)) && teleopTimesInt > 0)
-        {
-            teleopSubmit.setEnabled(true);
-        }
+        // enables submit button once all required fields are filled out
+        teleopSubmit.setEnabled(
+            (teleopDefense.getSelectedIndex() != 0 ) && 
+                ((teleopCrossCheck) || (teleopAnotherCheck)) && 
+                teleopTimesInt > 0);
         
-        // otherwise, submit button is disabled
-        else
-        {
-            teleopSubmit.setEnabled(false);
-        }
       
     } 
+    
     private void autoChanged()
     {
         autoCrossesCheck = autoCrosses.isSelected();
         autoReachesCheck = autoReaches.isSelected();
         autoDefenseString = autoDefense.getSelectedItem().toString();
-        
-        
-        if (autoReaches.isSelected() == true)
+    
+        // makes other checkboxes enabled only if reaches checkbox is
+        if (autoReaches.isSelected())
         {
             autoCrosses.setEnabled(true);
             autoDefense.setEnabled(true);
@@ -1303,29 +1288,26 @@ public class FormMatch extends javax.swing.JFrame {
             autoCrosses.setSelected(false);
             autoDefense.setSelectedIndex(0);
             
-        }
-            
+        }    
     }
     
-    private void endChanged() {
-        endClimbedCheck = endClimbed.isSelected();
-        
+    private void endChanged() 
+    {
+        endClimbedCheck = endClimbed.isSelected();        
         endChallengedCheck = endChallenged.isSelected();
-        
-        if (endChallenged.isSelected())
-        {   
+
+        // makes climb checkbox enabled if challenged checkbox is
+        if (endChallenged.isSelected())   
             endClimbed.setEnabled(true);
-        }
-        
         else
-        {   
-            endClimbed.setEnabled(false);
-            
+        {
+            endClimbed.setEnabled(false); 
             endClimbed.setSelected(false); 
         }  
     }
     
-    private void wellChanged() {
+    private void wellChanged() 
+    {
         // enables change of foul points if foul is checked
         if (wellFoul.isSelected())
         {
@@ -1340,7 +1322,6 @@ public class FormMatch extends javax.swing.JFrame {
             wellFoulLabel.setEnabled(false);
         }
         
-        
         wellShootingFunctionalityString = 
         wellShootingFunctionality.getSelectedItem().toString();
         wellShootingString = wellShooting.getSelectedItem().toString();
@@ -1350,10 +1331,13 @@ public class FormMatch extends javax.swing.JFrame {
         wellDriveString = wellDrive.getSelectedItem().toString();
         wellDriveFunctionalityString = wellDriveFunctionality.getSelectedItem().toString();
         
-        wellCommentsString = wellComments.getText();
+        // makes wellness comments contain "-" if nothing entered
+        wellCommentsString = wellCommentsString.isEmpty() ? "-" : wellComments.getText();
     }
     
-    private void textFieldCondClear(java.awt.TextField field) {
+    // clears passed text field if it contains a non-number
+    private void textFieldCondClear(java.awt.TextField field) 
+    {
         for (char c : field.getText().toCharArray())
             {
                 if (!Character.isDigit(c))
@@ -1407,7 +1391,7 @@ public class FormMatch extends javax.swing.JFrame {
         }
         catch (NumberFormatException e)
         {
-            JOptionPane.showMessageDialog(null, "Not a place for a letter", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Text Field requires an integer.", "Error", JOptionPane.ERROR_MESSAGE);
             
             textFieldCondClear(optionsMatch);
             textFieldCondClear(optionsTeam);

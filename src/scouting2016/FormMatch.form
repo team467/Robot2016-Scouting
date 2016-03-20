@@ -388,6 +388,7 @@
                     <Property name="rows" type="int" value="3"/>
                   </Properties>
                   <Events>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="wellCommentsKeyReleased"/>
                     <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="wellCommentsKeyTyped"/>
                   </Events>
                 </Component>
