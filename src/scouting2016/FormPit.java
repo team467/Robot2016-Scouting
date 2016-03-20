@@ -15,14 +15,11 @@ import javax.swing.UIManager;
  */
 public class FormPit extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FormPit
-     */
     public FormPit() {
         
     try   
     {
-        // sets look and feely
+        // sets look and feel
         UIManager.setLookAndFeel
             ("javax.swing.plaf.metal.MetalLookAndFeel");
     } 
@@ -32,24 +29,10 @@ public class FormPit extends javax.swing.JFrame {
     }  
         initComponents();
 
-         // sets window to center of screen
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = dim.getWidth();
-        double height = dim.getHeight();
-    
-        // alerts user if screen resolution is below 1024x768 
-        if (width<1024 || height<768)
-        
-        {
-            JOptionPane.showMessageDialog(null,
-            "Your screen resolution is not supported. Some "
-                    + "elements may not appear or may appear incorrectly.",
-            "Error",
-            JOptionPane.ERROR_MESSAGE);
-        }
-    
         // sets window to center of screen
-        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);    
+        Parser parse = new Parser();
+        parse.windowSet(this);
+        
         setVisible(true);
     }
 
@@ -563,7 +546,6 @@ public class FormPit extends javax.swing.JFrame {
     
     }
     
-    
     private void optionsSave()
     {
         
@@ -620,7 +602,7 @@ public class FormPit extends javax.swing.JFrame {
         
     }
     
-    
+    // clears text field if any digit is non-numerical
     private void textFieldCondClear(java.awt.TextField field) 
     {
         for (char c : field.getText().toCharArray())
@@ -631,8 +613,6 @@ public class FormPit extends javax.swing.JFrame {
                 }
             }
     }
-
-    
     
     /**
      * @param args the command line arguments
