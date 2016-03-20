@@ -518,6 +518,7 @@ public class MainFrame extends javax.swing.JFrame {
         Template template = new Template();
                 
         querySpinnerMin.setValue(0);
+        querySpinnerMax.setValue(0);
         queryText.setText("");
         queryCheck.setSelected(false);
         
