@@ -51,14 +51,9 @@ public class TeamFrame extends javax.swing.JFrame {
         
         tableSet(introTeamFinal);
         
-        
         // sets window to center of screen
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = dim.getWidth();
-        double height = dim.getHeight();
-    
-        // sets window to center of screen
-        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        Parser parse = new Parser();
+        parse.windowSet(this);
         
         setVisible(true);       
         
