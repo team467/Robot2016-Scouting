@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -482,17 +483,14 @@ public class Parser
     }
      
 
-    double[] windowSet() 
+    void windowSet(JFrame frame) 
     {
  
         // sets window to center of screen
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = dim.getWidth();
-        double height = dim.getHeight();
-    
-        // alerts user if screen resolution is below 1024x768 
-        if (width<1024 || height<768)
         
+        // alerts user if screen resolution is below 1024x768 
+        if (dim.width < 1024 || dim.height < 768)
         {
             JOptionPane.showMessageDialog(null,
             "Your screen resolution is not supported. Some "
@@ -500,10 +498,11 @@ public class Parser
             "Error",
             JOptionPane.ERROR_MESSAGE);
         }
-    
-        double[] dimensions = {width, height};
-        return dimensions;
         
+        // sets JFrame into center of screen
+        frame.setLocation(
+                (int)dim.getWidth()/2 - frame.getSize().width/2, 
+                (int)dim.getHeight()/2 - frame.getSize().height/2);
     }
     
 }
