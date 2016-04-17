@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -19,7 +20,7 @@ import javax.swing.table.TableColumnModel;
 public class TeamFrame extends javax.swing.JFrame {
 
     private int introTeamFinal;
-    private ArrayList<String> teamColumnDefault = new ArrayList<>();
+    private List<String> teamColumnDefault = new ArrayList<>();
     int columnsAdded = 0;
     
     /**
@@ -38,7 +39,7 @@ public class TeamFrame extends javax.swing.JFrame {
         
         try   
         {
-            // sets look and feely
+            // sets look and feel
             UIManager.setLookAndFeel
             ("javax.swing.plaf.metal.MetalLookAndFeel");
 
