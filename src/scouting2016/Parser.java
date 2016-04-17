@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -56,10 +58,10 @@ public class Parser
         String query = "";
         
         // arrays containing all parsed data from sheets
-        ArrayList<String> teamList = new ArrayList<>();
-        ArrayList<ArrayList<String>> scoreList = new ArrayList<>();
-        ArrayList<ArrayList<String>> wonList = new ArrayList<>();
-        ArrayList<ArrayList<String>> queryList = new ArrayList<>();
+        List<String> teamList = new LinkedList<>();
+        List<List<String>> scoreList = new LinkedList<>();
+        List<List<String>> wonList = new LinkedList<>();
+        List<List<String>> queryList = new LinkedList<>();
         
         // for accessing table interfaces
         DefaultTableModel introModel = (DefaultTableModel) introTable.getModel();
@@ -215,7 +217,7 @@ public class Parser
     }
     
     // used for obtaining in data found from all match sheets of given team
-    ArrayList<ArrayList<String>> colQueryParser(ArrayList<ArrayList<String>> colQuerier, int i, int id) {
+    List<List<String>> colQueryParser(List<List<String>> colQuerier, int i, int id) {
         
         // value to be sequentially added to data cells of row i
         int colQueryValue = 0;
@@ -421,7 +423,7 @@ public class Parser
                     // this always happens first
                     if (teamList.isEmpty())
                     {
-                        teamList.add(splittedString[1]);;
+                        teamList.add(splittedString[1]);
                     }
                     else
                     {   // iterates through each team #, checks equality, until no more sheets
